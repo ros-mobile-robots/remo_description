@@ -1,0 +1,69 @@
+jetson_nano:
+  mass: 0.175               # Base mass in Kg (175 g)
+  x_size: 0.08           # Dimension in x axis
+  y_size: 0.09            # Dimension in y axis
+  z_size: 0.04           # Dimension in z axis
+  mesh: '../components/jetson_nano_dev_kit_b01.stl'  # Name of the mesh files. Leave it empty ('') to have a white base.
+  #mesh: ''
+  scale: '0.001 0.001 0.001'
+  color: Gazebo/GreenTransparent
+
+rpi:
+  mass: 0.16               # Base mass in Kg
+  x_size: 0.06           # Dimension in x axis
+  y_size: 0.09            # Dimension in y axis
+  z_size: 0.03           # Dimension in z axis
+  mesh: '../components/raspberry_pi_4B.stl'  # Name of the mesh files. Leave it empty ('') to have a white base.
+  #mesh: ''
+  scale: '0.001 0.001 0.001'
+  color: Gazebo/GreenTransparent
+
+breadboard:
+  mass: 0.036                # Breadboard mass in kg (36 g)
+  x_size: 0.055             # Dimension in x axis
+  y_size: 0.08              # Dimension in y axis
+  z_size: 0.01              # Dimension in z axis
+  mesh: '../components/breadboard_400_point.stl'  # Name of the mesh files. Leave it empty ('') to have a white base.
+  #mesh: ''
+  scale: '0.001 0.001 0.001'
+  color: Gazebo/White
+
+power_bank:
+  mass: 0.25                # Power bank mass in kg (250 g)
+  x_size: 0.13             # Dimension in x axis
+  y_size: 0.07             # Dimension in y axis
+  z_size: 0.018             # Dimension in z axis
+  mesh: '../components/power_bank.stl'  # Name of the mesh files. Leave it empty ('') to have a white base.
+  #mesh: ''
+  scale: '0.001 0.001 0.001'
+  color: Gazebo/FlatBlack
+
+battery_pack:
+  mass: 0.20                # Battery pack mass in kg
+  x_size: 0.058            # Dimension in x axis
+  y_size: 0.063            # Dimension in y axis
+  z_size: 0.03             # Dimension in z axis
+  mesh: '../components/battery_pack.stl'  # Name of the mesh files. Leave it empty ('') to have a white base.
+  #mesh: ''
+  scale: '0.001 0.001 0.001'
+  color: Gazebo/FlatBlack
+
+mcu:
+  mass: 0.004               # MCU mass in kg
+  x_size: 0.04             # Dimension in x axis
+  y_size: 0.02             # Dimension in y axis
+  z_size: 0.01             # Dimension in z axis
+  mesh: '../components/teensy_4-0.stl'  # Name of the mesh files. Leave it empty ('') to have a white base.
+  #mesh: ''
+  scale: '0.001 0.001 0.001'
+  color: Gazebo/GreenTransparent
+
+motor_driver:
+  mass: 0.005               # Motor driver mass in kg
+  x_size: 0.05             # Dimension in x axis
+  y_size: 0.025            # Dimension in y axis
+  z_size: 0.01             # Dimension in z axis
+  mesh: '../components/adafruit_dc_stepper_featherwing.stl'  # Name of the mesh files. Leave it empty ('') to have a white base.
+  #mesh: ''
+  scale: '0.001 0.001 0.001'
+  color: Gazebo/GreenTransparent

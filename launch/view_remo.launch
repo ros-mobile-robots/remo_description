@@ -1,0 +1,19 @@
+<launch>
+    <!-- Arguments -->
+    <!--arg name="model" default="$(env DIFFBOT_MODEL)" doc="model type [diffbot, remo]"/-->
+    <arg name="model" default="remo" doc="model type [diffbot, remo]"/>
+    <arg name="description_package" default="$(eval find(arg('model') + '_description'))" />
+    <arg name="urdf_file" default="$(find xacro)/xacro '$(arg description_package)/urdf/$(arg model).urdf.xacro'" />
+
+    <!-- Parsing xacro and setting robot_description parameter -->
+    <param name="robot_description" command="$(arg urdf_file)" />
+    <!-- Setting gui parameter to true for display joint slider -->
+    <!-- param name="use_gui" value="true"/ -->
+    <!-- Starting Joint state publisher node which will publish the joint values -->
+    <!-- node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" /-->
+    <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" />
+    <!-- Starting robot state publish which will publish tf -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+    <!-- Launch visualization in rviz -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find remo_description)/rviz/remo_description.rviz" required="true" />
+</launch>

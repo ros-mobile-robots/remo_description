@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<!-- ===================== Base xacro ==========================================
+
+  Xacro to create the base link. For more detail information and usage, see:
+    https://github.com/pxalcantara/mobile_robot_description/wiki/Base-xacro
+
+  params:
+  - base_props [dictionary]: base link properties;
+  - mesh [string]: file name of the link mesh;
+    - DEFAULT Value -> Empty string  
+  - origin [block]: origin, position and orientation of the link;
+-->
+  <xacro:macro name="base"
+               params="base_prop mesh:='' scale:='' *origin ">
+    <link name="base_link">
+    <xacro:box_inertia m="${base_prop['base']['mass']}" 
+                       x="${base_prop['base']['x_size']}" 
+                       y="${base_prop['base']['y_size']}"
+                       z="${base_prop['base']['z_size']}"
+                       o_xyz="0 0 ${-base_prop['base']['z_size']/2}"
+                       o_rpy="0 0 0"/>
+    <xacro:if value="${mesh != '' }" >
+      <visual>
+        <xacro:insert_block name="origin" />
+        <geometry>
+          <!-- The folder path get a folder_name global parameter -->
+          <xacro:if value="${scale != '' }" >
+            <mesh filename="package://${package_name}/meshes/${robot_name}/${mesh}" scale="${scale}"/>
+          </xacro:if>
+          <xacro:if value="${scale == '' }" >
+            <mesh filename="package://${package_name}/meshes/${robot_name}/${mesh}" />
+          </xacro:if>
+        </geometry>
+        <material name="white" />
+      </visual>
+    </xacro:if>
+    <xacro:if value="${mesh == '' }" >
+      <visual>
+        <origin xyz="0 0 ${-base_prop['base']['z_size']/2}" rpy="0 0 0"/>
+        <geometry>
+          <box size="${base_prop['base']['x_size']} ${base_prop['base']['y_size']} ${base_prop['base']['z_size']}"/>
+        </geometry>
+        <material name="white" />
+      </visual>
+    </xacro:if>  
+    <collision>
+      <origin xyz="0 0 ${-base_prop['base']['z_size']/2}" rpy="0 0 0"/>
+      <geometry>
+        <box size="${base_prop['base']['x_size']} ${base_prop['base']['y_size']} ${base_prop['base']['z_size']}"/>
+      </geometry>
+    </collision>
+    </link>
+    <gazebo reference="base_link">
+      <material>Gazebo/Grey</material>
+    </gazebo>
+  </xacro:macro>
+</robot>

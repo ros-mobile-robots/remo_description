@@ -1,0 +1,207 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="remo">
+
+  <!-- Parameter to choose between different camera types -->
+  <!-- Must be one of ['raspi-cam', 'oak-1', 'oak-d'] -->
+  <xacro:arg name="camera_type" default="'raspi-cam'" />
+
+  <!-- Parameter to choose between different SBC types -->
+  <!-- Must be one of ['rpi', 'jetson'] -->
+  <xacro:arg name="sbc_type" default="'rpi'" />
+
+
+  <xacro:property name="package_name" value="remo_description"/>
+  <xacro:property name="robot_name" value="remo"/>
+
+  <xacro:include filename="$(find ${package_name})/urdf/include/common_macros.urdf.xacro" />
+  <xacro:include filename="$(find ${package_name})/urdf/include/remo_base_macro.urdf.xacro" />
+  <xacro:include filename="$(find ${package_name})/urdf/include/remo_caster_macro.urdf.xacro" />
+  <xacro:include filename="$(find ${package_name})/urdf/include/addon_macro.urdf.xacro" />
+  <xacro:include filename="$(find ${package_name})/urdf/include/common_sensors.xacro" />
+  <xacro:include filename="$(find ${package_name})/urdf/include/robot.gazebo.xacro" />
+
+  <xacro:property name="caster_wheel_yaml" value="$(find ${package_name})/config/${robot_name}/caster_wheel.yaml" />
+  <xacro:property name="caster_wheel_props" value="${xacro.load_yaml(caster_wheel_yaml)}"/>
+
+  <xacro:property name="front_wheel_yaml" value="$(find ${package_name})/config/${robot_name}/front_wheel.yaml" />
+  <xacro:property name="front_wheel_props" value="${xacro.load_yaml(front_wheel_yaml)}"/>
+
+  <xacro:property name="motor_yaml" value="$(find ${package_name})/config/${robot_name}/motor.yaml" />
+  <xacro:property name="motor_props" value="${xacro.load_yaml(motor_yaml)}"/>
+
+  <xacro:property name="base_yaml" value="$(find ${package_name})/config/${robot_name}/base.yaml" />
+  <xacro:property name="base_props" value="${xacro.load_yaml(base_yaml)}"/>
+
+  <xacro:property name="sensor_yaml" value="$(find ${package_name})/config/${robot_name}/sensors.yaml" />
+  <xacro:property name="sensor_props" value="${xacro.load_yaml(sensor_yaml)}"/>
+
+  <xacro:property name="component_yaml" value="$(find ${package_name})/config/${robot_name}/components.yaml" />
+  <xacro:property name="component_props" value="${xacro.load_yaml(component_yaml)}"/>
+
+
+  <!-- Footprint link -->
+  <xacro:footprint wheel_props="${front_wheel_props}" />
+
+  <!-- Base link -->
+  <xacro:base base_prop="${base_props}" mesh="${base_props['base']['mesh']}" scale="0.001 0.001 0.001">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </xacro:base>
+
+  <!-- Back Caster Wheel -->
+  <xacro:caster_wheel prefix="rear" reflect="-1"
+                      wheel_props="${caster_wheel_props}"
+                      scale="0.001 0.001 0.001">
+  </xacro:caster_wheel>
+
+  <!-- Front Wheels -->
+  <xacro:wheel prefix="front_right" reflect="-1" 
+                      wheel_props="${front_wheel_props}"
+                      base_props="${base_props}" > 
+  </xacro:wheel>
+
+  <xacro:wheel prefix="front_left" reflect="1" 
+                      wheel_props="${front_wheel_props}"
+                      base_props="${base_props}" > 
+  </xacro:wheel>
+
+
+  <!-- Motors -->
+  <xacro:motor prefix="right" reflect="-1" 
+                      motor_props="${motor_props}"
+                      base_props="${base_props}" > 
+  </xacro:motor>
+
+  <xacro:motor prefix="left" reflect="1" 
+                      motor_props="${motor_props}"
+                      base_props="${base_props}" > 
+  </xacro:motor>
+
+  <xacro:if value="${$(arg sbc_type) == 'jetson'}">
+    <xacro:property name="deck_type" value="'jetson_deck'"/>
+    <!-- Deck link -->
+    <xacro:addon addon="jetson_deck" base_prop="${base_props}" parent_link="base_link" >
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </xacro:addon>
+    <!-- Jetson Nano link -->
+    <xacro:addon addon="jetson_nano" base_prop="${component_props}" parent_link="jetson_deck_link" >
+      <origin xyz="0 0 0.007" rpy="0 0 0" />
+    </xacro:addon>
+    <!-- Breadboard 400 point -->
+    <xacro:addon addon="breadboard" base_prop="${component_props}" parent_link="base_link" >
+      <origin xyz="-0.05 0 0" rpy="0 0 0" />
+    </xacro:addon>
+  </xacro:if>
+  <xacro:if value="${$(arg sbc_type) == 'rpi'}">
+    <xacro:property name="deck_type" value="'rpi_deck'"/>
+    <!-- Deck link -->
+    <xacro:addon addon="rpi_deck" base_prop="${base_props}" parent_link="base_link" >
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </xacro:addon>
+    <!-- Raspberry Pi 4 B Nano link -->
+    <xacro:addon addon="rpi" base_prop="${component_props}" parent_link="rpi_deck_link" >
+      <origin xyz="0 0 0.007" rpy="0 0 0" />
+    </xacro:addon>
+    <!-- Breadboard 400 point -->
+    <xacro:addon addon="breadboard" base_prop="${component_props}" parent_link="base_link" >
+      <origin xyz="-0.04 0 0" rpy="0 0 0" />
+    </xacro:addon>
+  </xacro:if>
+
+  <!-- Lidar platform link -->
+  <xacro:addon addon="lidar_platform" base_prop="${base_props}" parent_link="${deck_type}_link" >
+    <origin xyz="-0.042 0 ${base_props[deck_type]['z_size']}" rpy="0 0 0" />
+  </xacro:addon>
+
+  <!-- Slamtec holder link -->
+  <xacro:addon addon="slamtec_holder" base_prop="${base_props}" parent_link="lidar_platform_link" >
+    <origin xyz="0.00237 0.057735 0.029669" rpy="0 0 0" />
+  </xacro:addon>
+
+  <!-- Slamtec usb to serial converter -->
+  <xacro:addon addon="slamtec_usb_to_serial" base_prop="${base_props}" parent_link="slamtec_holder_link" >
+    <origin xyz="0 -0.006 -0.002" rpy="0.5 0 0" />
+  </xacro:addon>
+
+  <!-- Sensors -->
+  <!-- SLAMTEC RPLidar -->
+  <xacro:laser prefix="rplidar" parent_link="lidar_platform_link"
+                   sensor_prop="${sensor_props}"
+                   enable_gpu="${sensor_props['laser']['enable_gpu']}">
+  </xacro:laser>
+
+  <!-- Camera -->
+  <!-- Camera mount link -->
+  <xacro:addon addon="camera_mount" base_prop="${base_props}" parent_link="base_link" >
+    <origin xyz="0.085198 0 -0.0081709" rpy="0 0 0" />
+  </xacro:addon>
+  <!-- Choose between different cameras using the camera_type xacro argument -->
+  <!-- Must be one of ['raspi-cam', 'oak-1', 'oak-d'] -->
+  <xacro:if value="${$(arg camera_type) == 'raspi-cam'}">
+    <!-- Raspi cam mount link -->
+    <xacro:addon addon="raspi-cam" base_prop="${base_props}" parent_link="camera_mount_link" >
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </xacro:addon>
+    <!-- Raspi cam -->
+    <xacro:camera_sensor parent_link="raspi-cam_link" visualize="false"
+                         sensor_prop="${sensor_props}"
+                         mesh="${sensor_props['camera']['meshes']['raspi-cam']}" >
+      <origin xyz="0.005 0 0.028" rpy="0 0.35 0" />
+    </xacro:camera_sensor>
+  </xacro:if>
+  <xacro:if value="${$(arg camera_type) == 'oak-1'}">
+    <!-- OAK-1 mount link -->
+    <xacro:addon addon="oak-1" base_prop="${base_props}" parent_link="camera_mount_link" >
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </xacro:addon>
+    <!-- OAK-1 -->
+    <xacro:camera_sensor parent_link="oak-1_link" visualize="false"
+                         sensor_prop="${sensor_props}"
+                         mesh="${sensor_props['camera']['meshes']['oak-1']}" >
+      <origin xyz="0.0 0 0" rpy="0 0 0" />
+    </xacro:camera_sensor>
+  </xacro:if>
+  <xacro:if value="${$(arg camera_type) == 'oak-d'}">
+    <!-- OAK-D mount link -->
+    <xacro:addon addon="oak-d" base_prop="${base_props}" parent_link="camera_mount_link" >
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </xacro:addon>
+    <!-- OAK-D -->
+    <xacro:camera_sensor parent_link="oak-d_link" visualize="false"
+                         sensor_prop="${sensor_props}"
+                         mesh="${sensor_props['camera']['meshes']['oak-d']}" >
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </xacro:camera_sensor>
+  </xacro:if>
+
+  <!-- IMU 
+  <xacro:imu_sensor parent_link="base_link"
+                    sensor_prop="${sensor_props}">
+    <origin xyz="-0.045 0.02 0.01" rpy="0 0 0" />
+  </xacro:imu_sensor>-->
+
+  
+  <!-- Gazebo -->
+  <xacro:gazebo_ros_control robotNamespace="/diffbot"> 
+  </xacro:gazebo_ros_control>
+
+
+  <xacro:set_all_wheel_frictions friction="0.1"> 
+  </xacro:set_all_wheel_frictions>
+
+  <!-- Additional addons -->
+  <xacro:addon addon="power_bank" base_prop="${component_props}" parent_link="base_link" >
+    <origin xyz="0 0 -0.01" rpy="0 0 0" />
+  </xacro:addon>
+  <xacro:addon addon="battery_pack" base_prop="${component_props}" parent_link="base_link" >
+    <origin xyz="0.045 0 -0.04" rpy="0 0 0" />
+  </xacro:addon>
+
+  <xacro:addon addon="mcu" base_prop="${component_props}" parent_link="base_link" >
+    <origin xyz="-0.045 -0.02 0.01" rpy="0 0 ${-pi/2}" />
+  </xacro:addon>
+
+  <xacro:addon addon="motor_driver" base_prop="${component_props}" parent_link="base_link" >
+    <origin xyz="-0.0086 0 -0.0277" rpy="0 0 0" />
+  </xacro:addon>
+
+</robot>

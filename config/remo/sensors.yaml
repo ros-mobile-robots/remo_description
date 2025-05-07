@@ -1,0 +1,46 @@
+laser:
+  mass: 0.17          # Motor mass in Kg (~170g)
+  radius: 0.015     # Wheel radius in m
+  length: 0.01      # Wheel length in m, considering is as a cylinder
+  mesh: 'rplidar-a2.stl'  # Name of the mesh files. Leave it empty ('') to have a red cylinder
+  #mesh: ''
+  dx: 0.002
+  dy: 0.0
+  dz: 0.07
+  angular_range:
+    min: -3.1415
+    max: 3.1415
+  enable_gpu: false
+  color: Gazebo/DarkGrey
+
+
+camera:
+  mass: 0.01
+  radius: 0.015
+  length: 0.01
+  type: raspi-cam # choose one camera type [raspi-cam, oak-1, oak-d]
+  dx: 0.0
+  dy: 0.0
+  dz: 0.0
+  meshes: # Name of the mesh files. Leave it empty ('') to have a red cylinder
+    raspi-cam: raspi_cam_v2_IMX219.stl
+    oak-1: BW1093_REV2_20201014.stl
+    oak-d: OAK-D-parts-14sep2020.stl
+    scale: '0.001 0.001 0.001'
+  color: Gazebo/FlatBlack
+
+
+imu:
+  mass: 0.005
+  size:
+    x: 0.001
+    y: 0.001
+    z: 0.001
+  #type: 'mpu' # choose one camera type [mpu, bosch]
+  dx: 0.0
+  dy: 0.0
+  dz: 0.0
+  mesh: '../components/bno055.stl' # Name of the mesh files. Leave it empty ('') to have a red box
+  #mesh: ''
+  scale: '0.001 0.001 0.001'
+  color: Gazebo/FlatBlack

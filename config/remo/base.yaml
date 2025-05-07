@@ -1,0 +1,98 @@
+base:
+  mass: 0.078               # Base mass in Kg (78 g)
+  x_size: 0.14           # Dimension in x axis
+  y_size: 0.08            # Dimension in y axis
+  z_size: 0.03           # Dimension in z axis
+  mesh: 'chassis.stl'  # Name of the mesh files. Leave it empty ('') to have a white base.
+  #mesh: ''
+  color: Gazebo/Grey
+
+jetson_deck:
+  mass: 0.02               # Base mass in Kg (20 g)
+  x_size: 0.14           # Dimension in x axis
+  y_size: 0.09            # Dimension in y axis
+  z_size: 0.002           # Dimension in z axis
+  mesh: 'deck/jetson_nano_deck.stl'  # Name of the mesh files. Leave it empty ('') to have a white base.
+  #mesh: ''
+  scale: '0.001 0.001 0.001'
+  color: Gazebo/Grey
+
+rpi_deck:
+  mass: 0.02               # Base mass in Kg (20 g)
+  x_size: 0.14           # Dimension in x axis
+  y_size: 0.09            # Dimension in y axis
+  z_size: 0.002           # Dimension in z axis
+  mesh: 'deck/raspberry_pi_deck.stl'  # Name of the mesh files. Leave it empty ('') to have a white base.
+  #mesh: ''
+  scale: '0.001 0.001 0.001'
+  color: Gazebo/Grey
+
+lidar_platform: # todo rearange
+  mass: 0.028               # Lidar platform mass in kg (28 g)
+  x_size: 0.08             # Dimension in x axis
+  y_size: 0.1              # Dimension in y axis
+  z_size: 0.05             # Dimension in z axis
+  mesh: 'lidar_platform/platfom_rplidar_a2.stl'  # Name of the mesh files. Leave it empty ('') to have a white base.
+  #mesh: ''
+  scale: '0.001 0.001 0.001'
+  color: Gazebo/Grey
+
+slamtec_holder:
+  mass: 0.002                # Slamtec holder mass in kg (2 g)
+  x_size: 0.05              # Dimension in x axis
+  y_size: 0.015             # Dimension in y axis
+  z_size: 0.025             # Dimension in z axis
+  mesh: 'lidar_platform/slamtec_holder.stl'  # Name of the mesh files. Leave it empty ('') to have a white base.
+  #mesh: ''
+  scale: '0.001 0.001 0.001'
+  color: Gazebo/Grey
+
+slamtec_usb_to_serial:
+  mass: 0.008                # Base mass in Kg
+  x_size: 0.05              # Dimension in x axis
+  y_size: 0.015             # Dimension in y axis
+  z_size: 0.025             # Dimension in z axis
+  mesh: '../components/slamtec_rplidar_usb_to_serial.stl'  # Name of the mesh files. Leave it empty ('') to have a white base.
+  #mesh: ''
+  scale: '0.001 0.001 0.001'
+  color: Gazebo/DarkGrey
+
+camera_mount:
+  mass: 0.01               # Camera mount mass in kg
+  x_size: 0.05             # Dimension in x axis
+  y_size: 0.09             # Dimension in y axis
+  z_size: 0.03             # Dimension in z axis
+  mesh: 'camera_mount/camera_mount.stl'  # Name of the mesh files. Leave it empty ('') to have a white base.
+  #mesh: ''
+  scale: '0.001 0.001 0.001'
+  color: Gazebo/Grey
+
+raspi-cam:
+  mass: 0.005                # Raspi cam mount mass in kg
+  x_size: 0.03              # Dimension in x axis
+  y_size: 0.065             # Dimension in y axis
+  z_size: 0.025             # Dimension in z axis
+  mesh: 'camera_mount/Raspberry_pi_CAM_holder.stl'  # Name of the mesh files. Leave it empty ('') to have a white base.
+  #mesh: ''
+  scale: '0.001 0.001 0.001'
+  color: Gazebo/Grey
+
+oak-1:
+  mass: 0.008               # OAK-1 mount mass in kg
+  x_size: 0.03             # Dimension in x axis
+  y_size: 0.065            # Dimension in y axis
+  z_size: 0.025            # Dimension in z axis
+  mesh: 'camera_mount/OAK-1_adjustment_mount.stl'  # Name of the mesh files. Leave it empty ('') to have a white base.
+  #mesh: ''
+  scale: '0.001 0.001 0.001'
+  color: Gazebo/Grey
+
+oak-d:
+  mass: 0.005               # OAK-D mount mass in kg
+  x_size: 0.03             # Dimension in x axis
+  y_size: 0.065            # Dimension in y axis
+  z_size: 0.025            # Dimension in z axis
+  mesh: 'camera_mount/OAK-D_adjustment_mount.stl'  # Name of the mesh files. Leave it empty ('') to have a white base.
+  #mesh: ''
+  scale: '0.001 0.001 0.001'
+  color: Gazebo/Grey
