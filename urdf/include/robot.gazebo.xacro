@@ -36,11 +36,16 @@
     <!--xacro:set_wheel_friction link="front_left" friction="${friction}"/-->
     <!--xacro:set_wheel_friction link="rear_caster_rotation_link" friction="${friction}"/-->
     <!--xacro:set_wheel_friction link="rear_caster_wheel_link" friction="${friction}"/-->
+    <!-- The drive wheels. Rubber on a floor has a friction coefficient of about 1 (the friction
+         argument), and the contacts are slightly soft (kp) and damped (kd), as in
+         set_wheel_friction above. With friction 200, very stiff contacts (kp 1e12) and no damping
+         (kd 0), the wheels jittered (stick-slip) when the robot turned on the spot
+         (ros-mobile-robots/diffbot#116) -->
     <gazebo reference="front_right_wheel">
-      <mu1>200</mu1>                <!-- Coefficient of friction in the range of [0..1] (default 1) (docs seems wrong increasing to 200 improves behaviour) -->
-      <mu2>200</mu2>                <!-- Second coefficient of friction in the range of [0..1] (default 1) (docs seems wrong increasing to 200 improves behaviour)-->
-      <kp>1000000000000</kp>      <!-- dynamically "stiffness"-equivalent coefficient for contact joints (default 1000000000000)-->
-      <kd>0</kd>                  <!-- dynamically "damping"-equivalent coefficient for contact joints (default 1) -->
+      <mu1>${friction}</mu1>        <!-- Coefficient of friction (default 1) -->
+      <mu2>${friction}</mu2>        <!-- Second coefficient of friction (default 1) -->
+      <kp>10000000.0</kp>         <!-- "Stiffness"-equivalent coefficient for contact joints (default 1e12) -->
+      <kd>1.0</kd>                <!-- "Damping"-equivalent coefficient for contact joints (default 1) -->
       <minDepth>0.01</minDepth>      <!-- minimum allowable depth before contact correction impulse is applied (default 0) -->
       <maxVel>0.01</maxVel> <!-- maximum contact correction velocity truncation term (default 0.01)-->
       <fdir1>0 0 1</fdir1>   <!-- 3-tuple specifying direction of mu1 in the collision local reference frame (default 0 0 0) -->
@@ -48,10 +53,10 @@
     </gazebo>
 
     <gazebo reference="front_left_wheel">
-      <mu1>200</mu1>
-      <mu2>200</mu2>
-      <kp>1000000000000</kp>
-      <kd>0</kd>
+      <mu1>${friction}</mu1>
+      <mu2>${friction}</mu2>
+      <kp>10000000.0</kp>
+      <kd>1.0</kd>
       <minDepth>0.01</minDepth>
       <maxVel>0.01</maxVel>
       <fdir1>0 0 1</fdir1>
