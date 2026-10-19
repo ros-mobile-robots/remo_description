@@ -36,11 +36,10 @@
     <!--xacro:set_wheel_friction link="front_left" friction="${friction}"/-->
     <!--xacro:set_wheel_friction link="rear_caster_rotation_link" friction="${friction}"/-->
     <!--xacro:set_wheel_friction link="rear_caster_wheel_link" friction="${friction}"/-->
-    <!-- The drive wheels: a friction coefficient of about 1, as for rubber on a floor (the
-         friction argument), and slightly soft (kp), damped (kd) contacts, as in set_wheel_friction
-         above. Very high friction with stiff, undamped contacts makes the wheels stick and slip
-         when the robot turns on the spot, so their speed jitters
-         (see ros-mobile-robots/diffbot#116) -->
+    <!-- Use moderate friction and compliant, damped drive-wheel contacts to limit Remo's
+         stick-slip jitter when turning in Gazebo. Reuse the friction argument and kp/kd
+         settings from set_wheel_friction above.
+         See https://github.com/ros-mobile-robots/remo_description/pull/2 -->
     <gazebo reference="front_right_wheel">
       <mu1>${friction}</mu1>        <!-- Coefficient of friction (default 1) -->
       <mu2>${friction}</mu2>        <!-- Second coefficient of friction (default 1) -->
