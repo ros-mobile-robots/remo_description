@@ -36,11 +36,11 @@
     <!--xacro:set_wheel_friction link="front_left" friction="${friction}"/-->
     <!--xacro:set_wheel_friction link="rear_caster_rotation_link" friction="${friction}"/-->
     <!--xacro:set_wheel_friction link="rear_caster_wheel_link" friction="${friction}"/-->
-    <!-- The drive wheels. Rubber on a floor has a friction coefficient of about 1 (the friction
-         argument), and the contacts are slightly soft (kp) and damped (kd), as in
-         set_wheel_friction above. With friction 200, very stiff contacts (kp 1e12) and no damping
-         (kd 0), the wheels jittered (stick-slip) when the robot turned on the spot
-         (ros-mobile-robots/diffbot#116) -->
+    <!-- The drive wheels: a friction coefficient of about 1, as for rubber on a floor (the
+         friction argument), and slightly soft (kp), damped (kd) contacts, as in set_wheel_friction
+         above. Very high friction with stiff, undamped contacts makes the wheels stick and slip
+         when the robot turns on the spot, so their speed jitters
+         (see ros-mobile-robots/diffbot#116) -->
     <gazebo reference="front_right_wheel">
       <mu1>${friction}</mu1>        <!-- Coefficient of friction (default 1) -->
       <mu2>${friction}</mu2>        <!-- Second coefficient of friction (default 1) -->
