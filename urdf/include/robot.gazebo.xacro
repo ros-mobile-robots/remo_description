@@ -36,25 +36,32 @@
     <!--xacro:set_wheel_friction link="front_left" friction="${friction}"/-->
     <!--xacro:set_wheel_friction link="rear_caster_rotation_link" friction="${friction}"/-->
     <!--xacro:set_wheel_friction link="rear_caster_wheel_link" friction="${friction}"/-->
+    <!-- Drive-wheel contacts in Gazebo, for the sphere collision in common_macros.urdf.xacro:
+         - moderate friction (the friction argument) and compliant, damped contacts, with kp/kd
+           as in set_wheel_friction above: on the sphere's single contact point, the old wheel
+           settings (friction 200, kp 1e12, kd 0) let the wheels miss their speed commands;
+         - minDepth 0: minDepth permits that much penetration before correction, and with these
+           soft contacts the wheels crept into the ground;
+         - no fdir1: Gazebo turns it with the collision frame, which spins with a sphere
+           collision, so the old 0 0 1 would tilt into the contact normal and make them slip.
+         See https://github.com/ros-mobile-robots/remo_description/pull/2 -->
     <gazebo reference="front_right_wheel">
-      <mu1>200</mu1>                <!-- Coefficient of friction in the range of [0..1] (default 1) (docs seems wrong increasing to 200 improves behaviour) -->
-      <mu2>200</mu2>                <!-- Second coefficient of friction in the range of [0..1] (default 1) (docs seems wrong increasing to 200 improves behaviour)-->
-      <kp>1000000000000</kp>      <!-- dynamically "stiffness"-equivalent coefficient for contact joints (default 1000000000000)-->
-      <kd>0</kd>                  <!-- dynamically "damping"-equivalent coefficient for contact joints (default 1) -->
-      <minDepth>0.01</minDepth>      <!-- minimum allowable depth before contact correction impulse is applied (default 0) -->
+      <mu1>${friction}</mu1>        <!-- Coefficient of friction (default 1) -->
+      <mu2>${friction}</mu2>        <!-- Second coefficient of friction (default 1) -->
+      <kp>10000000.0</kp>         <!-- "Stiffness"-equivalent coefficient for contact joints (default 1e12) -->
+      <kd>1.0</kd>                <!-- "Damping"-equivalent coefficient for contact joints (default 1) -->
+      <minDepth>0</minDepth>         <!-- minimum allowable depth before contact correction impulse is applied (default 0) -->
       <maxVel>0.01</maxVel> <!-- maximum contact correction velocity truncation term (default 0.01)-->
-      <fdir1>0 0 1</fdir1>   <!-- 3-tuple specifying direction of mu1 in the collision local reference frame (default 0 0 0) -->
       <material>Gazebo/FlatBlack</material>
     </gazebo>
 
     <gazebo reference="front_left_wheel">
-      <mu1>200</mu1>
-      <mu2>200</mu2>
-      <kp>1000000000000</kp>
-      <kd>0</kd>
-      <minDepth>0.01</minDepth>
+      <mu1>${friction}</mu1>
+      <mu2>${friction}</mu2>
+      <kp>10000000.0</kp>
+      <kd>1.0</kd>
+      <minDepth>0</minDepth>
       <maxVel>0.01</maxVel>
-      <fdir1>0 0 1</fdir1>
       <material>Gazebo/FlatBlack</material>
     </gazebo>
 

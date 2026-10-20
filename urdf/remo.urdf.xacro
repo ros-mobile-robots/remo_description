@@ -185,7 +185,8 @@
   </xacro:gazebo_ros_control>
 
 
-  <xacro:set_all_wheel_frictions friction="0.1"> 
+  <!-- The drive wheels' friction coefficient in Gazebo -->
+  <xacro:set_all_wheel_frictions friction="1.0"> 
   </xacro:set_all_wheel_frictions>
 
   <!-- Additional addons -->
