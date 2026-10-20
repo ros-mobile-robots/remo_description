@@ -36,18 +36,21 @@
     <!--xacro:set_wheel_friction link="front_left" friction="${friction}"/-->
     <!--xacro:set_wheel_friction link="rear_caster_rotation_link" friction="${friction}"/-->
     <!--xacro:set_wheel_friction link="rear_caster_wheel_link" friction="${friction}"/-->
-    <!-- Use moderate friction and compliant, damped drive-wheel contacts to limit Remo's
-         stick-slip jitter when turning in Gazebo. Reuse the friction argument and kp/kd
-         settings from set_wheel_friction above. Leave fdir1 unset: Gazebo turns it with the
-         collision frame, which spins with the wheel's sphere collision, so it would tilt into
-         the contact normal and make the wheels slip.
+    <!-- Drive-wheel contacts in Gazebo, for the sphere collision in common_macros.urdf.xacro:
+         - moderate friction (the friction argument) and compliant, damped contacts, with kp/kd
+           as in set_wheel_friction above: on the sphere's single contact point, stiff, undamped
+           contacts with high friction let the wheels miss their speed commands;
+         - minDepth 0, because these soft contacts let a wheel sink into the ground as deep as
+           minDepth allows;
+         - no fdir1: Gazebo turns it with the collision frame, which spins with a sphere
+           collision, so it would tilt into the contact normal and make the wheels slip.
          See https://github.com/ros-mobile-robots/remo_description/pull/2 -->
     <gazebo reference="front_right_wheel">
       <mu1>${friction}</mu1>        <!-- Coefficient of friction (default 1) -->
       <mu2>${friction}</mu2>        <!-- Second coefficient of friction (default 1) -->
       <kp>10000000.0</kp>         <!-- "Stiffness"-equivalent coefficient for contact joints (default 1e12) -->
       <kd>1.0</kd>                <!-- "Damping"-equivalent coefficient for contact joints (default 1) -->
-      <minDepth>0.01</minDepth>      <!-- minimum allowable depth before contact correction impulse is applied (default 0) -->
+      <minDepth>0</minDepth>         <!-- minimum allowable depth before contact correction impulse is applied (default 0) -->
       <maxVel>0.01</maxVel> <!-- maximum contact correction velocity truncation term (default 0.01)-->
       <material>Gazebo/FlatBlack</material>
     </gazebo>
@@ -57,7 +60,7 @@
       <mu2>${friction}</mu2>
       <kp>10000000.0</kp>
       <kd>1.0</kd>
-      <minDepth>0.01</minDepth>
+      <minDepth>0</minDepth>
       <maxVel>0.01</maxVel>
       <material>Gazebo/FlatBlack</material>
     </gazebo>
