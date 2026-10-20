@@ -38,12 +38,12 @@
     <!--xacro:set_wheel_friction link="rear_caster_wheel_link" friction="${friction}"/-->
     <!-- Drive-wheel contacts in Gazebo, for the sphere collision in common_macros.urdf.xacro:
          - moderate friction (the friction argument) and compliant, damped contacts, with kp/kd
-           as in set_wheel_friction above: on the sphere's single contact point, stiff, undamped
-           contacts with high friction let the wheels miss their speed commands;
-         - minDepth 0, because these soft contacts let a wheel sink into the ground as deep as
-           minDepth allows;
+           as in set_wheel_friction above: on the sphere's single contact point, the old wheel
+           settings (friction 200, kp 1e12, kd 0) let the wheels miss their speed commands;
+         - minDepth 0: minDepth permits that much penetration before correction, and with these
+           soft contacts the wheels crept into the ground;
          - no fdir1: Gazebo turns it with the collision frame, which spins with a sphere
-           collision, so it would tilt into the contact normal and make the wheels slip.
+           collision, so the old 0 0 1 would tilt into the contact normal and make them slip.
          See https://github.com/ros-mobile-robots/remo_description/pull/2 -->
     <gazebo reference="front_right_wheel">
       <mu1>${friction}</mu1>        <!-- Coefficient of friction (default 1) -->
