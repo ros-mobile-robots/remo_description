@@ -16,7 +16,7 @@ Remo's ROS 1 Noetic description package. Remo's ROS packages, controllers and si
 
 ## Commands
 
-Work in diffbot's dev container, which has this repository at `~/catkin_ws/src/remo_description`. In `~/catkin_ws`:
+Work in diffbot's dev container, which has this repository at `~/catkin_ws/src/remo_description`. It clones `main`: check out the branch you're testing there first (CONTRIBUTING.md shows how) and confirm the commit with `git -C src/remo_description log -1`, or the test runs the unchanged model. In `~/catkin_ws`:
 
 ```bash
 xacro src/remo_description/urdf/remo.urdf.xacro > /tmp/remo.urdf   # the model expands without errors
@@ -40,6 +40,6 @@ rostest diffbot_gazebo sim_drive_remo.test
 ## Commits and pull requests
 
 - One change per pull request and per commit; branch `feat/…`, `fix/…`, `docs/…` or `chore/…`.
-- Squash-merged: the title is the commit subject, `Area: what changed`, at most about 65 characters. The description starts with what and why, then how it was tested, then `Closes #N`. Use the pull request template.
+- Squash-merged by a maintainer, who uses the title as the commit subject and the description as its message. Title `Area: what changed`, 65 characters or fewer. The description starts with what and why, then how it was tested, then `Closes #N`. Use the pull request template.
 - Code comments explain why, not what changed; measured values say how they were measured.
 - No attribution lines for AI tools in commits or pull requests (`Co-Authored-By:` for a tool, "Generated with …"). No disclosure of AI use is needed.

@@ -1,8 +1,8 @@
-<!-- The title becomes the squash commit's subject: "Area: what changed", at most about 65 characters. -->
+<!-- The title becomes the squash commit's subject: "Area: what changed", 65 characters or fewer. -->
 
 ## What and why
 
-<!-- Two or three sentences: what this changes in the model and why. They become the commit message. -->
+<!-- Two or three sentences: what this changes in the model and why. The description becomes the commit message. -->
 
 ## How it was tested
 
@@ -10,6 +10,7 @@
 
 ## Related
 
-<!-- A matching diffbot pull request, for example for the controller's geometry.yaml, or "None". -->
+<!-- A matching diffbot pull request (for example for the controller's geometry.yaml) or docs pull request, or "None". -->
 
+<!-- Remove the next line if there's no issue. -->
 Closes #

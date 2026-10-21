@@ -8,7 +8,16 @@ Corrections and improvements to the model are welcome, as issues or pull request
 
 ## Set up and test
 
-Use [diffbot's dev container](https://github.com/ros-mobile-robots/diffbot/tree/noetic-devel/.devcontainer/noetic): it clones this repository to `~/catkin_ws/src/remo_description` and builds it with the DiffBot packages. Then, in `~/catkin_ws`:
+Use [diffbot's dev container](https://github.com/ros-mobile-robots/diffbot/tree/noetic-devel/.devcontainer/noetic): it clones this repository to `~/catkin_ws/src/remo_description` and builds it with the DiffBot packages. The container clones this repository's `main`, not your change. Check out your branch there first, and check that it's your commit:
+
+```bash
+cd ~/catkin_ws/src/remo_description
+git remote add fork https://github.com/<you>/remo_description.git   # once
+git fetch fork && git checkout -B <your-branch> fork/<your-branch>
+git log -1 --oneline                                                 # your commit?
+```
+
+Then, in `~/catkin_ws`:
 
 ```bash
 xacro src/remo_description/urdf/remo.urdf.xacro > /tmp/remo.urdf   # the model expands without errors
@@ -21,10 +30,11 @@ The [simulation test](https://ros-mobile-robots.com/development/simulation-test/
 ## Pull requests
 
 - **One change per pull request**, on a branch named `feat/…`, `fix/…`, `docs/…` or `chore/…`.
-- **Pull requests are squash-merged.** The PR title becomes the commit's subject: `Area: what changed`, at most about 65 characters. The first paragraph of the description says what changes and why; it becomes the commit message.
+- **Pull requests are squash-merged.** Maintainers use the PR title as the commit's subject and the description as its message, so write the title as `Area: what changed`, 65 characters or fewer, and start the description with what changes and why.
 - Say how you tested it: the xacro check, the simulation test and, for a measured value, how it was measured. Link the issue with `Closes #N`.
 - Measured values carry a comment with the measurement, for example the wheel diameters behind `radius`. Code comments explain why, not what changed.
 - If the controller needs the same value, for example the wheel radius and separation in diffbot's `diffbot_control/config/remo/geometry.yaml`, open the matching diffbot pull request and link them.
+- If the documentation describes what you change, for example a measured value or a contact setting, open a pull request in [ros-mobile-robots.github.io](https://github.com/ros-mobile-robots/ros-mobile-robots.github.io) too, or say in your PR what the docs need.
 - Maintainers mirror model changes to the version of this package that has the meshes.
 
 ## AI-assisted contributions
