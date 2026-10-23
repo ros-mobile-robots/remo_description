@@ -4,7 +4,7 @@ This is the ROS 1 Noetic description package of Remo: its URDF (xacro), the size
 
 The STL meshes aren't in this repository (see the README); the model works without them, with empty placeholders.
 
-Corrections and improvements to the model are welcome, as issues or pull requests. For a larger change, open an issue first.
+Ask questions and get help with your build in diffbot's [Discussions](https://github.com/ros-mobile-robots/diffbot/discussions/categories/q-a), which cover both robots. Corrections and improvements to the model are welcome, as issues or pull requests. For a larger change, open an issue first.
 
 ## Set up and test
 
