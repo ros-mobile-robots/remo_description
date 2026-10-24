@@ -25,13 +25,15 @@ roslaunch remo_description view_remo.launch           # the model in RViz
 catkin build && rostest diffbot_gazebo sim_drive_remo.test
 ```
 
-The [simulation test](https://ros-mobile-robots.com/development/simulation-test/) drives Remo in Gazebo and checks where it went. Run it for every change to the model. diffbot pins a version of this repository, so a new version reaches diffbot only through a diffbot pull request that moves the pin: open it together with yours, tested with your change.
+The [simulation test](https://ros-mobile-robots.com/development/simulation-test/) drives Remo in Gazebo and checks where it went. Run it for every change to the model, and report its result in your pull request.
+
+diffbot uses the version of this repository that it pins, so a merged change doesn't reach diffbot by itself: a diffbot pull request has to move the pin to the new version, and a maintainer opens it after tagging. If diffbot has to change together with the model, for example its navigation footprint after a moved frame, open that diffbot pull request yourself, at the same time as yours, and link the two. Until yours is merged, it pins your branch's commit; afterwards, the new version.
 
 ## Pull requests
 
 - **One change per pull request**, on a branch named `feat/…`, `fix/…`, `docs/…` or `chore/…`.
 - **Pull requests are squash-merged.** Maintainers use the PR title as the commit's subject and the description as its message, so write the title as `Area: what changed`, 65 characters or fewer, and start the description with what changes and why.
-- **Versions:** a pull request that changes the model also sets the next version in `package.xml` and adds it to [`CHANGELOG.rst`](CHANGELOG.rst), with a line per change. Raise the first number when something built on the model has to change too, such as a moved frame or a renamed link, joint or xacro argument; the second number for any other change to the model; the third for a fix that leaves the model as it is, such as the install rules. A pull request that only changes the guides or the README needs no new version. Maintainers add the version if it's missing, and after the merge they tag the merge commit with it. Tags can't be moved or deleted.
+- **Versions:** a pull request that changes the model raises the version, by hand, in two files: `<version>` in `package.xml`, and a new section in [`CHANGELOG.rst`](CHANGELOG.rst) with a line per change. Raise the first number when something built on the model has to change too, such as a moved frame or a renamed link, joint or xacro argument; the second number for any other change to the model, such as a new part or a changed mass; the third for a fix that leaves the model as it is, such as the install rules. A pull request that only changes the guides or the README keeps the version. If you're unsure which number to raise, say so in the pull request, and a maintainer sets it before the merge. After the merge, a maintainer tags the merge commit with the version, for example `1.1.0`. Tags can't be moved or deleted.
 - Say how you tested it: the xacro check, the simulation test and, for a measured value, how it was measured. Link the issue with `Closes #N`.
 - Measured values carry a comment with the measurement, for example the wheel diameters behind `radius`. Code comments explain why, not what changed.
 - If the controller needs the same value, for example the wheel radius and separation in diffbot's `diffbot_control/config/remo/geometry.yaml`, open the matching diffbot pull request and link them.
