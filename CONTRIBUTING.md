@@ -8,7 +8,7 @@ Ask questions and get help with your build in diffbot's [Discussions](https://gi
 
 ## Set up and test
 
-Use [diffbot's dev container](https://github.com/ros-mobile-robots/diffbot/tree/noetic-devel/.devcontainer/noetic): it clones this repository to `~/catkin_ws/src/remo_description` and builds it with the DiffBot packages. The container clones this repository's `main`, not your change. Check out your branch there first, and check that it's your commit:
+Use [diffbot's dev container](https://github.com/ros-mobile-robots/diffbot/tree/noetic-devel/.devcontainer/noetic): it clones this repository to `~/catkin_ws/src/remo_description` and builds it with the DiffBot packages. The container clones the version of this repository that diffbot pins in [`diffbot_dev.repos`](https://github.com/ros-mobile-robots/diffbot/blob/noetic-devel/diffbot_dev.repos), not your change. Check out your branch there first, and check that it's your commit:
 
 ```bash
 cd ~/catkin_ws/src/remo_description
@@ -25,17 +25,20 @@ roslaunch remo_description view_remo.launch           # the model in RViz
 catkin build && rostest diffbot_gazebo sim_drive_remo.test
 ```
 
-The [simulation test](https://ros-mobile-robots.com/development/simulation-test/) drives Remo in Gazebo and checks where it went. Run it for every change to the model: diffbot's CI uses this repository's main branch, so a change here can break diffbot's CI after it's merged.
+The [simulation test](https://ros-mobile-robots.com/development/simulation-test/) drives Remo in Gazebo and checks where it went. Run it for every change to the model, and report its result in your pull request.
+
+diffbot uses the version of this repository that it pins, so a merged change doesn't reach diffbot by itself: a diffbot pull request has to move the pin to the new version, and a maintainer opens it after tagging. If diffbot has to change together with the model, for example its navigation footprint after a moved frame, open that diffbot pull request yourself, at the same time as yours, and link the two. Until yours is merged, it pins your branch's commit; afterwards, the new version.
 
 ## Pull requests
 
 - **One change per pull request**, on a branch named `feat/…`, `fix/…`, `docs/…` or `chore/…`.
 - **Pull requests are squash-merged.** Maintainers use the PR title as the commit's subject and the description as its message, so write the title as `Area: what changed`, 65 characters or fewer, and start the description with what changes and why.
+- **Versions:** a pull request that changes the model raises the version, by hand, in two files: `<version>` in `package.xml`, and a new section in [`CHANGELOG.rst`](CHANGELOG.rst) with a line per change. Raise the first number when something built on the model has to change too, such as a moved frame or a renamed link, joint or xacro argument; the second number for any other change to the model, such as a new part or a changed mass; the third for a fix that leaves the model as it is, such as the install rules. A pull request that only changes the guides or the README keeps the version. If you're unsure which number to raise, say so in the pull request, and a maintainer sets it before the merge. After the merge, a maintainer tags the merge commit with the version, for example `1.1.0`. Tags can't be moved or deleted.
 - Say how you tested it: the xacro check, the simulation test and, for a measured value, how it was measured. Link the issue with `Closes #N`.
 - Measured values carry a comment with the measurement, for example the wheel diameters behind `radius`. Code comments explain why, not what changed.
 - If the controller needs the same value, for example the wheel radius and separation in diffbot's `diffbot_control/config/remo/geometry.yaml`, open the matching diffbot pull request and link them.
 - If the documentation describes what you change, for example a measured value or a contact setting, open a pull request in [ros-mobile-robots.github.io](https://github.com/ros-mobile-robots/ros-mobile-robots.github.io) too, or say in your PR what the docs need.
-- Maintainers mirror model changes to the version of this package that has the meshes.
+- Maintainers mirror model changes to the Insiders repository, which has the meshes, with the same versions and tags.
 
 ## AI-assisted contributions
 

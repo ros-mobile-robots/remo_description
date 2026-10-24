@@ -4,6 +4,8 @@
 
 <!-- Two or three sentences: what this changes in the model and why. The description becomes the commit message. -->
 
+<!-- A change to the model also sets the next version in package.xml and CHANGELOG.rst (see CONTRIBUTING.md). -->
+
 ## How it was tested
 
 <!-- The xacro check, diffbot's simulation test (rostest diffbot_gazebo sim_drive_remo.test), and how measured values were measured. -->
