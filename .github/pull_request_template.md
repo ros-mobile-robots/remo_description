@@ -8,11 +8,11 @@
 
 ## How it was tested
 
-<!-- The xacro check, diffbot's simulation test (rostest diffbot_gazebo sim_drive_remo.test), and how measured values were measured. -->
+<!-- The xacro check, the simulation test from the diffbot repository (rostest diffbot_gazebo sim_drive_remo.test), and how measured values were measured. -->
 
 ## Related
 
-<!-- A matching diffbot pull request (for example for the controller's geometry.yaml) or docs pull request, or "None". -->
+<!-- A matching pull request in the diffbot repository (for example for the controller's geometry.yaml) or in the docs repository, or "None". -->
 
 <!-- Remove the next line if there's no issue. -->
 Closes #
