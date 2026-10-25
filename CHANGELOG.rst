@@ -2,9 +2,9 @@
 Changelog for package remo_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1.0.0 (2026-10-24)
+1.0.0 (2026-10-25)
 ------------------
-* The first numbered version. diffbot's workspace pins it, instead of following main.
+* The first numbered version, for pinning Remo's model in dependent workspaces.
 * Contributor guides: CONTRIBUTING, pull request template, AGENTS.md (#4)
 * Gazebo: sphere collision and damped contacts for the drive wheels (#2)
 * Measured wheel radius and separation (#3)
