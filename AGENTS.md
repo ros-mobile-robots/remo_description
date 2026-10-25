@@ -41,6 +41,6 @@ rostest diffbot_gazebo sim_drive_remo.test
 
 - One change per pull request and per commit; branch `feat/…`, `fix/…`, `docs/…` or `chore/…`.
 - Squash-merged by a maintainer, who uses the title as the commit subject and the description as its message. Title `Area: what changed`, 65 characters or fewer. The description starts with what and why, then how it was tested, then `Closes #N`. Use the pull request template.
-- A change to the model raises the version by hand, in `package.xml` and in a new `CHANGELOG.rst` section; CONTRIBUTING.md says which number to raise. Don't create tags: a maintainer tags the merge commit.
+- If you change the model, raise the package version yourself, in `package.xml` and in a new `CHANGELOG.rst` section; CONTRIBUTING.md says which number to raise. Don't create tags: a maintainer tags the merge commit.
 - Code comments explain why, not what changed; measured values say how they were measured.
 - No attribution lines for AI tools in commits or pull requests (`Co-Authored-By:` for a tool, "Generated with …"). No disclosure of AI use is needed.

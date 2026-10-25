@@ -4,7 +4,7 @@
 
 <!-- Two or three sentences: what this changes in the model and why. The description becomes the commit message. -->
 
-<!-- A change to the model also sets the next version in package.xml and CHANGELOG.rst (see CONTRIBUTING.md). -->
+<!-- If you change the model, also raise the version in package.xml and add a section to CHANGELOG.rst (see CONTRIBUTING.md). -->
 
 ## How it was tested
 
