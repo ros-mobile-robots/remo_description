@@ -1,6 +1,6 @@
 # Contributing to remo_description
 
-This is the ROS 1 Noetic description package of Remo: its URDF (xacro), the sizes, masses and positions of its parts in `config/remo/`, and its Gazebo settings. Remo's ROS packages, launch files and simulation test are in the [diffbot repository](https://github.com/ros-mobile-robots/diffbot). It's named after DiffBot, the project's other robot, and holds the packages for both robots. The documentation is at [ros-mobile-robots.com](https://ros-mobile-robots.com).
+This is the ROS 1 Noetic description package of Remo: its URDF (xacro), the sizes, masses and positions of its parts in `config/remo/`, and its Gazebo settings. Remo's launch files, controller configuration and simulation test are in the [diffbot repository](https://github.com/ros-mobile-robots/diffbot), which supports both DiffBot and Remo. The documentation is at [ros-mobile-robots.com](https://ros-mobile-robots.com).
 
 The STL meshes aren't in this repository (see the README); the model works without them, with empty placeholders.
 
@@ -8,7 +8,7 @@ Ask questions and get help with your build in the diffbot repository's [Discussi
 
 ## Set up and test
 
-Use the [dev container of the diffbot repository](https://github.com/ros-mobile-robots/diffbot/tree/noetic-devel/.devcontainer/noetic): it clones this repository to `~/catkin_ws/src/remo_description` and builds it with the packages of the diffbot repository. The container clones the version of this repository that the diffbot repository pins in [`diffbot_dev.repos`](https://github.com/ros-mobile-robots/diffbot/blob/noetic-devel/diffbot_dev.repos), not your change. Check out your branch there first, and check that it's your commit:
+Use the [diffbot repository's dev container](https://github.com/ros-mobile-robots/diffbot/tree/noetic-devel/.devcontainer/noetic). For a new workspace, its setup clones `remo_description` to `~/catkin_ws/src/remo_description` at the version selected in [`diffbot_dev.repos`](https://github.com/ros-mobile-robots/diffbot/blob/noetic-devel/diffbot_dev.repos), not your branch. Check out your branch there and confirm the commit before building and testing:
 
 ```bash
 cd ~/catkin_ws/src/remo_description
@@ -27,7 +27,9 @@ catkin build && rostest diffbot_gazebo sim_drive_remo.test
 
 The [simulation test](https://ros-mobile-robots.com/development/simulation-test/) drives Remo in Gazebo and checks where it went. Run it for every change to the model, and report its result in your pull request.
 
-The diffbot repository uses the version of this repository that it pins, so a merged change doesn't reach it by itself: a pull request in the diffbot repository has to move the pin to the new version, and a maintainer opens it after tagging. If the diffbot repository has to change together with the model, for example Remo's navigation footprint after a moved frame, open that pull request there yourself, at the same time as yours, and link the two. Until yours is merged, it pins your branch's commit; afterwards, the new version.
+The diffbot repository selects Remo's model version in `diffbot_dev.repos` and `remo_robot.repos`. Merging a model change here doesn't update those pins. After tagging a release, a maintainer opens a pull request in diffbot to update both pins.
+
+If your model change also requires changes in diffbot, such as updating Remo's navigation footprint when a base frame moves, open the matching pull request alongside your model pull request and link the two. Pin your model commit during review, then use the release tag after the model change is merged and tagged.
 
 ## Pull requests
 

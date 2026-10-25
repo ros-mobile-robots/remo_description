@@ -4,7 +4,7 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md) first; this file adds what an agent need
 
 ## What this is
 
-Remo's ROS 1 Noetic description package. Remo's ROS packages, controllers and simulation test are in the [diffbot repository](https://github.com/ros-mobile-robots/diffbot) (`model:=remo`), named after DiffBot, the project's other robot; it holds the packages for both robots. The documentation is at [ros-mobile-robots.com](https://ros-mobile-robots.com).
+Remo's ROS 1 Noetic description package. Remo's launch files, controller configuration and simulation test are in the [diffbot repository](https://github.com/ros-mobile-robots/diffbot), which supports both DiffBot and Remo (`model:=remo`). The documentation is at [ros-mobile-robots.com](https://ros-mobile-robots.com).
 
 | Path | What's in it |
 |---|---|
@@ -16,7 +16,7 @@ Remo's ROS 1 Noetic description package. Remo's ROS packages, controllers and si
 
 ## Commands
 
-Work in the dev container of the diffbot repository, which has this repository at `~/catkin_ws/src/remo_description`. The container clones the version that the diffbot repository pins in its `diffbot_dev.repos`: check out the branch you're testing there first (CONTRIBUTING.md shows how) and confirm the commit with `git -C src/remo_description log -1`, or the test runs the unchanged model. In `~/catkin_ws`:
+Work in the diffbot repository's dev container. For a new workspace, its setup clones this repository to `~/catkin_ws/src/remo_description` at the version selected in `diffbot_dev.repos`, not your branch. Check out the branch you're testing there first (CONTRIBUTING.md shows how) and confirm the commit with `git -C src/remo_description log -1`, or the test runs the unchanged model. In `~/catkin_ws`:
 
 ```bash
 xacro src/remo_description/urdf/remo.urdf.xacro > /tmp/remo.urdf   # the model expands without errors
@@ -27,7 +27,7 @@ rostest diffbot_gazebo sim_drive_remo.test
 ## Before you call a change done
 
 - The xacro expands without errors, and Remo's simulation test passes; it loads the model into Gazebo. Report the measured motions from the test's result file, not only pass/fail.
-- The diffbot repository uses the version of this repository that it pins in `diffbot_dev.repos`; a maintainer moves the pin after tagging. If the diffbot repository has to change together with the model (for example Remo's navigation footprint after a moved frame), open that pull request in the diffbot repository at the same time as yours and link the two: it pins your branch's commit until yours is merged.
+- The diffbot repository selects Remo's model version in `diffbot_dev.repos` and `remo_robot.repos`; merging a model change here doesn't update those pins. After tagging, a maintainer opens a pull request in diffbot to update both pins. If your model change also requires changes in diffbot (for example Remo's navigation footprint when a base frame moves), open the matching pull request alongside yours and link the two. Pin your model commit during review, then use the release tag after the model change is merged and tagged.
 - A changed collision, contact or inertia setting can change how Remo turns in Gazebo. Compare the odometry with the true pose in the test's output, before and after.
 
 ## Things that are easy to get wrong
