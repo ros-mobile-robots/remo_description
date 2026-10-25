@@ -42,8 +42,10 @@
   <!-- Footprint link -->
   <xacro:footprint wheel_props="${front_wheel_props}" />
 
-  <!-- Base link at the drive axle's midpoint, and the chassis around it. The wheels sit
-       x_offset behind the base plate's front edge, the same position the wheel macro uses -->
+  <!-- Base link at the drive axle's midpoint, and the chassis around it. axle_x is how far the
+       axle is in front of the plate's center. The wheel config gives the axle's position from the
+       plate's front edge instead (x_offset), so axle_x = half the plate's length - x_offset
+       (0.070 - 0.034 = 0.036 m). The wheel macro places the wheels with the same formula. -->
   <xacro:property name="axle_x" value="${base_props['base']['x_size']/2 - front_wheel_props['x_offset']}"/>
   <xacro:base base_prop="${base_props}" axle_x="${axle_x}" mesh="${base_props['base']['mesh']}" scale="0.001 0.001 0.001">
     <origin xyz="0 0 0" rpy="0 0 0" />
