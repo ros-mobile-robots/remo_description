@@ -42,8 +42,12 @@
   <!-- Footprint link -->
   <xacro:footprint wheel_props="${front_wheel_props}" />
 
-  <!-- Base link -->
-  <xacro:base base_prop="${base_props}" mesh="${base_props['base']['mesh']}" scale="0.001 0.001 0.001">
+  <!-- Base link at the drive axle's midpoint, and the chassis around it. axle_x is how far the
+       axle is in front of the plate's center. The wheel config gives the axle's position from the
+       plate's front edge instead (x_offset), so axle_x = half the plate's length - x_offset
+       (0.070 - 0.034 = 0.036 m). The wheel macro places the wheels with the same formula. -->
+  <xacro:property name="axle_x" value="${base_props['base']['x_size']/2 - front_wheel_props['x_offset']}"/>
+  <xacro:base base_prop="${base_props}" axle_x="${axle_x}" mesh="${base_props['base']['mesh']}" scale="0.001 0.001 0.001">
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:base>
 
@@ -79,7 +83,7 @@
   <xacro:if value="${$(arg sbc_type) == 'jetson'}">
     <xacro:property name="deck_type" value="'jetson_deck'"/>
     <!-- Deck link -->
-    <xacro:addon addon="jetson_deck" base_prop="${base_props}" parent_link="base_link" >
+    <xacro:addon addon="jetson_deck" base_prop="${base_props}" parent_link="chassis_link" >
       <origin xyz="0 0 0" rpy="0 0 0" />
     </xacro:addon>
     <!-- Jetson Nano link -->
@@ -87,14 +91,14 @@
       <origin xyz="0 0 0.007" rpy="0 0 0" />
     </xacro:addon>
     <!-- Breadboard 400 point -->
-    <xacro:addon addon="breadboard" base_prop="${component_props}" parent_link="base_link" >
+    <xacro:addon addon="breadboard" base_prop="${component_props}" parent_link="chassis_link" >
       <origin xyz="-0.05 0 0" rpy="0 0 0" />
     </xacro:addon>
   </xacro:if>
   <xacro:if value="${$(arg sbc_type) == 'rpi'}">
     <xacro:property name="deck_type" value="'rpi_deck'"/>
     <!-- Deck link -->
-    <xacro:addon addon="rpi_deck" base_prop="${base_props}" parent_link="base_link" >
+    <xacro:addon addon="rpi_deck" base_prop="${base_props}" parent_link="chassis_link" >
       <origin xyz="0 0 0" rpy="0 0 0" />
     </xacro:addon>
     <!-- Raspberry Pi 4 B Nano link -->
@@ -102,7 +106,7 @@
       <origin xyz="0 0 0.007" rpy="0 0 0" />
     </xacro:addon>
     <!-- Breadboard 400 point -->
-    <xacro:addon addon="breadboard" base_prop="${component_props}" parent_link="base_link" >
+    <xacro:addon addon="breadboard" base_prop="${component_props}" parent_link="chassis_link" >
       <origin xyz="-0.04 0 0" rpy="0 0 0" />
     </xacro:addon>
   </xacro:if>
@@ -131,7 +135,7 @@
 
   <!-- Camera -->
   <!-- Camera mount link -->
-  <xacro:addon addon="camera_mount" base_prop="${base_props}" parent_link="base_link" >
+  <xacro:addon addon="camera_mount" base_prop="${base_props}" parent_link="chassis_link" >
     <origin xyz="0.085198 0 -0.0081709" rpy="0 0 0" />
   </xacro:addon>
   <!-- Choose between different cameras using the camera_type xacro argument -->
@@ -174,7 +178,7 @@
   </xacro:if>
 
   <!-- IMU 
-  <xacro:imu_sensor parent_link="base_link"
+  <xacro:imu_sensor parent_link="chassis_link"
                     sensor_prop="${sensor_props}">
     <origin xyz="-0.045 0.02 0.01" rpy="0 0 0" />
   </xacro:imu_sensor>-->
@@ -190,18 +194,18 @@
   </xacro:set_all_wheel_frictions>
 
   <!-- Additional addons -->
-  <xacro:addon addon="power_bank" base_prop="${component_props}" parent_link="base_link" >
+  <xacro:addon addon="power_bank" base_prop="${component_props}" parent_link="chassis_link" >
     <origin xyz="0 0 -0.01" rpy="0 0 0" />
   </xacro:addon>
-  <xacro:addon addon="battery_pack" base_prop="${component_props}" parent_link="base_link" >
+  <xacro:addon addon="battery_pack" base_prop="${component_props}" parent_link="chassis_link" >
     <origin xyz="0.045 0 -0.04" rpy="0 0 0" />
   </xacro:addon>
 
-  <xacro:addon addon="mcu" base_prop="${component_props}" parent_link="base_link" >
+  <xacro:addon addon="mcu" base_prop="${component_props}" parent_link="chassis_link" >
     <origin xyz="-0.045 -0.02 0.01" rpy="0 0 ${-pi/2}" />
   </xacro:addon>
 
-  <xacro:addon addon="motor_driver" base_prop="${component_props}" parent_link="base_link" >
+  <xacro:addon addon="motor_driver" base_prop="${component_props}" parent_link="chassis_link" >
     <origin xyz="-0.0086 0 -0.0277" rpy="0 0 0" />
   </xacro:addon>
 
