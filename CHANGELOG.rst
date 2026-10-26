@@ -2,6 +2,13 @@
 Changelog for package remo_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.0.0 (2026-10-26)
+------------------
+* Frames: base_link and base_footprint at the drive axle's midpoint, where diff_drive_controller's
+  odometry puts the robot, 36 mm in front of the base plate's center. The plate and the parts on it
+  hang from a new chassis_link at the plate's center, so the parts don't move. Positions given in
+  base_link or base_footprint, such as a navigation footprint, are now measured from the axle (#5)
+
 1.0.0 (2026-10-25)
 ------------------
 * The first numbered version, for pinning Remo's model in dependent workspaces.
