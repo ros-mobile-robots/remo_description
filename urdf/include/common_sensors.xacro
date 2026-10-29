@@ -187,4 +187,70 @@
   </gazebo>
 </xacro:macro>
 
+<!-- IMU: a Bosch BNO055 board, as a small box (sensor_prop['imu']: mass, size, mesh), and a Gazebo
+     IMU sensor that stands in for the real one in the simulation.
+     - imu_link is the sensor's own frame; *origin places it on parent_link, as the board sits on
+       the robot. The real robot's firmware publishes in the same frame (diffbot_base).
+     - The Gazebo plugin (gazebo_plugins' GazeboRosImuSensor, ROS 1) publishes sensor_msgs/Imu on
+       /diffbot/imu/gazebo at 50 Hz, the firmware's rate. Its message includes an orientation that
+       the real sensor doesn't provide, so the simulation passes it through an adapter in
+       diffbot_gazebo, which publishes /diffbot/imu/data_raw like the firmware.
+     - gaussianNoise is one standard deviation that the plugin adds to every value; it's a
+       simulation setting, not the BNO055's measured noise. -->
+<xacro:macro name="imu_sensor" params="parent_link sensor_prop *origin">
+
+  <xacro:property name="imu" value="${sensor_prop['imu']}"/>
+
+  <link name="imu_link">
+    <xacro:if value="${imu['mesh'] != ''}">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://${package_name}/meshes/sensors/${imu['mesh']}" scale="${imu['scale']}"/>
+        </geometry>
+        <material name="dark_grey"/>
+      </visual>
+    </xacro:if>
+    <xacro:if value="${imu['mesh'] == ''}">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="${imu['size']['x']} ${imu['size']['y']} ${imu['size']['z']}"/>
+        </geometry>
+        <material name="red"/>
+      </visual>
+    </xacro:if>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="${imu['size']['x']} ${imu['size']['y']} ${imu['size']['z']}"/>
+      </geometry>
+    </collision>
+    <xacro:box_inertia m="${imu['mass']}" x="${imu['size']['x']}" y="${imu['size']['y']}" z="${imu['size']['z']}"/>
+  </link>
+
+  <joint name="imu_joint" type="fixed">
+    <parent link="${parent_link}"/>
+    <child link="imu_link"/>
+    <xacro:insert_block name="origin"/>
+  </joint>
+
+  <gazebo reference="imu_link">
+    <sensor type="imu" name="imu">
+      <always_on>true</always_on>
+      <update_rate>50</update_rate>
+      <plugin name="imu_plugin" filename="libgazebo_ros_imu_sensor.so">
+        <robotNamespace>/diffbot</robotNamespace>
+        <topicName>imu/gazebo</topicName>
+        <frameName>imu_link</frameName>
+        <updateRateHZ>50</updateRateHZ>
+        <gaussianNoise>0.005</gaussianNoise>
+        <xyzOffset>0 0 0</xyzOffset>
+        <rpyOffset>0 0 0</rpyOffset>
+        <initialOrientationAsReference>false</initialOrientationAsReference>
+      </plugin>
+    </sensor>
+  </gazebo>
+</xacro:macro>
+
 </robot>
