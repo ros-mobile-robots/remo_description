@@ -2,7 +2,7 @@
 Changelog for package remo_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-2.1.0 (unreleased)
+2.1.0 (2026-10-29)
 ------------------
 * IMU: imu_link for the BNO055 board on chassis_link, with a Gazebo IMU sensor that publishes
   /diffbot/imu/gazebo at 50 Hz. Its position (xacro arguments imu_xyz and imu_rpy) is provisional
