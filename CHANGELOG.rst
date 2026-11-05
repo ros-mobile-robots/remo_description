@@ -2,11 +2,12 @@
 Changelog for package remo_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-2.1.0 (2026-10-29)
+2.1.0 (2026-11-05)
 ------------------
 * IMU: imu_link for the BNO055 board on chassis_link, with a Gazebo IMU sensor that publishes
-  /diffbot/imu/gazebo at 50 Hz. Its position (xacro arguments imu_xyz and imu_rpy) is provisional
-  until the board's mounting on the robot is confirmed
+  /diffbot/imu/gazebo at 50 Hz. Its orientation (xacro argument imu_rpy) was measured on Remo: the
+  board's x axis points to the right, y forward and z up, so imu_link is turned by -90 degrees
+  about z. Its position (imu_xyz) is provisional until measured on the robot
 
 2.0.0 (2026-10-26)
 ------------------

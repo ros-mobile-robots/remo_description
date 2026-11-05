@@ -187,16 +187,23 @@
   </gazebo>
 </xacro:macro>
 
-<!-- IMU: a Bosch BNO055 board, as a small box (sensor_prop['imu']: mass, size, mesh), and a Gazebo
-     IMU sensor that stands in for the real one in the simulation.
-     - imu_link is the sensor's own frame; *origin places it on parent_link, as the board sits on
-       the robot. The real robot's firmware publishes in the same frame (diffbot_base).
-     - The Gazebo plugin (gazebo_plugins' GazeboRosImuSensor, ROS 1) publishes sensor_msgs/Imu on
-       /diffbot/imu/gazebo at 50 Hz, the firmware's rate. Its message includes an orientation that
-       the real sensor doesn't provide, so the simulation passes it through an adapter in
-       diffbot_gazebo, which publishes /diffbot/imu/data_raw like the firmware.
-     - gaussianNoise is one standard deviation that the plugin adds to every value; it's a
-       simulation setting, not the BNO055's measured noise. -->
+<!-- IMU: a Bosch BNO055 board, as a small box (sensor_prop['imu']: mass, size, mesh), and a
+     simulated IMU in Gazebo that stands in for the real one.
+     Arguments:
+     - parent_link: the name of the link that supports the board, chassis_link on Remo.
+     - origin: an <origin xyz="..." rpy="..."/> element written between the macro's opening and
+       closing tags. The * in *origin marks an XML block argument. The macro inserts this element
+       into imu_joint. This fixed joint specifies the position and orientation of imu_link, the
+       sensor's own frame, relative to parent_link.
+     On the robot, diffbot's Teensy firmware publishes the BNO055's measurements with frame_id
+     imu_link, so the robot and the simulation use the same frame.
+     The Gazebo plugin (gazebo_plugins' GazeboRosImuSensor, ROS 1) publishes sensor_msgs/Imu on
+     /diffbot/imu/gazebo at 50 Hz, the firmware's rate. Gazebo also publishes an orientation
+     derived from the sensor's rotation relative to the simulated world, with the configured noise
+     added. The firmware leaves the orientation out, so an adapter in diffbot_gazebo removes it and
+     publishes /diffbot/imu/data_raw like the firmware.
+     gaussianNoise is one standard deviation that the plugin adds to every value. It's a simulation
+     setting, not the BNO055's measured noise. -->
 <xacro:macro name="imu_sensor" params="parent_link sensor_prop *origin">
 
   <xacro:property name="imu" value="${sensor_prop['imu']}"/>

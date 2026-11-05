@@ -9,12 +9,17 @@
   <!-- Must be one of ['rpi', 'jetson'] -->
   <xacro:arg name="sbc_type" default="'rpi'" />
 
-  <!-- Where the IMU (imu_link) sits on chassis_link. Provisional: the position of an earlier,
-       commented-out IMU in this file, with the board's axes along the robot's (x forward, z up).
-       The real BNO055's mounting on the robot isn't confirmed yet; correct both when it is, or
-       override them, for example imu_xyz:='-0.04 0.02 0.012' imu_rpy:='0 0 0'. -->
+  <!-- Where the IMU's frame, imu_link, sits on chassis_link, the frame at the base plate's center.
+       - Position (imu_xyz, in metres): provisional. The position was copied from an inactive IMU
+         entry in the model's first public version (2025). These coordinates have not been
+         verified for the current mounting. Correct them once the board's position is measured,
+         or override them, for example imu_xyz:='-0.04 0.02 0.012'.
+       - Orientation (imu_rpy: roll, pitch and yaw in radians): measured on Remo by tilting the
+         robot (2026-11-05). The board lies flat with its z axis up, its y axis forward and its x
+         axis to the right, so imu_link is turned by -90 degrees about z. The firmware keeps the
+         BNO055's default axes, and this joint describes how the board is mounted. -->
   <xacro:arg name="imu_xyz" default="-0.045 0.02 0.01" />
-  <xacro:arg name="imu_rpy" default="0 0 0" />
+  <xacro:arg name="imu_rpy" default="0 0 -1.5707963" />
 
 
   <xacro:property name="package_name" value="remo_description"/>
