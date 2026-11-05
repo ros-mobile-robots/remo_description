@@ -2,6 +2,14 @@
 Changelog for package remo_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.1.0 (2026-11-05)
+------------------
+* IMU: imu_link for the BNO055 board on chassis_link, with a Gazebo IMU sensor that publishes
+  /diffbot/imu/gazebo at 50 Hz. Its orientation (xacro argument imu_rpy) was measured on Remo: the
+  board's x axis points to the right, y forward and z up, so imu_link is turned by -90 degrees
+  about z. Its position (imu_xyz) was measured by hand: the chip's center is 7 cm behind the
+  wheel axle, 2.5 cm left of the center line and 8 cm above the floor
+
 2.0.0 (2026-10-26)
 ------------------
 * Frames: base_link and base_footprint at the drive axle's midpoint, where diff_drive_controller's

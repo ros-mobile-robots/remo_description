@@ -9,6 +9,19 @@
   <!-- Must be one of ['rpi', 'jetson'] -->
   <xacro:arg name="sbc_type" default="'rpi'" />
 
+  <!-- Where the IMU's frame, imu_link, sits on chassis_link, the frame at the base plate's center.
+       - Position (imu_xyz, in metres): measured by hand on Remo (2026-11-05), approximately.
+         The chip's center is 7 cm behind the wheel axle, 2.5 cm left of the robot's center line
+         and 8 cm above the floor. chassis_link lies 3.6 cm behind the axle and 6.66 cm above the
+         floor, which gives approximately -0.034 0.025 0.013. Override imu_xyz for another
+         mounting, for example imu_xyz:='-0.04 0.02 0.012'.
+       - Orientation (imu_rpy: roll, pitch and yaw in radians): measured on Remo by tilting the
+         robot (2026-11-05). The board lies flat with its z axis up, its y axis forward and its x
+         axis to the right, so imu_link is turned by -90 degrees about z. The firmware keeps the
+         BNO055's default axes, and this joint describes how the board is mounted. -->
+  <xacro:arg name="imu_xyz" default="-0.034 0.025 0.013" />
+  <xacro:arg name="imu_rpy" default="0 0 -1.5707963" />
+
 
   <xacro:property name="package_name" value="remo_description"/>
   <xacro:property name="robot_name" value="remo"/>
@@ -177,11 +190,11 @@
     </xacro:camera_sensor>
   </xacro:if>
 
-  <!-- IMU 
+  <!-- IMU: a BNO055 on the breadboard next to the Teensy, which reads it -->
   <xacro:imu_sensor parent_link="chassis_link"
                     sensor_prop="${sensor_props}">
-    <origin xyz="-0.045 0.02 0.01" rpy="0 0 0" />
-  </xacro:imu_sensor>-->
+    <origin xyz="$(arg imu_xyz)" rpy="$(arg imu_rpy)" />
+  </xacro:imu_sensor>
 
   
   <!-- Gazebo -->
