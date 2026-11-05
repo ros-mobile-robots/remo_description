@@ -4,10 +4,10 @@ Changelog for package remo_description
 
 2.2.0 (2026-11-05)
 ------------------
-* IMU and Teensy on the breadboard as on Remo: the IMU's center lies on the breadboard's center
-  line from front to back, with the board's left edge flush with the breadboard's left edge
-  (imu_xyz -0.040 0.023 0.013). The Teensy sits with its pins in the breadboard's holes, half a
-  hole step behind the center line and 2.5 mm above the breadboard (-0.0415 -0.0206 0.012)
+* IMU and Teensy on the breadboard as on Remo, with their pins in the breadboard's holes: the
+  IMU's center at the breadboard's front-to-back midpoint, its left edge about flush with the
+  breadboard's left edge (imu_xyz -0.0401 0.0234 0.013). The Teensy half a hole step behind the
+  center channel's line and 2.5 mm above the breadboard, like the IMU (-0.0414 -0.0206 0.012)
 
 2.1.0 (2026-11-05)
 ------------------
