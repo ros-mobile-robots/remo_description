@@ -11,15 +11,18 @@
 
   <!-- Where the IMU's frame, imu_link, sits on chassis_link, the frame at the base plate's center.
        - Position (imu_xyz, in metres): measured by hand on Remo (2026-11-05), approximately.
-         The chip's center is 7 cm behind the wheel axle, 2.5 cm left of the robot's center line
-         and 8 cm above the floor. chassis_link lies 3.6 cm behind the axle and 6.66 cm above the
-         floor, which gives approximately -0.034 0.025 0.013. Override imu_xyz for another
-         mounting, for example imu_xyz:='-0.04 0.02 0.012'.
+         The chip's center lies on the breadboard's center line from front to back, like the
+         Teensy's, and 8 cm above the floor. The board's left edge is flush with the breadboard's
+         left edge, which this model puts 3.66 cm left of the robot's center line, so the chip's
+         center is 2.3 cm left of it. With the Raspberry Pi deck, this model puts the breadboard's
+         center 4 cm behind chassis_link, and chassis_link 6.66 cm above the floor, which gives
+         approximately -0.040 0.023 0.013. Override imu_xyz for another mounting, for example
+         imu_xyz:='-0.05 0.023 0.013' for the breadboard's position with the Jetson Nano deck.
        - Orientation (imu_rpy: roll, pitch and yaw in radians): measured on Remo by tilting the
          robot (2026-11-05). The board lies flat with its z axis up, its y axis forward and its x
          axis to the right, so imu_link is turned by -90 degrees about z. The firmware keeps the
          BNO055's default axes, and this joint describes how the board is mounted. -->
-  <xacro:arg name="imu_xyz" default="-0.034 0.025 0.013" />
+  <xacro:arg name="imu_xyz" default="-0.040 0.023 0.013" />
   <xacro:arg name="imu_rpy" default="0 0 -1.5707963" />
 
 
@@ -214,8 +217,13 @@
     <origin xyz="0.045 0 -0.04" rpy="0 0 0" />
   </xacro:addon>
 
+  <!-- Teensy: its pins in the breadboard's holes, next to the IMU. Its two pin rows are 0.6 inch
+       apart, the rows on both sides of the breadboard's center channel only 0.3 inch plus whole
+       steps of 0.1 inch, so the board sits half a step (1.3 mm) behind the channel's center line,
+       which runs 4 cm behind chassis_link with the Raspberry Pi deck. The board lies 2.5 mm above
+       the breadboard, on the pin header's plastic spacer, like the IMU. -->
   <xacro:addon addon="mcu" base_prop="${component_props}" parent_link="chassis_link" >
-    <origin xyz="-0.045 -0.02 0.01" rpy="0 0 ${-pi/2}" />
+    <origin xyz="-0.0415 -0.0206 0.012" rpy="0 0 ${-pi/2}" />
   </xacro:addon>
 
   <xacro:addon addon="motor_driver" base_prop="${component_props}" parent_link="chassis_link" >
