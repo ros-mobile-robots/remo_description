@@ -2,7 +2,7 @@
 Changelog for package remo_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-2.4.0 (2026-11-06)
+2.3.0 (2026-11-06)
 ------------------
 * Colours like the real parts, the same in RViz and Gazebo. Each part's config file gives its
   colour as rgba, which replaces the Gazebo material names (color) and the shared RViz
@@ -14,14 +14,6 @@ Changelog for package remo_description
 * Configs and macro calls written for 2.2.0 still expand. A part whose config has no rgba, and
   a camera_sensor call without rgba, get a neutral grey (default_rgba). The color key of such a
   config isn't read any more, so its part is grey until it gets an rgba
-
-2.3.0 (2026-11-06)
-------------------
-* IMU: the xacro argument imu_plugin names the simulated IMU's Gazebo plugin library. The default
-  stays gazebo_plugins' libgazebo_ros_imu_sensor.so. The diffbot repository's simulation passes its
-  copy of that plugin, which doesn't run ROS callbacks in Gazebo's physics thread. gazebo_plugins'
-  plugin does, which can stop the simulation while the controllers load
-  (ros-mobile-robots/diffbot#185)
 
 2.2.0 (2026-11-05)
 ------------------
