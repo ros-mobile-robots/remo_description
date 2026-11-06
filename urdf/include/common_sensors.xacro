@@ -195,9 +195,6 @@
        closing tags. The * in *origin marks an XML block argument. The macro inserts this element
        into imu_joint. This fixed joint specifies the position and orientation of imu_link, the
        sensor's own frame, relative to parent_link.
-     - plugin_filename: the Gazebo plugin library that simulates the IMU, gazebo_plugins'
-       libgazebo_ros_imu_sensor.so or a plugin with the same parameters and message.
-       remo.urdf.xacro passes its argument imu_plugin.
      On the robot, diffbot's Teensy firmware publishes the BNO055's measurements with frame_id
      imu_link, so the robot and the simulation use the same frame.
      The Gazebo plugin (gazebo_plugins' GazeboRosImuSensor, ROS 1) publishes sensor_msgs/Imu on
@@ -207,7 +204,7 @@
      publishes /diffbot/imu/data_raw like the firmware.
      gaussianNoise is one standard deviation that the plugin adds to every value. It's a simulation
      setting, not the BNO055's measured noise. -->
-<xacro:macro name="imu_sensor" params="parent_link sensor_prop plugin_filename *origin">
+<xacro:macro name="imu_sensor" params="parent_link sensor_prop *origin">
 
   <xacro:property name="imu" value="${sensor_prop['imu']}"/>
 
@@ -249,7 +246,7 @@
     <sensor type="imu" name="imu">
       <always_on>true</always_on>
       <update_rate>50</update_rate>
-      <plugin name="imu_plugin" filename="${plugin_filename}">
+      <plugin name="imu_plugin" filename="libgazebo_ros_imu_sensor.so">
         <robotNamespace>/diffbot</robotNamespace>
         <topicName>imu/gazebo</topicName>
         <frameName>imu_link</frameName>
