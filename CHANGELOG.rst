@@ -11,6 +11,9 @@ Changelog for package remo_description
   PCB colours: green Raspberry Pi, Teensy and camera, blue BNO055, black motor driver and
   Jetson Nano. The lidar, its USB adapter, the battery pack and the power bank are black, the
   caster ball is metal grey. Gazebo no longer warns about inconsistent materials
+* Configs and macro calls written for 2.2.0 still expand. A part whose config has no rgba, and
+  a camera_sensor call without rgba, get a neutral grey (default_rgba). The color key of such a
+  config isn't read any more, so its part is grey until it gets an rgba
 
 2.2.0 (2026-11-05)
 ------------------
