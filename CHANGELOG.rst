@@ -2,10 +2,18 @@
 Changelog for package remo_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-2.2.1 (2026-11-06)
+2.3.1 (2026-11-06)
 ------------------
 * Wheels: the visual has the wheel's mesh once. The macro gave a wheel without a scale a second
   mesh with an empty scale. The model is the same (#8)
+
+2.3.0 (2026-11-06)
+------------------
+* IMU: the xacro argument imu_plugin names the simulated IMU's Gazebo plugin library. The default
+  stays gazebo_plugins' libgazebo_ros_imu_sensor.so. The diffbot repository's simulation passes its
+  copy of that plugin, which doesn't run ROS callbacks in Gazebo's physics thread. gazebo_plugins'
+  plugin does, which can stop the simulation while the controllers load
+  (ros-mobile-robots/diffbot#185)
 
 2.2.0 (2026-11-05)
 ------------------

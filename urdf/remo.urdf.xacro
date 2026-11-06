@@ -26,6 +26,15 @@
   <xacro:arg name="imu_xyz" default="-0.0401 0.0234 0.013" />
   <xacro:arg name="imu_rpy" default="0 0 -1.5707963" />
 
+  <!-- The Gazebo plugin library of the simulated IMU (imu_plugin). It must take the parameters of
+       gazebo_plugins' GazeboRosImuSensor and publish its message. The default is gazebo_plugins'
+       own library. The diffbot repository's simulation passes
+       imu_plugin:=libdiffbot_gazebo_ros_imu_sensor.so, its copy of that plugin in the package
+       diffbot_gazebo_plugins. The copy doesn't run ROS callbacks in Gazebo's physics thread,
+       which can stop the simulation while the controllers load
+       (https://github.com/ros-mobile-robots/diffbot/issues/185). -->
+  <xacro:arg name="imu_plugin" default="libgazebo_ros_imu_sensor.so" />
+
 
   <xacro:property name="package_name" value="remo_description"/>
   <xacro:property name="robot_name" value="remo"/>
@@ -196,7 +205,8 @@
 
   <!-- IMU: a BNO055 on the breadboard next to the Teensy, which reads it -->
   <xacro:imu_sensor parent_link="chassis_link"
-                    sensor_prop="${sensor_props}">
+                    sensor_prop="${sensor_props}"
+                    plugin_filename="$(arg imu_plugin)">
     <origin xyz="$(arg imu_xyz)" rpy="$(arg imu_rpy)" />
   </xacro:imu_sensor>
 
