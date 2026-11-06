@@ -16,6 +16,7 @@
 -->
   <xacro:macro name="base"
                params="base_prop axle_x mesh:='' scale:='' *origin ">
+    <xacro:property name="rgba" value="${base_prop['base'].get('rgba', default_rgba)}"/>
     <!-- base_link is the robot's reference frame: the midpoint between the drive wheels, where
          diff_drive_controller's odometry puts the robot. chassis_link is the center of the base
          plate, axle_x behind base_link. The plate's geometry and mass, and all parts attached to
@@ -45,7 +46,7 @@
             <mesh filename="package://${package_name}/meshes/${robot_name}/${mesh}" />
           </xacro:if>
         </geometry>
-        <material name="white" />
+        <xacro:visual_material name="chassis_link" rgba="${rgba}"/>
       </visual>
     </xacro:if>
     <xacro:if value="${mesh == '' }" >
@@ -54,7 +55,7 @@
         <geometry>
           <box size="${base_prop['base']['x_size']} ${base_prop['base']['y_size']} ${base_prop['base']['z_size']}"/>
         </geometry>
-        <material name="white" />
+        <xacro:visual_material name="chassis_link" rgba="${rgba}"/>
       </visual>
     </xacro:if>  
     <collision>
@@ -64,8 +65,6 @@
       </geometry>
     </collision>
     </link>
-    <gazebo reference="chassis_link">
-      <material>Gazebo/Grey</material>
-    </gazebo>
+    <xacro:gazebo_material link="chassis_link" rgba="${rgba}"/>
   </xacro:macro>
 </robot>

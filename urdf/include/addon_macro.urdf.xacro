@@ -13,6 +13,7 @@
 -->
   <xacro:macro name="addon"
                params="addon base_prop parent_link *origin ">
+    <xacro:property name="rgba" value="${base_prop[addon].get('rgba', default_rgba)}"/>
     <link name="${addon}_link">
     <xacro:box_inertia m="${base_prop[addon]['mass']}"
                        x="${base_prop[addon]['x_size']}"
@@ -25,7 +26,7 @@
           <!-- The folder path get a folder_name global parameter -->
           <mesh filename="package://${package_name}/meshes/${robot_name}/${base_prop[addon]['mesh']}" scale="${base_prop[addon]['scale']}"/>
         </geometry>
-        <material name="white" />
+        <xacro:visual_material name="${addon}_link" rgba="${rgba}"/>
       </visual>
     </xacro:if>
     <xacro:if value="${base_prop[addon]['mesh'] == '' }" >
@@ -34,7 +35,7 @@
         <geometry>
           <box size="${base_prop[addon]['x_size']} ${base_prop[addon]['y_size']} ${base_prop[addon]['z_size']}"/>
         </geometry>
-        <material name="white" />
+        <xacro:visual_material name="${addon}_link" rgba="${rgba}"/>
       </visual>
     </xacro:if>
     <collision>
@@ -51,8 +52,6 @@
       <child link="${addon}_link" />
       <axis xyz="0 0 0" />
     </joint>
-    <gazebo reference="${addon}_link">
-      <material>${base_prop[addon]['color']}</material>
-    </gazebo>
+    <xacro:gazebo_material link="${addon}_link" rgba="${rgba}"/>
   </xacro:macro>
 </robot>

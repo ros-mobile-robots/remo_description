@@ -27,6 +27,7 @@
   <xacro:property name="pos_y_joint"
     value="${(base_props['base']['y_size']/2) + wheel_props['y_offset'] + (wheel_props['length']/2)}"/>
   <xacro:property name="pos_z_joint" value="${wheel_props['z_offset']}"/>
+  <xacro:property name="rgba" value="${wheel_props.get('rgba', default_rgba)}"/>
 
     <link name="${prefix}_wheel">
     <xacro:if value="${wheel_props['mesh'] != '' }" >
@@ -36,11 +37,11 @@
           <xacro:if value="${wheel_props['scale'] == '' }" >
             <mesh filename="package://${package_name}/meshes/${robot_name}/${wheel_props['mesh']}" />
           </xacro:if>
-          <xacro:if value="${wheel_props['scale'] == '' }" >
+          <xacro:if value="${wheel_props['scale'] != '' }" >
             <mesh filename="package://${package_name}/meshes/${robot_name}/${wheel_props['mesh']}" scale="${wheel_props['scale']}" />
           </xacro:if>
         </geometry>
-        <material name="dark_grey"/>
+        <xacro:visual_material name="${prefix}_wheel" rgba="${rgba}"/>
       </visual>
     </xacro:if>
     <xacro:if value="${wheel_props['mesh'] == '' }" >
@@ -49,7 +50,7 @@
          <geometry>
          <cylinder radius="${wheel_props['radius']}" length="${wheel_props['length']}"/>
         </geometry>
-        <material name="red"/>
+        <xacro:visual_material name="${prefix}_wheel" rgba="${rgba}"/>
       </visual>
     </xacro:if>
       <!-- Use a sphere with the wheel radius for collision. On flat ground, an upright wheel's
@@ -69,9 +70,7 @@
                               o_rpy="${pi/2.0} 0.0 0.0" >
       </xacro:cylinder_inertia>
     </link>
-    <gazebo reference="${prefix}_wheel">
-      <material>Gazebo/FlatBlack</material>
-    </gazebo>
+    <xacro:gazebo_material link="${prefix}_wheel" rgba="${rgba}"/>
     
 
     <joint name="${prefix}_wheel_joint" type="continuous">
@@ -114,6 +113,7 @@
   <xacro:property name="pos_y_joint"
     value="${(base_props['base']['y_size']/2) + motor_props['y_offset'] + (motor_props['y_size']/2)}"/>
   <xacro:property name="pos_z_joint" value="${motor_props['z_offset']}"/>
+  <xacro:property name="rgba" value="${motor_props.get('rgba', default_rgba)}"/>
 
     <link name="${prefix}_motor">
     <xacro:if value="${motor_props['mesh'] != '' }" >
@@ -127,7 +127,7 @@
             <mesh filename="package://${package_name}/meshes/${robot_name}/${motor_props['mesh']}" scale="${motor_props['scale']}"/>
           </xacro:if>
         </geometry>
-        <material name="blue"/>
+        <xacro:visual_material name="${prefix}_motor" rgba="${rgba}"/>
       </visual>
     </xacro:if>
     <xacro:if value="${motor_props['mesh'] == '' }" >
@@ -136,7 +136,7 @@
          <geometry>
           <box size="${motor_props['x_size']} ${motor_props['y_size']} ${motor_props['z_size']}"/>
         </geometry>
-        <material name="red"/>
+        <xacro:visual_material name="${prefix}_motor" rgba="${rgba}"/>
       </visual>
     </xacro:if>
       <collision>
@@ -162,9 +162,9 @@
     </joint>
 
     <gazebo reference="${prefix}_motor">
-      <material>${motor_props['color']}</material>
       <turnGravityOff>false</turnGravityOff>
     </gazebo>
+    <xacro:gazebo_material link="${prefix}_motor" rgba="${rgba}"/>
   </xacro:macro>
 
 <!-- ===================== Base xacro ==========================================
@@ -180,6 +180,7 @@
 -->
   <xacro:macro name="base"
                params="base_prop mesh:='' scale:='' *origin ">
+    <xacro:property name="rgba" value="${base_prop['base'].get('rgba', default_rgba)}"/>
     <link name="base_link">
     <xacro:box_inertia m="${base_prop['base']['mass']}" 
                        x="${base_prop['base']['x_size']}" 
@@ -198,7 +199,7 @@
             <mesh filename="package://${package_name}/meshes/${robot_name}/${mesh}" />
           </xacro:if>
         </geometry>
-        <material name="white" />
+        <xacro:visual_material name="base_link" rgba="${rgba}"/>
       </visual>
     </xacro:if>
     <xacro:if value="${mesh == '' }" >
@@ -207,7 +208,7 @@
         <geometry>
           <box size="${base_prop['base']['x_size']} ${base_prop['base']['y_size']} ${base_prop['base']['z_size']}"/>
         </geometry>
-        <material name="white" />
+        <xacro:visual_material name="base_link" rgba="${rgba}"/>
       </visual>
     </xacro:if>  
     <collision>
@@ -217,6 +218,7 @@
       </geometry>
     </collision>
     </link>
+    <xacro:gazebo_material link="base_link" rgba="${rgba}"/>
   </xacro:macro>
 
 <!-- ===================== Footprint xacro ==========================================
@@ -320,29 +322,48 @@
   </xacro:macro>
 <!-- ========================================================================-->
 
-<!-- ===================== Material ============================================
+<!-- ===================== Material xacros =====================================
 
-  RVIZ material RGBA definition.
+  A part's colour is the rgba value in its config file (config/remo/*.yaml): red, green, blue
+  and alpha, from 0 to 1, close to the colour of the real part. RViz and Gazebo read colours
+  from different places, so every link with a visual uses both macros with the same value:
+
+  - visual_material, inside the link's <visual>, for RViz. Each material is named after its
+    link. urdfdom gives a visual the colour of the first material with its name, so parts with
+    a shared name would all show the first part's colour.
+  - gazebo_material, after the link, for Gazebo. Gazebo 11 ignores the colour of URDF
+    materials and reads the SDF material in <gazebo reference> instead. This works per link:
+    when Gazebo merges the links on fixed joints into their parent, each merged visual keeps
+    its own link's colour. This material colours all visuals of its link alike. Different
+    colours within one link need materials inside the mesh, or a separate link. The colour is
+    both the ambient and the diffuse colour, without a specular highlight, like a matte surface.
+
+  A config without rgba, and a camera_sensor call without rgba, give the part default_rgba, a
+  neutral grey. So configs and macro calls written for older versions still expand.
+
+  params:
+  - name [string]: the material's name, the same as its link's name
+  - link [string]: the link whose visuals get the colour
+  - rgba [string]: the colour, for example '0.10 0.42 0.22 1'
 -->
+  <xacro:property name="default_rgba" value="0.5 0.5 0.5 1"/>
 
-  <material name="blue">
-    <color rgba="0 0 0.8 1"/>
-  </material>
-  <material name="black">
-    <color rgba="0 0 0 1"/>
-  </material>
-  <material name="white">
-    <color rgba="1 1 1 1"/>
-  </material>
-  <material name="red">
-    <color rgba="0.8 0.0 0.0 1.0"/>
-  </material>
-  <material name="silver">
-    <color rgba="0.79 0.82 0.93 1"/>
-  </material>
-  <material name="dark_grey">
-    <color rgba="0.3 0.3 0.3 1"/>
-  </material>
+  <xacro:macro name="visual_material" params="name rgba">
+    <material name="${name}">
+      <color rgba="${rgba}"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="gazebo_material" params="link rgba">
+    <gazebo reference="${link}">
+      <visual>
+        <material>
+          <ambient>${rgba}</ambient>
+          <diffuse>${rgba}</diffuse>
+        </material>
+      </visual>
+    </gazebo>
+  </xacro:macro>
 <!-- ========================================================================-->
   
 </robot>
