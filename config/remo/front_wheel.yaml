@@ -5,8 +5,9 @@ radius: 0.0330    # Wheel radius in m, measured: diameters 65.5 mm (one wheel) a
 length: 0.025     # Wheel length in m, considering is as a cylinder
 mesh: '../components/wheel.stl'          # Mesh file, or '' for a cylinder
 #mesh: ''
-# Yellow, the rim's colour. The real tyre is black, but rim and tyre are one mesh.
-rgba: '0.95 0.72 0.05 1'
+# Black like the rubber tyre, the largest part of the wheel that shows. The real rim is yellow,
+# but rim and tyre are one mesh, and Gazebo gives all visuals of one link the same colour.
+rgba: '0.10 0.10 0.10 1'
 scale: ''
 x_offset: 0.034
 y_offset: 0.0195  # Gives the measured wheel separation of 0.144 m, center to center: base y_size 0.08 + 2 * (y_offset + length / 2)

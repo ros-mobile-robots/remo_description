@@ -6,11 +6,11 @@ Changelog for package remo_description
 ------------------
 * Colours like the real parts, the same in RViz and Gazebo. Each part's config file gives its
   colour as rgba, which replaces the Gazebo material names (color) and the shared RViz
-  materials. The printed parts are black filament, shown dark grey, the wheels have the rims'
-  yellow, the DG01D-E gearboxes are light blue, and the boards have their opaque PCB colours:
-  green Raspberry Pi, Teensy and camera, blue BNO055, black motor driver and Jetson Nano. The
-  lidar, its USB adapter, the battery pack and the power bank are black, the caster ball is
-  metal grey. Gazebo no longer warns about inconsistent materials
+  materials. The printed parts are black filament, shown dark grey, the wheels are black like
+  their rubber tyres, the DG01D-E gearboxes are light blue, and the boards have their opaque
+  PCB colours: green Raspberry Pi, Teensy and camera, blue BNO055, black motor driver and
+  Jetson Nano. The lidar, its USB adapter, the battery pack and the power bank are black, the
+  caster ball is metal grey. Gazebo no longer warns about inconsistent materials
 
 2.2.0 (2026-11-05)
 ------------------
