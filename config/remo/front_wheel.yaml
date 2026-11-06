@@ -6,7 +6,7 @@ length: 0.025     # Wheel length in m, considering is as a cylinder
 mesh: '../components/wheel.stl'          # Mesh file, or '' for a cylinder
 #mesh: ''
 # Black like the rubber tyre, the largest part of the wheel that shows. The real rim is yellow,
-# but rim and tyre are one mesh, and Gazebo gives all visuals of one link the same colour.
+# but rim and tyre are one mesh. The link's Gazebo material would colour two visuals alike.
 rgba: '0.10 0.10 0.10 1'
 scale: ''
 x_offset: 0.034

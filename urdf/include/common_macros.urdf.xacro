@@ -334,9 +334,9 @@
   - gazebo_material, after the link, for Gazebo. Gazebo 11 ignores the colour of URDF
     materials and reads the SDF material in <gazebo reference> instead. This works per link:
     when Gazebo merges the links on fixed joints into their parent, each merged visual keeps
-    its own link's colour. Gazebo gives every visual of one link this colour, so one link can't
-    have two colours. The colour is both the ambient and the diffuse colour, without a
-    specular highlight, like a matte surface.
+    its own link's colour. This material colours all visuals of its link alike. Different
+    colours within one link need materials inside the mesh, or a separate link. The colour is
+    both the ambient and the diffuse colour, without a specular highlight, like a matte surface.
 
   A config without rgba, and a camera_sensor call without rgba, give the part default_rgba, a
   neutral grey. So configs and macro calls written for older versions still expand.
