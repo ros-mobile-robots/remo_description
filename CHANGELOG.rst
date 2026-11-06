@@ -2,6 +2,10 @@
 Changelog for package remo_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.4.0 (2026-11-06)
+------------------
+* IMU: the BNO055 board's weighed mass, 3 g with its header pins, instead of 5 g
+
 2.3.0 (2026-11-06)
 ------------------
 * Colours like the real parts, the same in RViz and Gazebo. Each part's config file gives its
