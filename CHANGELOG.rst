@@ -15,6 +15,11 @@ Changelog for package remo_description
   a camera_sensor call without rgba, get a neutral grey (default_rgba). The color key of such a
   config isn't read any more, so its part is grey until it gets an rgba
 
+2.2.1 (2026-11-06)
+------------------
+* Wheels: the visual has the wheel's mesh once. The macro gave a wheel without a scale a second
+  mesh with an empty scale. The model is the same (#8)
+
 2.2.0 (2026-11-05)
 ------------------
 * IMU and Teensy on the breadboard as on Remo, with their pins in the breadboard's holes: the
