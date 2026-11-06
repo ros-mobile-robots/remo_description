@@ -12,7 +12,7 @@ Remo's ROS 1 Noetic description package. Remo's launch files, controller configu
 | `urdf/include/common_macros.urdf.xacro` | Macros for wheels, motors and inertias (the drive wheels collide as spheres) |
 | `urdf/include/robot.gazebo.xacro` | Gazebo plugin and the wheels' contact settings (friction, kp, kd, minDepth) |
 | `config/remo/*.yaml` | Part sizes, masses and positions; `front_wheel.yaml` has the measured radius and offsets |
-| `meshes/` | Empty placeholder STL files; the real meshes aren't in this repository |
+| `meshes/` | Placeholders: empty STL files, and `components/wheel_colours.dae`, a simple yellow and black wheel. The real meshes aren't in this repository |
 
 ## Commands
 
@@ -36,6 +36,7 @@ rostest diffbot_gazebo sim_drive_remo.test
 - **Masses set the wheels' inertia**, and Remo's Gazebo wheel gains in the diffbot repository (`diffbot_control/config/remo/pid.yaml`) are chosen for it: the P gain must stay below 2J/h. A changed wheel mass needs the gains checked.
 - **Contact settings work together:** the sphere collision, `minDepth` 0 and the compliant contact stiffness. Change one at a time and measure.
 - **Never add real mesh files** to this repository, and don't replace the placeholders.
+- **The wheel's placeholder `wheel_colours.dae` stays a valid COLLADA file**, never an empty one: Gazebo 11's `gzserver` crashes on an empty `.dae` file. The wheel's colours are the mesh's two materials, rim and tyre. `rgba` in `front_wheel.yaml` doesn't change them (`mesh_colours: true`).
 
 ## Commits and pull requests
 

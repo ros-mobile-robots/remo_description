@@ -2,6 +2,17 @@
 Changelog for package remo_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.6.0 (2026-11-07)
+------------------
+* Wheels: a yellow rim and a black tyre like the real wheels, in RViz and Gazebo. The wheel's
+  mesh is the COLLADA file wheel_colours.dae, one mesh with a material for the rim and one for
+  the tyre. With the new key mesh_colours in front_wheel.yaml, the wheel shows the mesh's own
+  colours and gets no URDF or Gazebo material from rgba. rgba colours the cylinder (mesh '')
+* The public wheel_colours.dae is a placeholder: a yellow disc in a black ring, in the real
+  wheel's size. It isn't empty, because Gazebo crashes on an empty .dae file. The real mesh is
+  in the Insiders repository and comes with the mesh files. A front_wheel.yaml without
+  mesh_colours, as in older versions, colours the wheel with rgba
+
 2.4.0 (2026-11-06)
 ------------------
 * IMU: the BNO055 board's weighed mass, 3 g with its header pins, instead of 5 g

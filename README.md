@@ -7,6 +7,10 @@ ROS URDF description package of REMO robot (Research Education Mobile/Modular ro
 ## STL Mesh Files
 
 This repository does not include the STL mesh files due to size and licensing.
+Its files in `meshes/` are placeholders. The STL files are empty, so their parts don't show in RViz
+and Gazebo. The placeholder of the wheel's COLLADA file, `meshes/components/wheel_colours.dae`, is
+a simple yellow disc in a black ring. The real `wheel_colours.dae` is the wheel's mesh with its
+yellow rim and black tyre as two materials, and comes with the mesh files.
 
 To obtain the mesh files:
 

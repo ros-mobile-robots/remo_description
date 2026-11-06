@@ -2,7 +2,7 @@
 
 This is the ROS 1 Noetic description package of Remo: its URDF (xacro), the sizes, masses and positions of its parts in `config/remo/`, and its Gazebo settings. Remo's launch files, controller configuration and simulation test are in the [diffbot repository](https://github.com/ros-mobile-robots/diffbot), which supports both DiffBot and Remo. The documentation is at [ros-mobile-robots.com](https://ros-mobile-robots.com).
 
-The STL meshes aren't in this repository (see the README); the model works without them, with empty placeholders.
+The meshes aren't in this repository (see the README). The model works without them, with placeholders: empty STL files, and a simple yellow and black wheel in place of the wheel's COLLADA file, `wheel_colours.dae`.
 
 Ask questions and get help with your build in the diffbot repository's [Discussions](https://github.com/ros-mobile-robots/diffbot/discussions/categories/q-a), which cover both robots. Corrections and improvements to the model are welcome, as [issues](https://github.com/ros-mobile-robots/remo_description/issues) or pull requests here; a bug in Remo's ROS packages, launch files or simulation test goes to the [diffbot repository's issues](https://github.com/ros-mobile-robots/diffbot/issues). For a larger change, open an issue first.
 
