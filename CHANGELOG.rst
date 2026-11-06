@@ -10,6 +10,28 @@ Changelog for package remo_description
   plugin does, which can stop the simulation while the controllers load
   (ros-mobile-robots/diffbot#185)
 
+2.4.0 (2026-11-06)
+------------------
+* IMU: the BNO055 board's weighed mass, 3 g with its header pins, instead of 5 g
+
+2.3.0 (2026-11-06)
+------------------
+* Colours like the real parts, the same in RViz and Gazebo. Each part's config file gives its
+  colour as rgba, which replaces the Gazebo material names (color) and the shared RViz
+  materials. The printed parts are black filament, shown dark grey, the wheels are black like
+  their rubber tyres, the DG01D-E gearboxes are light blue, and the boards have their opaque
+  PCB colours: green Raspberry Pi, Teensy and camera, blue BNO055, black motor driver and
+  Jetson Nano. The lidar, its USB adapter, the battery pack and the power bank are black, the
+  caster ball is metal grey. Gazebo no longer warns about inconsistent materials
+* Configs and macro calls written for 2.2.0 still expand. A part whose config has no rgba, and
+  a camera_sensor call without rgba, get a neutral grey (default_rgba). The color key of such a
+  config isn't read any more, so its part is grey until it gets an rgba
+
+2.2.1 (2026-11-06)
+------------------
+* Wheels: the visual has the wheel's mesh once. The macro gave a wheel without a scale a second
+  mesh with an empty scale. The model is the same (#8)
+
 2.2.0 (2026-11-05)
 ------------------
 * IMU and Teensy on the breadboard as on Remo, with their pins in the breadboard's holes: the
