@@ -38,7 +38,8 @@
               <mesh filename="package://${package_name}/meshes/${robot_name}/${wheel_props['base']['mesh']}" />
             </xacro:if>
           </geometry>
-          <material name="black"/>
+          <xacro:visual_material name="${prefix}_caster_base_link"
+                                 rgba="${wheel_props['base']['rgba']}"/>
         </visual>
       </xacro:if>
       <xacro:if value="${wheel_props['base']['mesh'] == '' }" >
@@ -47,7 +48,8 @@
           <geometry>
             <cylinder length="${wheel_props['base']['size']['length']}" radius="${wheel_props['base']['size']['radius']}" />
           </geometry>
-          <material name="red"/>
+          <xacro:visual_material name="${prefix}_caster_base_link"
+                                 rgba="${wheel_props['base']['rgba']}"/>
         </visual>
       </xacro:if>
       <collision>
@@ -63,9 +65,8 @@
       <parent link="chassis_link" />
       <child link="${prefix}_caster_base_link" />
     </joint>
-    <gazebo reference="${prefix}_caster_base_link">
-      <material>Gazebo/Grey</material>
-    </gazebo>
+    <xacro:gazebo_material link="${prefix}_caster_base_link"
+                           rgba="${wheel_props['base']['rgba']}"/>
 
 
     <!-- caster hub -->
@@ -87,7 +88,8 @@
               <mesh filename="package://${package_name}/meshes/${robot_name}/${wheel_props['hub']['mesh']}" />
             </xacro:if>
           </geometry>
-          <material name="black"/>
+          <xacro:visual_material name="${prefix}_caster_rotation_link"
+                                 rgba="${wheel_props['hub']['rgba']}"/>
         </visual>
       </xacro:if>
       <xacro:if value="${wheel_props['hub']['mesh'] == '' }" >
@@ -96,7 +98,8 @@
           <geometry>
             <cylinder length="${wheel_props['hub']['size']['length']}" radius="${wheel_props['hub']['size']['radius']}" />
           </geometry>
-          <material name="red"/>
+          <xacro:visual_material name="${prefix}_caster_rotation_link"
+                                 rgba="${wheel_props['hub']['rgba']}"/>
         </visual>
       </xacro:if>
       <collision>
@@ -113,9 +116,8 @@
       <child link="${prefix}_caster_rotation_link" />
       <axis xyz="0 0 1" />
     </joint>
-    <gazebo reference="${prefix}_caster_rotation_link">
-      <material>Gazebo/Grey</material>
-    </gazebo>
+    <xacro:gazebo_material link="${prefix}_caster_rotation_link"
+                           rgba="${wheel_props['hub']['rgba']}"/>
 
 
     <!-- caster wheel -->
@@ -134,8 +136,8 @@
               <mesh filename="package://${package_name}/meshes/${robot_name}/${wheel_props['wheel']['mesh']}" />
             </xacro:if>
           </geometry>
-          <!-- TODO use this?: xacro:insert_block name="material_dark_grey" /-->
-          <material name="dark_grey"/>
+          <xacro:visual_material name="${prefix}_caster_wheel_link"
+                                 rgba="${wheel_props['wheel']['rgba']}"/>
         </visual>
       </xacro:if>
       <xacro:if value="${wheel_props['wheel']['mesh'] == '' }" >
@@ -144,7 +146,8 @@
           <geometry>
             <sphere radius="${wheel_props['wheel']['radius']}" />
           </geometry>
-          <material name="white"/>
+          <xacro:visual_material name="${prefix}_caster_wheel_link"
+                                 rgba="${wheel_props['wheel']['rgba']}"/>
         </visual>
       </xacro:if>
       <collision>
@@ -163,9 +166,8 @@
       <!-- Don't turn damping higher than 0.001, otherwise caster and wheels merge in simulation (bug?) -->
       <dynamics damping="0.001" friction="0.0"/>
     </joint>
-    <gazebo reference="${prefix}_caster_wheel_link">
-      <material>Gazebo/White</material>
-    </gazebo>
+    <xacro:gazebo_material link="${prefix}_caster_wheel_link"
+                           rgba="${wheel_props['wheel']['rgba']}"/>
   </xacro:macro>
 
 </robot>

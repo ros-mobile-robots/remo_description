@@ -45,7 +45,7 @@
             <mesh filename="package://${package_name}/meshes/${robot_name}/${mesh}" />
           </xacro:if>
         </geometry>
-        <material name="white" />
+        <xacro:visual_material name="chassis_link" rgba="${base_prop['base']['rgba']}"/>
       </visual>
     </xacro:if>
     <xacro:if value="${mesh == '' }" >
@@ -54,7 +54,7 @@
         <geometry>
           <box size="${base_prop['base']['x_size']} ${base_prop['base']['y_size']} ${base_prop['base']['z_size']}"/>
         </geometry>
-        <material name="white" />
+        <xacro:visual_material name="chassis_link" rgba="${base_prop['base']['rgba']}"/>
       </visual>
     </xacro:if>  
     <collision>
@@ -64,8 +64,6 @@
       </geometry>
     </collision>
     </link>
-    <gazebo reference="chassis_link">
-      <material>Gazebo/Grey</material>
-    </gazebo>
+    <xacro:gazebo_material link="chassis_link" rgba="${base_prop['base']['rgba']}"/>
   </xacro:macro>
 </robot>

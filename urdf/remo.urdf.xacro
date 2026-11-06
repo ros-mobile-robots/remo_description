@@ -165,7 +165,8 @@
     <!-- Raspi cam -->
     <xacro:camera_sensor parent_link="raspi-cam_link" visualize="false"
                          sensor_prop="${sensor_props}"
-                         mesh="${sensor_props['camera']['meshes']['raspi-cam']}" >
+                         mesh="${sensor_props['camera']['meshes']['raspi-cam']}"
+                         rgba="${sensor_props['camera']['rgba']['raspi-cam']}" >
       <origin xyz="0.005 0 0.028" rpy="0 0.35 0" />
     </xacro:camera_sensor>
   </xacro:if>
@@ -177,7 +178,8 @@
     <!-- OAK-1 -->
     <xacro:camera_sensor parent_link="oak-1_link" visualize="false"
                          sensor_prop="${sensor_props}"
-                         mesh="${sensor_props['camera']['meshes']['oak-1']}" >
+                         mesh="${sensor_props['camera']['meshes']['oak-1']}"
+                         rgba="${sensor_props['camera']['rgba']['oak-1']}" >
       <origin xyz="0.0 0 0" rpy="0 0 0" />
     </xacro:camera_sensor>
   </xacro:if>
@@ -189,7 +191,8 @@
     <!-- OAK-D -->
     <xacro:camera_sensor parent_link="oak-d_link" visualize="false"
                          sensor_prop="${sensor_props}"
-                         mesh="${sensor_props['camera']['meshes']['oak-d']}" >
+                         mesh="${sensor_props['camera']['meshes']['oak-d']}"
+                         rgba="${sensor_props['camera']['rgba']['oak-d']}" >
       <origin xyz="0 0 0" rpy="0 0 0" />
     </xacro:camera_sensor>
   </xacro:if>

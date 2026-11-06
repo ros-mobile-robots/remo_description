@@ -22,7 +22,7 @@
       <geometry>
         <mesh filename="package://${package_name}/meshes/sensors/${mesh}" />
       </geometry>
-      <material name="dark_grey"/>
+      <xacro:visual_material name="${prefix}_laser_link" rgba="${sensor_prop['laser']['rgba']}"/>
     </visual>
   </xacro:if>
   <xacro:if value="${mesh == '' }" >
@@ -31,7 +31,7 @@
         <geometry>
         <cylinder radius="${sensor_prop['laser']['radius']}" length="${sensor_prop['laser']['length']}"/>
       </geometry>
-      <material name="red"/>
+      <xacro:visual_material name="${prefix}_laser_link" rgba="${sensor_prop['laser']['rgba']}"/>
     </visual>
   </xacro:if>
     <collision>
@@ -46,9 +46,7 @@
                             o_xyz="0 0 0"
                             o_rpy="0 0 0" />
   </link>
-  <gazebo reference="${prefix}_laser_link">
-    <material>${sensor_prop['laser']['color']}</material>
-  </gazebo>
+  <xacro:gazebo_material link="${prefix}_laser_link" rgba="${sensor_prop['laser']['rgba']}"/>
 
   <joint name="${prefix}_laser_joint" type="fixed">
     <parent link="${parent_link}"/>
@@ -99,7 +97,10 @@
 
 
 
-<xacro:macro name="camera_sensor" params=" *joint_origin parent_link sensor_prop visualize mesh:='' ">
+<!-- Camera: mesh and rgba are the camera type's entries in sensor_prop['camera']['meshes'] and
+     sensor_prop['camera']['rgba']. -->
+<xacro:macro name="camera_sensor"
+             params="*joint_origin parent_link sensor_prop visualize rgba mesh:=''">
   <link name="camera_link">
     <xacro:if value="${mesh != '' }" >
       <visual>
@@ -107,7 +108,7 @@
         <geometry>
           <mesh filename="package://${package_name}/meshes/sensors/${mesh}" scale="${sensor_prop['camera']['meshes']['scale']}" />
         </geometry>
-        <material name="dark_grey"/>
+        <xacro:visual_material name="camera_link" rgba="${rgba}"/>
       </visual>
     </xacro:if>
     <xacro:if value="${mesh == '' }" >
@@ -116,7 +117,7 @@
         <geometry>
           <cylinder radius="${sensor_prop['camera']['radius']}" length="${sensor_prop['camera']['length']}"/>
         </geometry>
-        <material name="red"/>
+        <xacro:visual_material name="camera_link" rgba="${rgba}"/>
       </visual>
     </xacro:if>
     <collision>
@@ -132,9 +133,7 @@
                             o_rpy="0 0 0" />
   </link>
 
-  <gazebo reference="camera_link">
-    <material>${sensor_prop['camera']['color']}</material>
-  </gazebo>
+  <xacro:gazebo_material link="camera_link" rgba="${rgba}"/>
 
   <joint name="camera_joint" type="fixed">
     <axis xyz="0 1 0" />
@@ -215,7 +214,7 @@
         <geometry>
           <mesh filename="package://${package_name}/meshes/sensors/${imu['mesh']}" scale="${imu['scale']}"/>
         </geometry>
-        <material name="dark_grey"/>
+        <xacro:visual_material name="imu_link" rgba="${imu['rgba']}"/>
       </visual>
     </xacro:if>
     <xacro:if value="${imu['mesh'] == ''}">
@@ -224,7 +223,7 @@
         <geometry>
           <box size="${imu['size']['x']} ${imu['size']['y']} ${imu['size']['z']}"/>
         </geometry>
-        <material name="red"/>
+        <xacro:visual_material name="imu_link" rgba="${imu['rgba']}"/>
       </visual>
     </xacro:if>
     <collision>
@@ -235,6 +234,8 @@
     </collision>
     <xacro:box_inertia m="${imu['mass']}" x="${imu['size']['x']}" y="${imu['size']['y']}" z="${imu['size']['z']}"/>
   </link>
+
+  <xacro:gazebo_material link="imu_link" rgba="${imu['rgba']}"/>
 
   <joint name="imu_joint" type="fixed">
     <parent link="${parent_link}"/>

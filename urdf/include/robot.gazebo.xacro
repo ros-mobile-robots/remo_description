@@ -52,7 +52,6 @@
       <kd>1.0</kd>                <!-- "Damping"-equivalent coefficient for contact joints (default 1) -->
       <minDepth>0</minDepth>         <!-- minimum allowable depth before contact correction impulse is applied (default 0) -->
       <maxVel>0.01</maxVel> <!-- maximum contact correction velocity truncation term (default 0.01)-->
-      <material>Gazebo/FlatBlack</material>
     </gazebo>
 
     <gazebo reference="front_left_wheel">
@@ -62,7 +61,6 @@
       <kd>1.0</kd>
       <minDepth>0</minDepth>
       <maxVel>0.01</maxVel>
-      <material>Gazebo/FlatBlack</material>
     </gazebo>
 
     <gazebo reference="rear_caster_rotation_link">
@@ -73,7 +71,6 @@
       <minDepth>0.0</minDepth>
       <!-- maxVel>1.0</maxVel-->
       <!--fdir1>0 0 1</fdir1-->
-      <material>Gazebo/FlatBlack</material>
     </gazebo>
 
     <gazebo reference="rear_caster_wheel_link">
@@ -83,7 +80,6 @@
       <kd>0</kd>
       <minDepth>0.01</minDepth>
       <!-- maxVel>10.0</maxVel -->
-      <material>Gazebo/White</material>
     </gazebo>
   </xacro:macro>
 
