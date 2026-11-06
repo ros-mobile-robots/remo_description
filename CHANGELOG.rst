@@ -2,6 +2,10 @@
 Changelog for package remo_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.4.0 (2026-11-06)
+------------------
+* IMU: the BNO055 board's weighed mass, 3 g with its header pins, instead of 5 g
+
 2.2.0 (2026-11-05)
 ------------------
 * IMU and Teensy on the breadboard as on Remo, with their pins in the breadboard's holes: the
