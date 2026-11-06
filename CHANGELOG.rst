@@ -2,6 +2,14 @@
 Changelog for package remo_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.5.0 (2026-11-06)
+------------------
+* IMU: the xacro argument imu_plugin names the simulated IMU's Gazebo plugin library. The default
+  stays gazebo_plugins' libgazebo_ros_imu_sensor.so. The diffbot repository's simulation passes its
+  copy of that plugin, which doesn't run ROS callbacks in Gazebo's physics thread. gazebo_plugins'
+  plugin does, which can stop the simulation while the controllers load
+  (ros-mobile-robots/diffbot#185)
+
 2.4.0 (2026-11-06)
 ------------------
 * IMU: the BNO055 board's weighed mass, 3 g with its header pins, instead of 5 g
