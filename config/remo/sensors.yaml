@@ -1,8 +1,10 @@
+# rgba: the part's colour in RViz and Gazebo, close to the real part (red, green, blue and
+# alpha, from 0 to 1).
 laser:
   mass: 0.17          # Motor mass in Kg (~170g)
   radius: 0.015     # Wheel radius in m
   length: 0.01      # Wheel length in m, considering is as a cylinder
-  mesh: 'rplidar-a2.stl'  # Name of the mesh files. Leave it empty ('') to have a red cylinder
+  mesh: 'rplidar-a2.stl'  # Mesh file, or '' for a cylinder
   #mesh: ''
   dx: 0.002
   dy: 0.0
@@ -11,7 +13,7 @@ laser:
     min: -3.1415
     max: 3.1415
   enable_gpu: false
-  color: Gazebo/DarkGrey
+  rgba: '0.10 0.10 0.10 1'  # Black RPLidar A2
 
 
 camera:
@@ -22,12 +24,15 @@ camera:
   dx: 0.0
   dy: 0.0
   dz: 0.0
-  meshes: # Name of the mesh files. Leave it empty ('') to have a red cylinder
+  meshes: # Mesh file per camera type, or '' for a cylinder
     raspi-cam: raspi_cam_v2_IMX219.stl
     oak-1: BW1093_REV2_20201014.stl
     oak-d: OAK-D-parts-14sep2020.stl
     scale: '0.001 0.001 0.001'
-  color: Gazebo/FlatBlack
+  rgba: # One colour per camera type
+    raspi-cam: '0.10 0.42 0.22 1'  # Green PCB of the Raspberry Pi camera module
+    oak-1: '0.25 0.25 0.27 1'      # Dark grey aluminium housing
+    oak-d: '0.25 0.25 0.27 1'      # Dark grey aluminium housing
 
 
 imu:
@@ -40,7 +45,7 @@ imu:
   dx: 0.0
   dy: 0.0
   dz: 0.0
-  mesh: '../components/bno055.stl' # Name of the mesh files. Leave it empty ('') to have a red box
+  mesh: '../components/bno055.stl' # Mesh file, or '' for a box
   #mesh: ''
   scale: '0.001 0.001 0.001'
-  color: Gazebo/FlatBlack
+  rgba: '0.10 0.30 0.65 1'  # Blue PCB of the Adafruit BNO055 breakout
