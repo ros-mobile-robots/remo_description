@@ -2,7 +2,7 @@
 Changelog for package remo_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-2.5.0 (2026-11-06)
+2.3.0 (2026-11-06)
 ------------------
 * IMU: the xacro argument imu_plugin names the simulated IMU's Gazebo plugin library. The default
   stays gazebo_plugins' libgazebo_ros_imu_sensor.so. The diffbot repository's simulation passes its
