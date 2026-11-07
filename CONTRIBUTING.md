@@ -55,4 +55,4 @@ You don't need to say whether you used AI. Please don't add attribution lines fo
 
 ## License
 
-By contributing, you agree that your contributions are licensed under this repository's [BSD 3-Clause License](LICENSE).
+By contributing, you agree that your contributions are licensed under this repository's [BSD 3-Clause License](LICENSE). The exception is the wheel's mesh `meshes/components/wheel_colours.dae`: GrabCAD's terms apply to it and to changes of it ([its notice](meshes/components/wheel_colours.LICENSE.md)). The script that makes it, `scripts/make_wheel_dae.py`, is under the BSD license like the rest.
