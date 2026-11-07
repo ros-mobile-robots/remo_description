@@ -3,7 +3,12 @@
      a yellow rim and a black tyre as simple cylinders, in the real wheel's size and position.
      Gazebo 11 crashes on an empty .dae file, so this file stays a valid COLLADA mesh. -->
 <COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
- <asset><unit name="meter" meter="1"/><up_axis>Z_UP</up_axis></asset>
+ <asset>
+  <created>2026-11-07T00:00:00Z</created>
+  <modified>2026-11-07T00:00:00Z</modified>
+  <unit name="meter" meter="1"/>
+  <up_axis>Z_UP</up_axis>
+ </asset>
  <library_effects>
   <effect id="rim-effect">
    <profile_COMMON><technique sid="common"><phong>
