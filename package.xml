@@ -3,9 +3,10 @@
   <name>remo_description</name>
   <version>2.6.0</version>
   <description>
-    The remo_description package. The wheel's mesh meshes/components/wheel_colours.dae is the
-    model "Wheel D65x25" by KlimukVI from GrabCAD, https://grabcad.com/library/wheel-d65x25-1.
-    GrabCAD's terms apply to it, not the BSD license. See wheel_colours.LICENSE.md next to it.
+    The remo_description package. The wheel's meshes are the model "Wheel D65x25" by KlimukVI
+    from GrabCAD, https://grabcad.com/library/wheel-d65x25-1: meshes/components/wheel_colours.dae,
+    and meshes/components/wheel.stl in the Insiders repository (here an empty placeholder).
+    GrabCAD's terms apply to them, not the BSD license. See the notices next to them.
   </description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
