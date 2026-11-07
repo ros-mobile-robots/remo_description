@@ -27,3 +27,9 @@ https://github.com/dfki-ric/mir_robot/blob/melodic/LICENSE
 ### TURTLEBOT3
 License: Apache License 2.0  
 https://github.com/ROBOTIS-GIT/turtlebot3/blob/master/LICENSE
+
+
+### WHEEL D65X25
+Model by KlimukVI on GrabCAD, used for `meshes/components/wheel_colours.dae`  
+License: GrabCAD's terms, not the BSD 3-Clause License, see [its notice](meshes/components/wheel_colours.LICENSE.md)  
+https://grabcad.com/library/wheel-d65x25-1

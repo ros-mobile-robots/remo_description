@@ -7,11 +7,12 @@ Changelog for package remo_description
 * Wheels: a yellow rim and a black tyre like the real wheels, in RViz and Gazebo. The wheel's
   mesh is the COLLADA file wheel_colours.dae, one mesh with a material for the rim and one for
   the tyre. With the new key mesh_colours in front_wheel.yaml, the wheel shows the mesh's own
-  colours and gets no URDF or Gazebo material from rgba. rgba colours the cylinder (mesh '')
-* The public wheel_colours.dae is a placeholder: a yellow disc in a black ring, in the real
-  wheel's size. It isn't empty, because Gazebo crashes on an empty .dae file. The real mesh is
-  in the Insiders repository and comes with the mesh files. A front_wheel.yaml without
-  mesh_colours, as in older versions, colours the wheel with rgba
+  colours and gets no URDF or Gazebo material from rgba. rgba colours the cylinder (mesh '').
+  A front_wheel.yaml without mesh_colours, as in older versions, colours the wheel with rgba
+* wheel_colours.dae is the real wheel, the model "Wheel D65x25" by KlimukVI from GrabCAD, and the
+  one real mesh in this repository. GrabCAD's terms apply to it, not the BSD license
+  (meshes/components/wheel_colours.LICENSE.md). scripts/make_wheel_dae.py makes it from DiffBot's
+  public wheel.stl in the diffbot repository
 
 2.5.0 (2026-11-06)
 ------------------
