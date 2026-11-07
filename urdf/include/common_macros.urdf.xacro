@@ -28,6 +28,14 @@
     value="${(base_props['base']['y_size']/2) + wheel_props['y_offset'] + (wheel_props['length']/2)}"/>
   <xacro:property name="pos_z_joint" value="${wheel_props['z_offset']}"/>
   <xacro:property name="rgba" value="${wheel_props.get('rgba', default_rgba)}"/>
+  <!-- A mesh with its own colours (mesh_colours true), such as wheel_colours.dae with its yellow
+       rim and black tyre, gets neither material, and its materials colour it in RViz and
+       Gazebo. A Gazebo material from rgba would colour all of the mesh alike. RViz uses a URDF
+       colour only for the parts of a mesh without a material, so a URDF colour here would show
+       nowhere. Without mesh_colours in the config, as in configs for older versions, the wheel
+       gets its colour from rgba. -->
+  <xacro:property name="mesh_colours"
+    value="${wheel_props['mesh'] != '' and wheel_props.get('mesh_colours', False)}"/>
 
     <link name="${prefix}_wheel">
     <xacro:if value="${wheel_props['mesh'] != '' }" >
@@ -41,7 +49,9 @@
             <mesh filename="package://${package_name}/meshes/${robot_name}/${wheel_props['mesh']}" scale="${wheel_props['scale']}" />
           </xacro:if>
         </geometry>
-        <xacro:visual_material name="${prefix}_wheel" rgba="${rgba}"/>
+        <xacro:unless value="${mesh_colours}">
+          <xacro:visual_material name="${prefix}_wheel" rgba="${rgba}"/>
+        </xacro:unless>
       </visual>
     </xacro:if>
     <xacro:if value="${wheel_props['mesh'] == '' }" >
@@ -70,7 +80,9 @@
                               o_rpy="${pi/2.0} 0.0 0.0" >
       </xacro:cylinder_inertia>
     </link>
-    <xacro:gazebo_material link="${prefix}_wheel" rgba="${rgba}"/>
+    <xacro:unless value="${mesh_colours}">
+      <xacro:gazebo_material link="${prefix}_wheel" rgba="${rgba}"/>
+    </xacro:unless>
     
 
     <joint name="${prefix}_wheel_joint" type="continuous">
@@ -326,7 +338,8 @@
 
   A part's colour is the rgba value in its config file (config/remo/*.yaml): red, green, blue
   and alpha, from 0 to 1, close to the colour of the real part. RViz and Gazebo read colours
-  from different places, so every link with a visual uses both macros with the same value:
+  from different places, so every link with a visual uses both macros with the same value. A
+  wheel whose mesh has its own colours uses neither (mesh_colours in front_wheel.yaml):
 
   - visual_material, inside the link's <visual>, for RViz. Each material is named after its
     link. urdfdom gives a visual the colour of the first material with its name, so parts with
@@ -335,8 +348,9 @@
     materials and reads the SDF material in <gazebo reference> instead. This works per link:
     when Gazebo merges the links on fixed joints into their parent, each merged visual keeps
     its own link's colour. This material colours all visuals of its link alike. Different
-    colours within one link need materials inside the mesh, or a separate link. The colour is
-    both the ambient and the diffuse colour, without a specular highlight, like a matte surface.
+    colours within one link need materials inside the mesh, like the wheel's yellow rim and
+    black tyre in wheel_colours.dae, or a separate link. The colour is both the ambient and the
+    diffuse colour, without a specular highlight, like a matte surface.
 
   A config without rgba, and a camera_sensor call without rgba, give the part default_rgba, a
   neutral grey. So configs and macro calls written for older versions still expand.

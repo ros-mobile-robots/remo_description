@@ -7,6 +7,7 @@ ROS URDF description package of REMO robot (Research Education Mobile/Modular ro
 ## STL Mesh Files
 
 This repository does not include the STL mesh files due to size and licensing.
+Its STL files in `meshes/` are empty placeholders, so their parts don't show in RViz and Gazebo.
 
 To obtain the mesh files:
 
@@ -18,6 +19,12 @@ To obtain the mesh files:
 pip install pyyaml requests
 python3 scripts/download_assets.py
 ```
+
+The wheel's mesh `meshes/components/wheel_colours.dae`, with a yellow rim and a black tyre, is the
+one real mesh in this repository. It's the model [Wheel D65x25](https://grabcad.com/library/wheel-d65x25-1)
+by KlimukVI from GrabCAD. GrabCAD's terms apply to it, not the BSD license: see
+[its notice](meshes/components/wheel_colours.LICENSE.md). [`scripts/make_wheel_dae.py`](scripts/make_wheel_dae.py)
+makes it from DiffBot's public `wheel.stl` in the [diffbot repository](https://github.com/ros-mobile-robots/diffbot).
 
 ## Camera Types
 
@@ -77,5 +84,6 @@ You addons to Remo are most welcome, feel free to open a discussion/issue or dir
 
 ## License
 
-`remo_description` is licenses under the [BSD-3 clause](./LICENSE).
+`remo_description` is licensed under the [BSD-3 clause](./LICENSE), except the wheel's mesh
+`meshes/components/wheel_colours.dae`: GrabCAD's terms apply to it, see [its notice](meshes/components/wheel_colours.LICENSE.md).
 See also [open-source-license-acknowledgements-and-third-party-copyrights.md](open-source-license-acknowledgements-and-third-party-copyrights.md).

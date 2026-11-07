@@ -2,7 +2,7 @@
 
 This is the ROS 1 Noetic description package of Remo: its URDF (xacro), the sizes, masses and positions of its parts in `config/remo/`, and its Gazebo settings. Remo's launch files, controller configuration and simulation test are in the [diffbot repository](https://github.com/ros-mobile-robots/diffbot), which supports both DiffBot and Remo. The documentation is at [ros-mobile-robots.com](https://ros-mobile-robots.com).
 
-The STL meshes aren't in this repository (see the README); the model works without them, with empty placeholders.
+Remo's STL meshes aren't in this repository (see the README). The model works without them, with empty placeholder STL files. The wheel's mesh `meshes/components/wheel_colours.dae` is the one real mesh here. It's a model by KlimukVI from GrabCAD, and GrabCAD's terms apply to it, not this repository's BSD license ([its notice](meshes/components/wheel_colours.LICENSE.md)). [`scripts/make_wheel_dae.py`](scripts/make_wheel_dae.py) makes it from DiffBot's public `wheel.stl`. Change it only with that script.
 
 Ask questions and get help with your build in the diffbot repository's [Discussions](https://github.com/ros-mobile-robots/diffbot/discussions/categories/q-a), which cover both robots. Corrections and improvements to the model are welcome, as [issues](https://github.com/ros-mobile-robots/remo_description/issues) or pull requests here; a bug in Remo's ROS packages, launch files or simulation test goes to the [diffbot repository's issues](https://github.com/ros-mobile-robots/diffbot/issues). For a larger change, open an issue first.
 
@@ -55,4 +55,4 @@ You don't need to say whether you used AI. Please don't add attribution lines fo
 
 ## License
 
-By contributing, you agree that your contributions are licensed under this repository's [BSD 3-Clause License](LICENSE).
+By contributing, you agree that your contributions are licensed under this repository's [BSD 3-Clause License](LICENSE). The exception is the wheel's mesh `meshes/components/wheel_colours.dae`: GrabCAD's terms apply to it and to changes of it ([its notice](meshes/components/wheel_colours.LICENSE.md)). The script that makes it, `scripts/make_wheel_dae.py`, is under the BSD license like the rest.

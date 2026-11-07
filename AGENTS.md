@@ -12,7 +12,8 @@ Remo's ROS 1 Noetic description package. Remo's launch files, controller configu
 | `urdf/include/common_macros.urdf.xacro` | Macros for wheels, motors and inertias (the drive wheels collide as spheres) |
 | `urdf/include/robot.gazebo.xacro` | Gazebo plugin and the wheels' contact settings (friction, kp, kd, minDepth) |
 | `config/remo/*.yaml` | Part sizes, masses and positions; `front_wheel.yaml` has the measured radius and offsets |
-| `meshes/` | Empty placeholder STL files; the real meshes aren't in this repository |
+| `meshes/` | Empty placeholder STL files. The real STL meshes aren't in this repository. `components/wheel_colours.dae` is the real wheel, under GrabCAD's terms (`components/wheel_colours.LICENSE.md`) |
+| `scripts/make_wheel_dae.py` | Makes `wheel_colours.dae` from DiffBot's public `wheel.stl`, pinned by commit and checksum |
 
 ## Commands
 
@@ -35,7 +36,8 @@ rostest diffbot_gazebo sim_drive_remo.test
 - **The wheel radius and separation are also in the diffbot repository**, in `diffbot_control/config/remo/geometry.yaml`. Change both, in two linked pull requests.
 - **Masses set the wheels' inertia**, and Remo's Gazebo wheel gains in the diffbot repository (`diffbot_control/config/remo/pid.yaml`) are chosen for it: the P gain must stay below 2J/h. A changed wheel mass needs the gains checked.
 - **Contact settings work together:** the sphere collision, `minDepth` 0 and the compliant contact stiffness. Change one at a time and measure.
-- **Never add real mesh files** to this repository, and don't replace the placeholders.
+- **Never add real mesh files** to this repository, and don't replace the placeholders. The one exception is the wheel's `meshes/components/wheel_colours.dae`, made from DiffBot's public `wheel.stl`.
+- **`wheel_colours.dae` comes from `scripts/make_wheel_dae.py`.** Don't edit it by hand. Change the script, run it, and check the file with `python3 scripts/make_wheel_dae.py --check`. Keep the model's credit in the file and its notice `wheel_colours.LICENSE.md`: GrabCAD's terms apply to it, not the BSD license. Never replace it with an empty file: Gazebo 11's `gzserver` crashes on an empty `.dae` file. The wheel's colours are the mesh's two materials, rim and tyre. `rgba` in `front_wheel.yaml` doesn't change them (`mesh_colours: true`).
 
 ## Commits and pull requests
 

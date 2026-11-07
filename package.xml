@@ -1,8 +1,13 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>remo_description</name>
-  <version>2.5.0</version>
-  <description>The remo_description package</description>
+  <version>2.6.0</version>
+  <description>
+    The remo_description package. The wheel's meshes are the model "Wheel D65x25" by KlimukVI
+    from GrabCAD, https://grabcad.com/library/wheel-d65x25-1: meshes/components/wheel_colours.dae,
+    and meshes/components/wheel.stl in the Insiders repository (here an empty placeholder).
+    GrabCAD's terms apply to them, not the BSD license. See the notices next to them.
+  </description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->
@@ -14,6 +19,7 @@
   <!-- Commonly used license strings: -->
   <!--   BSD, MIT, Boost Software License, GPLv2, GPLv3, LGPLv2.1, LGPLv3 -->
   <license>BSD 3-Clause</license>
+  <license>GrabCAD terms</license>
 
 
   <!-- Url tags are optional, but multiple are allowed, one per tag -->
