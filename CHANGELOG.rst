@@ -11,8 +11,9 @@ Changelog for package remo_description
   A front_wheel.yaml without mesh_colours, as in older versions, colours the wheel with rgba
 * wheel_colours.dae is the real wheel, the model "Wheel D65x25" by KlimukVI from GrabCAD, and the
   one real mesh in this repository. GrabCAD's terms apply to it, not the BSD license
-  (meshes/components/wheel_colours.LICENSE.md). scripts/make_wheel_dae.py makes it from DiffBot's
-  public wheel.stl in the diffbot repository
+  (meshes/components/wheel_colours.LICENSE.md). package.xml names GrabCAD's terms as a second
+  license. scripts/make_wheel_dae.py makes it from DiffBot's public wheel.stl in the diffbot
+  repository
 
 2.5.0 (2026-11-06)
 ------------------
