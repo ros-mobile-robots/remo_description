@@ -12,25 +12,30 @@ Remo's model takes the meshes of its parts from two places.
 
 The Raspberry Pi 4 B, the Jetson Nano, the breadboard, the Teensy 4.0, the RPLIDAR A2, the Raspberry Pi camera and the drive wheels are meshes of the package [robot_component_models](https://github.com/ros-mobile-robots/robot_component_models). This package has display models of off-the-shelf robot components, made from public datasheets, drawings and photos. Remo uses its COLLADA files (`.dae`), which are in metres and have their own colours. With the package in the workspace, RViz and Gazebo show these parts without any other files.
 
-`remo_description` needs the package in the same catkin workspace:
+`remo_description` needs the package in the same catkin workspace. There are two ways to add it, both from the workspace's root:
 
-- [`remo_robot.repos`](remo_robot.repos) lists the package at the version that this model uses. In a workspace that has `remo_description` in `src/`, run [`vcs import`](https://github.com/dirk-thomas/vcstool) from the workspace's root. The command clones every repository that the file lists and that the workspace doesn't have yet:
-
-  ```bash
-  vcs import --skip-existing < src/remo_description/remo_robot.repos
-  ```
-
-- To add only this package to an existing workspace, clone it next to `remo_description`:
+- Clone the package next to `remo_description`, at the version that this model uses:
 
   ```bash
   git clone --branch 1.0.0 https://github.com/ros-mobile-robots/robot_component_models.git src/robot_component_models
   ```
 
+- Import [`remo_robot.repos`](remo_robot.repos) with [`vcs import`](https://github.com/dirk-thomas/vcstool). The file lists the repositories of a workspace for Remo: the diffbot repository, the lidar driver `rplidar_ros`, the camera driver `raspicam_node` and robot_component_models. The command clones each of them that the workspace doesn't have yet:
+
+  ```bash
+  vcs import --skip-existing < src/remo_description/remo_robot.repos
+  ```
+
 Then build the workspace, for example with `catkin build`, and source its `devel/setup.bash` again.
 
-Without the package, the xacro file still expands, and the simulation still runs, because the collision shapes are boxes, cylinders and spheres. RViz and Gazebo then show the robot without these parts. RViz logs `Could not load resource [package://robot_component_models/...]` for each of them, and Gazebo logs `No mesh specified`.
+Without the package in the workspace:
 
-### Printed parts and the other parts: placeholders
+- `rosdep install` stops with `Cannot locate rosdep definition for [robot_component_models]`.
+- The xacro file still expands.
+- RViz shows the robot without these parts and logs `Could not load resource [package://robot_component_models/...]` for each of them.
+- Gazebo doesn't load the robot. The node `spawn_model` of `gazebo_ros` stops with `Package[robot_component_models] does not have a path` and `Spawn service failed`.
+
+### STL Mesh Files
 
 The STL files in [`meshes/`](meshes) are empty placeholders. They stand for Remo's 3D printed parts, such as the chassis, the decks, the lidar platform and the camera mounts, and for the parts that robot_component_models doesn't have, such as the motors, the battery pack and the OAK cameras. This repository does not include these mesh files due to size and licensing.
 

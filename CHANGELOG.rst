@@ -9,8 +9,9 @@ Changelog for package remo_description
   (https://github.com/ros-mobile-robots/robot_component_models): COLLADA files in metres with
   their own colours, for example a yellow rim in a black tyre. These parts show without any
   other files. remo_description depends on the package, so a workspace needs it next to
-  remo_description. remo_robot.repos lists it, and the README shows how to add it. No frame,
-  link, joint or xacro argument changes
+  remo_description. Without it, RViz shows the robot without these parts, and Gazebo doesn't
+  load the robot. remo_robot.repos lists the package, and the README shows how to add it. No
+  frame, link, joint or xacro argument changes
 * A part's mesh in a config file is a file name or a full package:// URI. A COLLADA mesh shows
   its own colours. rgba colours the other meshes and the simple shapes
 * The camera's scale is one value per camera type (camera: scale), because the Raspberry Pi
