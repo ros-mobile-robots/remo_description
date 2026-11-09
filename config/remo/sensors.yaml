@@ -6,19 +6,43 @@
 # alpha, from 0 to 1). A COLLADA mesh (.dae) shows its own colours instead. Then rgba is the
 # colour of the simple shape that an empty mesh gives.
 laser:
-  mass: 0.17          # Motor mass in Kg (~170g)
   radius: 0.015     # Wheel radius in m
   length: 0.01      # Wheel length in m, considering is as a cylinder
-  mesh: 'package://robot_component_models/meshes/rplidar_a2/rplidar_a2.dae'  # Mesh, or '' for a cylinder
-  #mesh: ''
-  dx: 0.002
-  dy: 0.0
-  dz: 0.07
   angular_range:
     min: -3.1415
     max: 3.1415
   enable_gpu: false
-  rgba: '0.10 0.10 0.10 1'  # Black RPLidar A2
+  rgba: '0.10 0.10 0.10 1'  # Black, like both scanners' housings
+  # The values of each lidar type, which the xacro argument lidar_type chooses.
+  # mesh: the scanner's mesh, or '' for a cylinder.
+  # mass: the scanner's mass in kg.
+  # dx, dy, dz: the position of rplidar_laser_link, the scan's frame, in lidar_platform_link
+  # in metres. The frame lies on the scanner's rotation axis, in the scan plane.
+  # range: the shortest and the longest distance that the simulated scanner measures, in metres.
+  types:
+    a2: # Slamtec RPLIDAR A2M8
+      mesh: 'package://robot_component_models/meshes/rplidar_a2/rplidar_a2.dae'
+      mass: 0.17
+      dx: 0.002
+      dy: 0.0
+      dz: 0.07
+      range:
+        min: 0.1
+        max: 30.0
+    # Slamtec RPLIDAR A1M8. Mass and range from Slamtec's datasheet "RPLIDAR A1, Model A1M8",
+    # rev. 3.0: 170 g (Figure 2-9) and 0.15 m to 12 m (Figure 2-1). Position, measured in the
+    # meshes: the scanner's four screw holes on the four holes in the A1 platform's top, its
+    # base on the platform, its motor towards the robot's rear. The scanner's mesh has its
+    # origin in the scan plane, 21 mm above the underside of its base.
+    a1:
+      mesh: 'package://robot_component_models/meshes/rplidar_a1/rplidar_a1.dae'
+      mass: 0.17
+      dx: 0.0052
+      dy: 0.0006
+      dz: 0.071
+      range:
+        min: 0.15
+        max: 12.0
 
 
 camera:

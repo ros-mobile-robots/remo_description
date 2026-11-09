@@ -2,6 +2,26 @@
 Changelog for package remo_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.9.0 (2026-11-10)
+------------------
+* Lidar: the xacro argument lidar_type chooses the laser scanner and its printed platform:
+  'a2' (the default) for the Slamtec RPLIDAR A2 on platfom_rplidar_a2.stl, 'a1' for the
+  RPLIDAR A1 on platform_rplidar_a1.stl. The A1's mesh is rplidar_a1 of the package
+  robot_component_models. With 'a2', the model is the same as in 2.8.0
+* With 'a1', rplidar_laser_link lies 3.2 mm further to the front, 0.6 mm further to the left
+  and 1 mm higher than with 'a2' (0.0052 0.0006 0.071 on lidar_platform_link), and its x axis
+  points to the robot's rear as with 'a2'. The A1 sits on its platform with its motor towards
+  the rear. The simulated A1 measures from 0.15 m to 12 m, and its mass is 170 g (Slamtec's
+  A1M8 datasheet, rev. 3.0). lidar_platform_link is the same for both types. The USB adapter
+  and its holder (slamtec_holder_link, slamtec_usb_to_serial_link) lie 2 mm higher, at the A1
+  platform's slots
+* A config file gives a part's values per type under the key types (laser in sensors.yaml,
+  lidar_platform in base.yaml). A config without types, as written for 2.8.0, still expands
+  as the A2
+* A part's config can give mesh_xyz and mesh_rpy for a mesh whose frame differs from its
+  link's. The A1 platform's mesh uses them: its origin lies 47 mm above its feet, and its x
+  axis points to the rear
+
 2.8.0 (2026-11-09)
 ------------------
 * The Raspberry Pi 4 B, the Jetson Nano, the breadboard, the Teensy 4.0, the RPLIDAR A2, the

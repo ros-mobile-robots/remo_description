@@ -5,6 +5,10 @@
 
   Xacro to create addons for the robot.
 
+  An addon's mesh usually has the frame of the addon's link. A mesh with another origin or with
+  turned axes gets mesh_xyz and mesh_rpy in the config: where the mesh's frame lies in the
+  link's frame, as in a URDF origin (metres, and roll, pitch, yaw in radians).
+
   params:
   - addon [string]: name of the addon (has to be the same as in the base_prop yaml);
   - base_props [dictionary]: contains addon link properties;
@@ -22,7 +26,7 @@
                        z="${base_prop[addon]['z_size']}"/>
     <xacro:if value="${mesh != '' }" >
       <visual>
-        <origin xyz="0 0 0" rpy="0 0 0" />
+        <origin xyz="${base_prop[addon].get('mesh_xyz', '0 0 0')}" rpy="${base_prop[addon].get('mesh_rpy', '0 0 0')}" />
         <geometry>
           <xacro:part_mesh mesh="${mesh}" folder="${robot_name}"
                            scale="${base_prop[addon].get('scale', '')}"/>
