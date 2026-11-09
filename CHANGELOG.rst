@@ -2,7 +2,7 @@
 Changelog for package remo_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-2.7.0 (2026-11-09)
+2.6.0 (2026-11-09)
 ------------------
 * Jetson Nano deck: the Teensy and the IMU move with the breadboard, so their header pins sit in
   the breadboard's holes with either deck. The property breadboard_x gives the breadboard's
