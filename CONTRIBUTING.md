@@ -2,7 +2,7 @@
 
 This is the ROS 1 Noetic description package of Remo: its URDF (xacro), the sizes, masses and positions of its parts in `config/remo/`, and its Gazebo settings. Remo's launch files, controller configuration and simulation test are in the [diffbot repository](https://github.com/ros-mobile-robots/diffbot), which supports both DiffBot and Remo. The documentation is at [ros-mobile-robots.com](https://ros-mobile-robots.com).
 
-The STL meshes aren't in this repository (see the README); the model works without them, with empty placeholders.
+The STL meshes of Remo's printed parts aren't in this repository (see the README). The model works without them, with empty placeholders. The meshes of purchased parts such as the laser scanner and the Raspberry Pi come from the package [robot_component_models](https://github.com/ros-mobile-robots/robot_component_models), which the workspace needs next to `remo_description`. The [README](README.md#purchased-parts-robot_component_models) shows how to add it.
 
 Ask questions and get help with your build in the diffbot repository's [Discussions](https://github.com/ros-mobile-robots/diffbot/discussions/categories/q-a), which cover both robots. Corrections and improvements to the model are welcome, as [issues](https://github.com/ros-mobile-robots/remo_description/issues) or pull requests here; a bug in Remo's ROS packages, launch files or simulation test goes to the [diffbot repository's issues](https://github.com/ros-mobile-robots/diffbot/issues). For a larger change, open an issue first.
 

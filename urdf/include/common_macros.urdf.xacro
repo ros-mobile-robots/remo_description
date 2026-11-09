@@ -34,14 +34,11 @@
       <visual>
         <origin xyz="0.0 0 0" rpy="${pi/2} 0 ${pi/2.0*(reflect - 1)}"/>
         <geometry>
-          <xacro:if value="${wheel_props['scale'] == '' }" >
-            <mesh filename="package://${package_name}/meshes/${robot_name}/${wheel_props['mesh']}" />
-          </xacro:if>
-          <xacro:if value="${wheel_props['scale'] != '' }" >
-            <mesh filename="package://${package_name}/meshes/${robot_name}/${wheel_props['mesh']}" scale="${wheel_props['scale']}" />
-          </xacro:if>
+          <xacro:part_mesh mesh="${wheel_props['mesh']}" folder="${robot_name}"
+                           scale="${wheel_props['scale']}"/>
         </geometry>
-        <xacro:visual_material name="${prefix}_wheel" rgba="${rgba}"/>
+        <xacro:visual_material name="${prefix}_wheel" rgba="${rgba}"
+                               mesh="${wheel_props['mesh']}"/>
       </visual>
     </xacro:if>
     <xacro:if value="${wheel_props['mesh'] == '' }" >
@@ -70,7 +67,7 @@
                               o_rpy="${pi/2.0} 0.0 0.0" >
       </xacro:cylinder_inertia>
     </link>
-    <xacro:gazebo_material link="${prefix}_wheel" rgba="${rgba}"/>
+    <xacro:gazebo_material link="${prefix}_wheel" rgba="${rgba}" mesh="${wheel_props['mesh']}"/>
     
 
     <joint name="${prefix}_wheel_joint" type="continuous">
@@ -322,6 +319,37 @@
   </xacro:macro>
 <!-- ========================================================================-->
 
+<!-- ===================== Mesh xacro ==========================================
+
+  The <mesh> element of a part's visual. A config file (config/remo/*.yaml) names a part's mesh
+  in one of two ways:
+
+  - a file name, relative to a folder of this package's meshes folder, for example
+    'deck/raspberry_pi_deck.stl' relative to meshes/remo
+  - a full URI, for a mesh from another package, for example
+    'package://robot_component_models/meshes/rplidar_a2/rplidar_a2.dae'. The package
+    robot_component_models (https://github.com/ros-mobile-robots/robot_component_models) has the
+    meshes of Remo's purchased parts, such as the laser scanner and the Raspberry Pi.
+
+  params:
+  - mesh [string]: the file name or the full URI
+  - folder [string]: the folder below meshes/ that a file name is relative to, for example
+    'remo' or 'sensors'. A full URI doesn't use it
+  - scale [string]: the mesh's scale, for example '0.001 0.001 0.001' for a mesh in
+    millimetres. Empty for a mesh in metres, like the meshes of robot_component_models
+-->
+  <xacro:macro name="part_mesh" params="mesh folder scale:=''">
+    <xacro:property name="uri"
+                    value="${mesh if '://' in mesh else 'package://' + package_name + '/meshes/' + folder + '/' + mesh}"/>
+    <xacro:if value="${scale == ''}">
+      <mesh filename="${uri}"/>
+    </xacro:if>
+    <xacro:unless value="${scale == ''}">
+      <mesh filename="${uri}" scale="${scale}"/>
+    </xacro:unless>
+  </xacro:macro>
+<!-- ========================================================================-->
+
 <!-- ===================== Material xacros =====================================
 
   A part's colour is the rgba value in its config file (config/remo/*.yaml): red, green, blue
@@ -341,28 +369,39 @@
   A config without rgba, and a camera_sensor call without rgba, give the part default_rgba, a
   neutral grey. So configs and macro calls written for older versions still expand.
 
+  A COLLADA mesh (a file name that ends in .dae) has materials inside the mesh, for example the
+  wheel's yellow rim and black tyre. Both macros write nothing for such a mesh, so the part
+  shows its own colours: RViz draws a mesh's own materials when the visual has no material, and
+  Gazebo when the link has no SDF material. With these macros' colour, Gazebo would paint the
+  whole mesh in that one colour.
+
   params:
   - name [string]: the material's name, the same as its link's name
   - link [string]: the link whose visuals get the colour
   - rgba [string]: the colour, for example '0.10 0.42 0.22 1'
+  - mesh [string]: the part's mesh, as its config file names it. Empty for a simple shape
 -->
   <xacro:property name="default_rgba" value="0.5 0.5 0.5 1"/>
 
-  <xacro:macro name="visual_material" params="name rgba">
-    <material name="${name}">
-      <color rgba="${rgba}"/>
-    </material>
+  <xacro:macro name="visual_material" params="name rgba mesh:=''">
+    <xacro:unless value="${mesh.endswith('.dae')}">
+      <material name="${name}">
+        <color rgba="${rgba}"/>
+      </material>
+    </xacro:unless>
   </xacro:macro>
 
-  <xacro:macro name="gazebo_material" params="link rgba">
-    <gazebo reference="${link}">
-      <visual>
-        <material>
-          <ambient>${rgba}</ambient>
-          <diffuse>${rgba}</diffuse>
-        </material>
-      </visual>
-    </gazebo>
+  <xacro:macro name="gazebo_material" params="link rgba mesh:=''">
+    <xacro:unless value="${mesh.endswith('.dae')}">
+      <gazebo reference="${link}">
+        <visual>
+          <material>
+            <ambient>${rgba}</ambient>
+            <diffuse>${rgba}</diffuse>
+          </material>
+        </visual>
+      </gazebo>
+    </xacro:unless>
   </xacro:macro>
 <!-- ========================================================================-->
   

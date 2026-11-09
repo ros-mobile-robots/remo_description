@@ -4,9 +4,35 @@ ROS URDF description package of REMO robot (Research Education Mobile/Modular ro
 
 ![https://raw.githubusercontent.com/ros-mobile-robots/ros-mobile-robots.github.io/main/docs/resources/remo/remo-rviz-spin.gif](https://raw.githubusercontent.com/ros-mobile-robots/ros-mobile-robots.github.io/main/docs/resources/remo/remo-rviz-spin.gif)
 
-## STL Mesh Files
+## Mesh Files
 
-This repository does not include the STL mesh files due to size and licensing.
+Remo's model takes the meshes of its parts from two places.
+
+### Purchased parts: robot_component_models
+
+The Raspberry Pi 4 B, the Jetson Nano, the breadboard, the Teensy 4.0, the RPLIDAR A2, the Raspberry Pi camera and the drive wheels are meshes of the package [robot_component_models](https://github.com/ros-mobile-robots/robot_component_models). This package has display models of off-the-shelf robot components, made from public datasheets, drawings and photos. Remo uses its COLLADA files (`.dae`), which are in metres and have their own colours. With the package in the workspace, RViz and Gazebo show these parts without any other files.
+
+`remo_description` needs the package in the same catkin workspace:
+
+- [`remo_robot.repos`](remo_robot.repos) lists the package at the version that this model uses. In a workspace that has `remo_description` in `src/`, run [`vcs import`](https://github.com/dirk-thomas/vcstool) from the workspace's root. The command clones every repository that the file lists and that the workspace doesn't have yet:
+
+  ```bash
+  vcs import --skip-existing < src/remo_description/remo_robot.repos
+  ```
+
+- To add only this package to an existing workspace, clone it next to `remo_description`:
+
+  ```bash
+  git clone --branch 1.0.0 https://github.com/ros-mobile-robots/robot_component_models.git src/robot_component_models
+  ```
+
+Then build the workspace, for example with `catkin build`, and source its `devel/setup.bash` again.
+
+Without the package, the xacro file still expands, and the simulation still runs, because the collision shapes are boxes, cylinders and spheres. RViz and Gazebo then show the robot without these parts. RViz logs `Could not load resource [package://robot_component_models/...]` for each of them, and Gazebo logs `No mesh specified`.
+
+### Printed parts and the other parts: placeholders
+
+The STL files in [`meshes/`](meshes) are empty placeholders. They stand for Remo's 3D printed parts, such as the chassis, the decks, the lidar platform and the camera mounts, and for the parts that robot_component_models doesn't have, such as the motors, the battery pack and the OAK cameras. This repository does not include these mesh files due to size and licensing.
 
 To obtain the mesh files:
 

@@ -1,13 +1,19 @@
+# mesh: a file name relative to meshes/remo, or a full package:// URI for a mesh from another
+# package. '' gives a box. The Jetson Nano, the Raspberry Pi, the breadboard and the Teensy come
+# from the package robot_component_models
+# (https://github.com/ros-mobile-robots/robot_component_models).
+# scale: for a mesh that isn't in metres. The meshes of robot_component_models are in metres and
+# have no scale.
 # rgba: the part's colour in RViz and Gazebo, close to the real part (red, green, blue and
-# alpha, from 0 to 1).
+# alpha, from 0 to 1). A COLLADA mesh (.dae) shows its own colours instead. Then rgba is the
+# colour of the box that an empty mesh gives.
 jetson_nano:
   mass: 0.175               # Base mass in Kg (175 g)
   x_size: 0.08           # Dimension in x axis
   y_size: 0.09            # Dimension in y axis
   z_size: 0.04           # Dimension in z axis
-  mesh: '../components/jetson_nano_dev_kit_b01.stl'  # Mesh file, or '' for a box
+  mesh: 'package://robot_component_models/meshes/jetson_nano_dev_kit_b01/jetson_nano_dev_kit_b01.dae'  # Mesh, or '' for a box
   #mesh: ''
-  scale: '0.001 0.001 0.001'
   rgba: '0.08 0.08 0.08 1'  # Black carrier board and heatsink of the developer kit
 
 rpi:
@@ -15,9 +21,8 @@ rpi:
   x_size: 0.06           # Dimension in x axis
   y_size: 0.09            # Dimension in y axis
   z_size: 0.03           # Dimension in z axis
-  mesh: '../components/raspberry_pi_4B.stl'  # Mesh file, or '' for a box
+  mesh: 'package://robot_component_models/meshes/raspberry_pi_4b/raspberry_pi_4b.dae'  # Mesh, or '' for a box
   #mesh: ''
-  scale: '0.001 0.001 0.001'
   rgba: '0.10 0.42 0.22 1'  # Green PCB
 
 breadboard:
@@ -25,9 +30,8 @@ breadboard:
   x_size: 0.055             # Dimension in x axis
   y_size: 0.08              # Dimension in y axis
   z_size: 0.01              # Dimension in z axis
-  mesh: '../components/breadboard_400_point.stl'  # Mesh file, or '' for a box
+  mesh: 'package://robot_component_models/meshes/breadboard_400_point/breadboard_400_point.dae'  # Mesh, or '' for a box
   #mesh: ''
-  scale: '0.001 0.001 0.001'
   rgba: '0.93 0.93 0.91 1'  # White
 
 power_bank:
@@ -55,9 +59,8 @@ mcu:
   x_size: 0.04             # Dimension in x axis
   y_size: 0.02             # Dimension in y axis
   z_size: 0.01             # Dimension in z axis
-  mesh: '../components/teensy_4-0.stl'  # Mesh file, or '' for a box
+  mesh: 'package://robot_component_models/meshes/teensy_4_0/teensy_4_0.dae'  # Mesh, or '' for a box
   #mesh: ''
-  scale: '0.001 0.001 0.001'
   rgba: '0.10 0.42 0.22 1'  # Green PCB of the Teensy 4.0
 
 motor_driver:

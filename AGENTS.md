@@ -12,7 +12,7 @@ Remo's ROS 1 Noetic description package. Remo's launch files, controller configu
 | `urdf/include/common_macros.urdf.xacro` | Macros for wheels, motors and inertias (the drive wheels collide as spheres) |
 | `urdf/include/robot.gazebo.xacro` | Gazebo plugin and the wheels' contact settings (friction, kp, kd, minDepth) |
 | `config/remo/*.yaml` | Part sizes, masses and positions; `front_wheel.yaml` has the measured radius and offsets |
-| `meshes/` | Empty placeholder STL files; the real meshes aren't in this repository |
+| `meshes/` | Empty placeholder STL files. The real meshes aren't in this repository. The meshes of the Raspberry Pi, the Jetson Nano, the breadboard, the Teensy, the laser scanner, the Raspberry Pi camera and the wheels come from the package [robot_component_models](https://github.com/ros-mobile-robots/robot_component_models), which the workspace needs too |
 
 ## Commands
 
