@@ -12,21 +12,15 @@ Remo's model takes the meshes of its parts from two places.
 
 The Raspberry Pi 4 B, the Jetson Nano, the breadboard, the Teensy 4.0, the RPLIDAR A2, the Raspberry Pi camera and the drive wheels are meshes of the package [robot_component_models](https://github.com/ros-mobile-robots/robot_component_models). This package has display models of off-the-shelf robot components, made from public datasheets, drawings and photos. Remo uses its COLLADA files (`.dae`), which are in metres and have their own colours. With the package in the workspace, RViz and Gazebo show these parts without any other files.
 
-`remo_description` needs the package in the same catkin workspace. There are two ways to add it, both from the workspace's root:
+`remo_description` needs the package in the same catkin workspace. From the workspace's root, clone the package next to `remo_description`, at the version that this model uses:
 
-- Clone the package next to `remo_description`, at the version that this model uses:
-
-  ```bash
-  git clone --branch 1.0.0 https://github.com/ros-mobile-robots/robot_component_models.git src/robot_component_models
-  ```
-
-- Import [`remo_robot.repos`](remo_robot.repos) with [`vcs import`](https://github.com/dirk-thomas/vcstool). The file lists the repositories of a workspace for Remo: the diffbot repository, the lidar driver `rplidar_ros`, the camera driver `raspicam_node` and robot_component_models. The command clones each of them that the workspace doesn't have yet:
-
-  ```bash
-  vcs import --skip-existing < src/remo_description/remo_robot.repos
-  ```
+```bash
+git clone --branch 1.0.0 https://github.com/ros-mobile-robots/robot_component_models.git src/robot_component_models
+```
 
 Then build the workspace, for example with `catkin build`, and source its `devel/setup.bash` again.
+
+[`remo_robot.repos`](remo_robot.repos) lists the package at the same version. This file lists the repositories of a workspace on Remo's Raspberry Pi, for [`vcs import`](https://github.com/dirk-thomas/vcstool). One of them is the camera driver `raspicam_node`, which needs the Raspberry Pi's camera libraries. Without these libraries, `rosdep install` stops with `Cannot locate rosdep definition for [libraspberrypi0]`. So in any other workspace, for example on a development PC, clone the package as shown above.
 
 Without the package in the workspace:
 
