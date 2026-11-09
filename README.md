@@ -31,7 +31,9 @@ Without the package in the workspace:
 
 ### STL Mesh Files
 
-The STL files in [`meshes/`](meshes) are empty placeholders. They stand for Remo's 3D printed parts, such as the chassis, the decks, the lidar platform and the camera mounts, and for the parts that robot_component_models doesn't have, such as the motors, the battery pack and the OAK cameras. This repository does not include these mesh files due to size and licensing.
+The STL files in [`meshes/`](meshes) are empty placeholders. They stand for Remo's 3D printed parts, such as the chassis, the decks, the lidar platform and the camera mounts, and for the parts that robot_component_models doesn't have, such as the motors, the battery pack and the OAK cameras.
+
+This repository does not include the STL mesh files due to size and licensing.
 
 To obtain the mesh files:
 
