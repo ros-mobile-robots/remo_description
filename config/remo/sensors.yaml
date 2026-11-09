@@ -1,10 +1,15 @@
+# mesh: a file name relative to meshes/sensors, or a full package:// URI for a mesh from another
+# package. The laser scanner and the Raspberry Pi camera come from the package
+# robot_component_models (https://github.com/ros-mobile-robots/robot_component_models). Its
+# meshes are in metres and have no scale.
 # rgba: the part's colour in RViz and Gazebo, close to the real part (red, green, blue and
-# alpha, from 0 to 1).
+# alpha, from 0 to 1). A COLLADA mesh (.dae) shows its own colours instead. Then rgba is the
+# colour of the simple shape that an empty mesh gives.
 laser:
   mass: 0.17          # Motor mass in Kg (~170g)
   radius: 0.015     # Wheel radius in m
   length: 0.01      # Wheel length in m, considering is as a cylinder
-  mesh: 'rplidar-a2.stl'  # Mesh file, or '' for a cylinder
+  mesh: 'package://robot_component_models/meshes/rplidar_a2/rplidar_a2.dae'  # Mesh, or '' for a cylinder
   #mesh: ''
   dx: 0.002
   dy: 0.0
@@ -24,11 +29,13 @@ camera:
   dx: 0.0
   dy: 0.0
   dz: 0.0
-  meshes: # Mesh file per camera type, or '' for a cylinder
-    raspi-cam: raspi_cam_v2_IMX219.stl
+  meshes: # Mesh per camera type, or '' for a cylinder
+    raspi-cam: 'package://robot_component_models/meshes/raspberry_pi_camera_v2/raspberry_pi_camera_v2.dae'
     oak-1: BW1093_REV2_20201014.stl
     oak-d: OAK-D-parts-14sep2020.stl
-    scale: '0.001 0.001 0.001'
+  scale: # Scale per camera type whose mesh isn't in metres. The OAK meshes are in millimetres
+    oak-1: '0.001 0.001 0.001'
+    oak-d: '0.001 0.001 0.001'
   rgba: # One colour per camera type
     raspi-cam: '0.10 0.42 0.22 1'  # Green PCB of the Raspberry Pi camera module
     oak-1: '0.25 0.25 0.27 1'      # Dark grey aluminium housing
