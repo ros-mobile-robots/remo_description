@@ -20,7 +20,7 @@ git clone --branch 1.0.0 https://github.com/ros-mobile-robots/robot_component_mo
 
 Then build the workspace, for example with `catkin build`, and source its `devel/setup.bash` again.
 
-[`remo_robot.repos`](remo_robot.repos) lists the package at the same version. This file lists the repositories of a workspace on Remo's Raspberry Pi, for [`vcs import`](https://github.com/dirk-thomas/vcstool). One of them is the camera driver `raspicam_node`, which needs the Raspberry Pi's camera libraries. Without these libraries, `rosdep install` stops with `Cannot locate rosdep definition for [libraspberrypi0]`. So in any other workspace, for example on a development PC, clone the package as shown above.
+[`remo_robot.repos`](remo_robot.repos) lists the package at the same version. This file lists the repositories of a workspace on Remo's Raspberry Pi, for [`vcs import`](https://github.com/dirk-thomas/vcstool). One of them is the camera driver `raspicam_node`, which requires the Raspberry Pi's camera libraries. In the diffbot repository's dev container, rosdep can't resolve its dependency `libraspberrypi0`, and `rosdep install` stops with `Cannot locate rosdep definition for [libraspberrypi0]`. To add robot_component_models to a development workspace, use the clone command above.
 
 Without the package in the workspace:
 
