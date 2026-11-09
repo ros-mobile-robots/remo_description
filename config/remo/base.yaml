@@ -34,10 +34,30 @@ lidar_platform: # todo rearange
   x_size: 0.08             # Dimension in x axis
   y_size: 0.1              # Dimension in y axis
   z_size: 0.05             # Dimension in z axis
-  mesh: 'lidar_platform/platfom_rplidar_a2.stl'  # Mesh file, or '' for a box
-  #mesh: ''
   scale: '0.001 0.001 0.001'
   rgba: '0.12 0.12 0.12 1'  # Printed in black filament, dark grey so the shape still shows
+  # The values of each lidar type, which the xacro argument lidar_type chooses. Each scanner
+  # has its own printed platform. lidar_platform_link lies at the platform's feet on the deck
+  # for both.
+  # mesh: the platform's mesh file, or '' for a box.
+  # mesh_xyz, mesh_rpy: where the mesh's frame lies in lidar_platform_link (metres, and roll,
+  # pitch, yaw in radians). Without them, the mesh has the link's frame.
+  # holder_xyz: the position of the USB adapter's holder (slamtec_holder_link) in
+  # lidar_platform_link. The holder's three pegs clip into three slots in the platform's left
+  # side.
+  types:
+    a2: # Platform for the RPLIDAR A2. The mesh's origin lies at its feet
+      mesh: 'lidar_platform/platfom_rplidar_a2.stl'
+      holder_xyz: '0.00237 0.057735 0.029669'
+    # Platform for the RPLIDAR A1. Measured in the meshes: this mesh's origin lies 47 mm above
+    # its feet, and its x axis points to the robot's rear. Turned by 180 degrees about z and
+    # moved by mesh_xyz, the screw holes in its feet lie on those of the A2 platform, within
+    # 0.05 mm. Its slots for the holder then lie where the A2 platform's lie, 2 mm higher.
+    a1:
+      mesh: 'lidar_platform/platform_rplidar_a1.stl'
+      mesh_xyz: '-0.0083 0.0006 0.047'
+      mesh_rpy: '0 0 3.14159265359'
+      holder_xyz: '0.00237 0.057735 0.031669'
 
 slamtec_holder:
   mass: 0.002                # Slamtec holder mass in kg (2 g)

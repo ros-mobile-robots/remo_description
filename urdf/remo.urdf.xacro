@@ -9,6 +9,12 @@
   <!-- Must be one of ['rpi', 'jetson'] -->
   <xacro:arg name="sbc_type" default="'rpi'" />
 
+  <!-- Parameter to choose between different lidar types: the Slamtec RPLIDAR A2 or A1, each
+       on its own printed platform. The values of each type are in config/remo/sensors.yaml
+       (laser) and config/remo/base.yaml (lidar_platform), under the key types. -->
+  <!-- Must be one of ['a2', 'a1'] -->
+  <xacro:arg name="lidar_type" default="'a2'" />
+
   <!-- Where the IMU's frame, imu_link, sits on chassis_link, the frame at the base plate's center.
        - Position (imu_xyz, in metres): checked on Remo (2026-11-05). The chip's center lies at
          the breadboard's front-to-back midpoint, 8 cm above the floor. The board's header pins
@@ -137,14 +143,23 @@
     </xacro:addon>
   </xacro:if>
 
-  <!-- Lidar platform link -->
-  <xacro:addon addon="lidar_platform" base_prop="${base_props}" parent_link="${deck_type}_link" >
+  <!-- The values of the lidar type that the xacro argument lidar_type chooses: the printed
+       platform's (lidar_platform_props) and the laser scanner's (laser_props) -->
+  <xacro:typed_props name="lidar_platform_props" props="${base_props['lidar_platform']}"
+                     type="${$(arg lidar_type)}" default_type="a2" argument="lidar_type"/>
+  <xacro:typed_props name="laser_props" props="${sensor_props['laser']}"
+                     type="${$(arg lidar_type)}" default_type="a2" argument="lidar_type"/>
+
+  <!-- Lidar platform link: at the platform's feet on the deck, for every lidar type -->
+  <xacro:addon addon="lidar_platform" base_prop="${dict(lidar_platform=lidar_platform_props)}"
+               parent_link="${deck_type}_link" >
     <origin xyz="-0.042 0 ${base_props[deck_type]['z_size']}" rpy="0 0 0" />
   </xacro:addon>
 
-  <!-- Slamtec holder link -->
+  <!-- Slamtec holder link: the USB adapter's holder clips into three slots in the platform's
+       left side. holder_xyz is the holder's position for the chosen platform. -->
   <xacro:addon addon="slamtec_holder" base_prop="${base_props}" parent_link="lidar_platform_link" >
-    <origin xyz="0.00237 0.057735 0.029669" rpy="0 0 0" />
+    <origin xyz="${lidar_platform_props.get('holder_xyz', '0.00237 0.057735 0.029669')}" rpy="0 0 0" />
   </xacro:addon>
 
   <!-- Slamtec usb to serial converter -->
@@ -155,8 +170,8 @@
   <!-- Sensors -->
   <!-- SLAMTEC RPLidar -->
   <xacro:laser prefix="rplidar" parent_link="lidar_platform_link"
-                   sensor_prop="${sensor_props}"
-                   enable_gpu="${sensor_props['laser']['enable_gpu']}">
+                   sensor_prop="${dict(laser=laser_props)}"
+                   enable_gpu="${laser_props['enable_gpu']}">
   </xacro:laser>
 
   <!-- Camera -->

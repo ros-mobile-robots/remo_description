@@ -350,6 +350,43 @@
   </xacro:macro>
 <!-- ========================================================================-->
 
+<!-- ===================== Type xacro ==========================================
+
+  A part's values for one of its types, for example the laser scanner's values for the
+  RPLIDAR A1.
+
+  A config file (config/remo/*.yaml) gives the values that differ between a part's types under
+  the key types, with one entry per type:
+
+    laser:
+      radius: 0.015      (the same for every type)
+      types:
+        a2:
+          dz: 0.07
+        a1:
+          dz: 0.071
+
+  This macro sets a property to the part's values with the chosen type's values among them:
+  radius and dz in the example. An unknown type stops xacro with a message that names the
+  config's types.
+
+  A config without the key types, as written for a version without types, has the values of
+  one type only, the default type.
+
+  params:
+  - name [string]: the property that gets the values, in the scope that calls this macro
+  - props [dictionary]: the part's values from its config file
+  - type [string]: the chosen type, for example 'a1'
+  - default_type [string]: the type of a config without the key types
+  - argument [string]: the xacro argument that chooses the type, for the message
+-->
+  <xacro:macro name="typed_props" params="name props type default_type argument">
+    <xacro:property name="types" value="${props.get('types', dict([(default_type, dict())]))}"/>
+    <xacro:property name="${name}" scope="parent"
+                    value="${dict(props, **(types[type] if type in types else xacro.fatal(argument + ':=' + str(type) + ' is not one of the types in the config: ' + ', '.join(types))))}"/>
+  </xacro:macro>
+<!-- ========================================================================-->
+
 <!-- ===================== Material xacros =====================================
 
   A part's colour is the rgba value in its config file (config/remo/*.yaml): red, green, blue

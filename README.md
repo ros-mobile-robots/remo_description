@@ -10,7 +10,7 @@ Remo's model takes the meshes of its parts from two places.
 
 ### Purchased parts: robot_component_models
 
-The Raspberry Pi 4 B, the Jetson Nano, the breadboard, the Teensy 4.0, the RPLIDAR A2, the Raspberry Pi camera and the drive wheels are meshes of the package [robot_component_models](https://github.com/ros-mobile-robots/robot_component_models). This package has display models of off-the-shelf robot components, made from public datasheets, drawings and photos. Remo uses its COLLADA files (`.dae`), which are in metres and have their own colours. With the package in the workspace, RViz and Gazebo show these parts without any other files.
+The Raspberry Pi 4 B, the Jetson Nano, the breadboard, the Teensy 4.0, the RPLIDAR A2 and A1, the Raspberry Pi camera and the drive wheels are meshes of the package [robot_component_models](https://github.com/ros-mobile-robots/robot_component_models). This package has display models of off-the-shelf robot components, made from public datasheets, drawings and photos. Remo uses its COLLADA files (`.dae`), which are in metres and have their own colours. With the package in the workspace, RViz and Gazebo show these parts without any other files.
 
 `remo_description` needs the package in the same catkin workspace. From the workspace's root, clone the package next to `remo_description`, at the version that this model uses:
 
@@ -62,6 +62,28 @@ Another xacro argument is the `sbc_type` wher you can select between `jetson` an
 | Jetson Nano | Raspberry Pi 4 B |
 |:-----------------------:|:-----:|
 | [<img src="https://raw.githubusercontent.com/ros-mobile-robots/ros-mobile-robots.github.io/main/docs/resources/remo/sbc_types/jetson-nano.png" width="700">](https://raw.githubusercontent.com/ros-mobile-robots/ros-mobile-robots.github.io/main/docs/resources/remo/sbc_types/jetson-nano.png) | [<img src="https://raw.githubusercontent.com/ros-mobile-robots/ros-mobile-robots.github.io/main/docs/resources/remo/sbc_types/raspi.png" width="700">](https://raw.githubusercontent.com/ros-mobile-robots/ros-mobile-robots.github.io/main/docs/resources/remo/sbc_types/raspi.png) |
+
+## Lidar Types
+
+The xacro argument `lidar_type` selects the laser scanner and its printed platform. The default is `a2`.
+
+| `lidar_type` | Laser scanner | Printed platform |
+|:-------------|:--------------|:-----------------|
+| `a2` | Slamtec RPLIDAR A2 | `platfom_rplidar_a2.stl` |
+| `a1` | Slamtec RPLIDAR A1 | `platform_rplidar_a1.stl` |
+
+The value has its own quotes, like the values of `camera_type` and `sbc_type`:
+
+```bash
+xacro urdf/remo.urdf.xacro lidar_type:="'a1'" > /tmp/remo.urdf
+```
+
+The frames are the same for both types, apart from these:
+
+- `rplidar_laser_link`, the frame of the scan, lies on the scanner's rotation axis in the scan plane. With `a1`, this frame lies 3.2 mm further to the front, 0.6 mm further to the left and 1 mm higher than with `a2`. Its x axis points to the robot's rear with both types, where the A2 has its cable and the A1 its motor. [rplidar_ros](https://github.com/Slamtec/rplidar_ros) publishes the scan in such a frame.
+- `slamtec_holder_link` and `slamtec_usb_to_serial_link`, the USB adapter and its holder on the platform's left side, lie 2 mm higher with `a1`.
+
+Each type's values are in [`config/remo/sensors.yaml`](config/remo/sensors.yaml) (`laser`) and [`config/remo/base.yaml`](config/remo/base.yaml) (`lidar_platform`), under the key `types`.
 
 
 ## Usage
