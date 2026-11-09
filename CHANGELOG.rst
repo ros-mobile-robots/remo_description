@@ -2,7 +2,7 @@
 Changelog for package remo_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-2.8.0 (2026-11-09)
+2.7.0 (2026-11-09)
 ------------------
 * Camera: the Raspberry Pi Camera Module v2 sits on its printed holder as on Remo. camera_joint
   puts the board's four mounting holes on the holder's screw bores and its back face on the
