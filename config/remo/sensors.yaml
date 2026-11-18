@@ -4,8 +4,9 @@
 # (https://github.com/ros-mobile-robots/robot_component_models). Its meshes are in metres and
 # have no scale. The IMU's mesh is a file name relative to meshes/sensors only.
 # rgba: the part's colour in RViz and Gazebo, close to the real part (red, green, blue and
-# alpha, from 0 to 1). A COLLADA mesh (.dae) shows its own colours instead. Then rgba is the
-# colour of the simple shape that an empty mesh gives.
+# alpha, from 0 to 1). A COLLADA mesh (.dae) of the laser scanner or of a camera shows its own
+# colours instead. Then rgba is the colour of the simple shape that an empty mesh gives. The
+# IMU always gets its rgba colour, also with a COLLADA mesh.
 laser:
   mass: 0.17          # Motor mass in Kg (~170g)
   radius: 0.015     # Wheel radius in m

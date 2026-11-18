@@ -16,8 +16,10 @@ Changelog for package remo_description
   breadboard_400_point, teensy_4_0, rplidar_a2, raspberry_pi_camera_v2 and tt_motor_wheel_65mm
 * A mesh in a config file is a file name or a full package:// URI for the parts in
   components.yaml, the addons in base.yaml, the drive wheels, the laser scanner and the cameras.
-  The chassis, the caster, the motors and the IMU take a file name. A COLLADA mesh shows its own
-  colours. rgba colours the other meshes and the simple shapes
+  The chassis, the caster, the motors and the IMU take a file name. For the same parts that
+  take a URI, a COLLADA mesh shows its own colours, and rgba colours the other meshes and the
+  simple shapes. The chassis, the caster, the motors and the IMU get their rgba colour with any
+  mesh
 * The camera's scale is one value per camera type (camera: scale), because the Raspberry Pi
   camera's mesh is in metres and the OAK cameras' meshes are in millimetres. A config with one
   scale for all camera types (camera: meshes: scale), as written for 2.5.0, still expands
