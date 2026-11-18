@@ -12,7 +12,7 @@
 
 ## Related
 
-<!-- A matching pull request in the diffbot repository (for example for the controller's geometry.yaml) or in the docs repository, or "None". -->
+<!-- A matching pull request in the diffbot repository (for example for the controller's geometry.yaml). The documentation pull request (ros-mobile-robots/ros-mobile-robots.github.io#N) for a new feature of the model, a change to something the site describes, a CI change or a change to the development setup, or what the pages need if you can't open one. "None" if neither applies. -->
 
 <!-- Remove the next line if there's no issue. -->
 Closes #
