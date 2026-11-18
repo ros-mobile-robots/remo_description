@@ -417,6 +417,10 @@
   Gazebo when the link has no SDF material. With these macros' colour, Gazebo would paint the
   whole mesh in that one colour.
 
+  The two macros know a part's mesh only from the macros that pass mesh: addon, wheel, laser
+  and camera_sensor. The macros of the chassis (base), the caster, the motors and the IMU pass
+  rgba alone, so these parts get their rgba colour with any mesh, also a COLLADA mesh.
+
   params:
   - name [string]: the material's name, the same as its link's name
   - link [string]: the link whose visuals get the colour
