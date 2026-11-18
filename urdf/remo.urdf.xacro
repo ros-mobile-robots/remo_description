@@ -156,8 +156,10 @@
     <origin xyz="-0.042 0 ${base_props[deck_type]['z_size']}" rpy="0 0 0" />
   </xacro:addon>
 
-  <!-- Slamtec holder link: the USB adapter's holder clips into three slots in the platform's
-       left side. holder_xyz is the holder's position for the chosen platform. -->
+  <!-- Slamtec holder link: the USB adapter's holder, at the three slots in the platform's left
+       side. holder_xyz is the holder's position for the chosen platform: the same place on
+       both, 2 mm higher with the A1 platform. How the holder's pegs fit the slots hasn't been
+       checked on printed parts. -->
   <xacro:addon addon="slamtec_holder" base_prop="${base_props}" parent_link="lidar_platform_link" >
     <origin xyz="${lidar_platform_props.get('holder_xyz', '0.00237 0.057735 0.029669')}" rpy="0 0 0" />
   </xacro:addon>

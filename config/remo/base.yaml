@@ -43,8 +43,9 @@ lidar_platform: # todo rearange
   # mesh_xyz, mesh_rpy: where the mesh's frame lies in lidar_platform_link (metres, and roll,
   # pitch, yaw in radians). Without them, the mesh has the link's frame.
   # holder_xyz: the position of the USB adapter's holder (slamtec_holder_link) in
-  # lidar_platform_link. The holder's three pegs clip into three slots in the platform's left
-  # side.
+  # lidar_platform_link, at the three slots in the platform's left side. The holder has the
+  # same place on both platforms, 2 mm higher on the A1 platform, whose slots lie 2 mm higher.
+  # How the holder's pegs fit the slots hasn't been checked on printed parts.
   types:
     a2: # Platform for the RPLIDAR A2. The mesh's origin lies at its feet
       mesh: 'lidar_platform/platfom_rplidar_a2.stl'
