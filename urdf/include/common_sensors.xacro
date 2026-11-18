@@ -4,7 +4,8 @@
 <!-- Laser scanner: sensor_prop['laser'] has the values of one lidar type. remo.urdf.xacro
      passes the values of the type that the xacro argument lidar_type chooses. range is the
      simulated scanner's shortest and longest distance in metres. Without range, the scanner
-     measures from 0.10 m to 30 m. -->
+     measures from 0.10 m to 30 m. scan_rate is the number of scans that the simulated scanner
+     publishes per second. Without scan_rate, the scanner publishes 12. -->
 <xacro:macro name="laser" params="prefix parent_link sensor_prop enable_gpu:=true">
 
   <xacro:property name="mesh"
@@ -67,7 +68,7 @@
     <sensor type="${laser_type}" name="head_hokuyo_sensor">
       <pose>0 0 0 0 0 0</pose>
       <visualize>true</visualize>
-      <update_rate>12</update_rate>
+      <update_rate>${sensor_prop['laser'].get('scan_rate', 12)}</update_rate>
       <ray>
         <scan>
           <horizontal>

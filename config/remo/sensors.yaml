@@ -7,12 +7,15 @@
 # alpha, from 0 to 1). A COLLADA mesh (.dae) shows its own colours instead. Then rgba is the
 # colour of the simple shape that an empty mesh gives.
 laser:
-  radius: 0.015     # Wheel radius in m
-  length: 0.01      # Wheel length in m, considering is as a cylinder
-  angular_range:
+  # radius, length: the simplified scanner, a cylinder around rplidar_laser_link with a radius
+  # of 0.015 m and a length of 0.01 m. The cylinder is the link's collision shape, gives the
+  # link's inertia, and shows when mesh is ''. These two values aren't the scanner's size.
+  radius: 0.015
+  length: 0.01
+  angular_range:  # The simulated scan's first and last angle in radians: one full turn
     min: -3.1415
     max: 3.1415
-  enable_gpu: false
+  enable_gpu: false  # true: Gazebo's GPU ray sensor instead of the one that runs on the CPU
   rgba: '0.10 0.10 0.10 1'  # Black, like both scanners' housings
   # The values of each lidar type, which the xacro argument lidar_type chooses.
   # mesh: the scanner's mesh, or '' for a cylinder.
@@ -20,8 +23,14 @@ laser:
   # dx, dy, dz: the position of rplidar_laser_link, the scan's frame, in lidar_platform_link
   # in metres. The frame lies on the scanner's rotation axis, in the scan plane.
   # range: the shortest and the longest distance that the simulated scanner measures, in metres.
+  # scan_rate: how many scans the simulated scanner publishes per second (Hz). Without
+  # scan_rate, the scanner publishes 12.
   types:
-    a2: # Slamtec RPLIDAR A2M8
+    # Slamtec RPLIDAR A2M8. Its mass, range and scan rate here are simulation settings, not the
+    # scanner's specification. Slamtec's datasheet "RPLIDAR A2, Model A2M8", rev. 2.5, gives
+    # 190 g (Figure 2-10), 0.2 m to 8 m or to 12 m, depending on the model's revision, and
+    # 5 Hz to 15 Hz with 10 Hz as the typical scan rate (Figure 2-1).
+    a2:
       mesh: 'package://robot_component_models/meshes/rplidar_a2/rplidar_a2.dae'
       mass: 0.17
       dx: 0.002
@@ -30,11 +39,13 @@ laser:
       range:
         min: 0.1
         max: 30.0
-    # Slamtec RPLIDAR A1M8. Mass and range from Slamtec's datasheet "RPLIDAR A1, Model A1M8",
-    # rev. 3.0: 170 g (Figure 2-9) and 0.15 m to 12 m (Figure 2-1). Position, measured in the
-    # meshes: the scanner's four screw holes on the four holes in the A1 platform's top, its
-    # base on the platform, its motor towards the robot's rear. The scanner's mesh has its
-    # origin in the scan plane, 21 mm above the underside of its base.
+      scan_rate: 12
+    # Slamtec RPLIDAR A1M8. Mass, range and scan rate from Slamtec's datasheet "RPLIDAR A1,
+    # Model A1M8", rev. 3.0: 170 g (Figure 2-9), 0.15 m to 12 m, and 5.5 Hz as the typical scan
+    # rate, with 10 Hz as the highest (Figure 2-1). Position, measured in the meshes: the
+    # scanner's four screw holes on the four holes in the A1 platform's top, its base on the
+    # platform, its motor towards the robot's rear. The scanner's mesh has its origin in the
+    # scan plane, 21 mm above the underside of its base.
     a1:
       mesh: 'package://robot_component_models/meshes/rplidar_a1/rplidar_a1.dae'
       mass: 0.17
@@ -44,13 +55,16 @@ laser:
       range:
         min: 0.15
         max: 12.0
+      scan_rate: 5.5
 
 
 camera:
   mass: 0.01
   radius: 0.015
   length: 0.01
-  type: raspi-cam # choose one camera type [raspi-cam, oak-1, oak-d]
+  # type isn't read by the model. The xacro argument camera_type chooses the camera:
+  # 'raspi-cam', 'oak-1' or 'oak-d' (see the README).
+  type: raspi-cam
   dx: 0.0
   dy: 0.0
   dz: 0.0
