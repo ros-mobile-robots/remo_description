@@ -170,10 +170,12 @@ rosrun gazebo_ros spawn_model -urdf -param /diffbot/robot_description -model rem
 | What to check | Command | `'a2'` | `'a1'` |
 |:--------------|:--------|:-------|:-------|
 | The scan's frame | `rostopic echo -n 1 /diffbot/scan/header/frame_id` | `rplidar_laser_link` | `rplidar_laser_link` |
-| The shortest distance in metres | `rostopic echo -n 1 /diffbot/scan/range_min` | 0.1 | 0.15 |
-| The longest distance in metres | `rostopic echo -n 1 /diffbot/scan/range_max` | 30 | 12 |
-| The scans per second | `rostopic hz /diffbot/scan` | about 11.9 | about 5.5 |
+| The shortest distance in metres | `rostopic echo -n 1 /diffbot/scan/range_min` | 0.1, printed as `0.10000000149011612` | 0.15, printed as `0.15000000596046448` |
+| The longest distance in metres | `rostopic echo -n 1 /diffbot/scan/range_max` | `30.0` | `12.0` |
+| The scans per second, in simulated time | `rostopic hz /diffbot/scan` | `average rate: 11.905`, one scan every 84 ms | `average rate: 5.495`, one scan every 182 ms |
 | The direction | Put a box 1 m in front of the robot with the box button of Gazebo's toolbar, then `rostopic echo -n 1 /diffbot/scan/ranges` | The list runs from scan angle -180° to +180°. The box's distances, about 1 m, are at the list's start and end | The same |
+
+Gazebo simulates in steps of 1 ms, so the scanner's period is a whole number of milliseconds: 84 ms for 12 scans per second and 182 ms for 5.5. Gazebo's terminal also shows `No p gain specified for pid` for the two wheel joints. The wheels' controller gains come from the diffbot repository's launch files, which this check doesn't use, and the scan doesn't depend on them.
 
 The diffbot repository's drive test, `sim_drive_remo.test`, doesn't read the scan. The test passes with any range and scan rate, so these commands are the check of the simulated scanner.
 
