@@ -2,6 +2,18 @@
 Changelog for package remo_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.6.0 (2026-11-09)
+------------------
+* Jetson Nano deck: the Teensy and the IMU move with the breadboard, so their header pins sit in
+  the breadboard's holes with either deck. The property breadboard_x gives the breadboard's
+  position on chassis_link for the chosen sbc_type, and breadboard_joint, mcu_joint and the
+  default of imu_xyz follow it. With the Jetson Nano deck, the breadboard, mcu_joint and the
+  default imu_xyz lie at x = -0.05, -0.0514 and -0.0501 on chassis_link. With the Raspberry Pi
+  deck, the model is the same. An imu_xyz passed to xacro still sets the IMU's position on
+  chassis_link and doesn't follow the breadboard (#19)
+* README: the command that selects the Jetson Nano deck. The value has its own quotes, so the
+  argument is in double quotes on the command line: "sbc_type:='jetson'"
+
 2.5.0 (2026-11-06)
 ------------------
 * IMU: the xacro argument imu_plugin names the simulated IMU's Gazebo plugin library. The default

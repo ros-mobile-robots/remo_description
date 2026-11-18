@@ -30,7 +30,13 @@ The [`remo.urdf.xacro`](urdf/remo.urdf.xacro) accepts a `camera_type`
 
 ## Single Board Computer Types
 
-Another xacro argument is the `sbc_type` wher you can select between `jetson` and `rpi`.
+Another xacro argument is `sbc_type`, which selects the single board computer and its deck: `'rpi'` (the default) or `'jetson'`. The value has its own quotes, so put the whole argument in double quotes on the command line. From a sourced workspace, this command expands the model with the Jetson Nano:
+
+```bash
+xacro "$(rospack find remo_description)/urdf/remo.urdf.xacro" "sbc_type:='jetson'" > /tmp/remo.urdf
+```
+
+The Teensy and the BNO055 IMU plug into the breadboard. The breadboard lies 1 cm further to the rear with the Jetson Nano deck, and both boards move with the breadboard. A custom `imu_xyz` is a position on `chassis_link`, the frame at the base plate's center, so a custom position doesn't move with the deck.
 
 | Jetson Nano | Raspberry Pi 4 B |
 |:-----------------------:|:-----:|
