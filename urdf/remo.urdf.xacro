@@ -173,12 +173,16 @@
     <xacro:addon addon="raspi-cam" base_prop="${base_props}" parent_link="camera_mount_link" >
       <origin xyz="0 0 0" rpy="0 0 0" />
     </xacro:addon>
-    <!-- Raspi cam -->
+    <!-- Raspi cam, screwed onto the printed holder (raspi-cam_link). The holder's plate is tilted
+         by 20 degrees, and a boss around each of its four screw bores carries the board. This
+         origin puts the board's mounting holes on the bores' axes and its back face on the
+         bosses' tops, within 0.02 mm, measured in the holder's mesh and the camera's mesh
+         (2026-11-09). camera_link is also the frame of the simulated camera. -->
     <xacro:camera_sensor parent_link="raspi-cam_link" visualize="false"
                          sensor_prop="${sensor_props}"
                          mesh="${sensor_props['camera']['meshes']['raspi-cam']}"
                          rgba="${camera_rgba.get('raspi-cam', default_rgba)}" >
-      <origin xyz="0.005 0 0.028" rpy="0 0.35 0" />
+      <origin xyz="0.0065 -0.0004 0.0295" rpy="0 ${radians(20)} 0" />
     </xacro:camera_sensor>
   </xacro:if>
   <xacro:if value="${$(arg camera_type) == 'oak-1'}">
