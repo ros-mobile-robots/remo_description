@@ -1,7 +1,8 @@
-# mesh: a file name relative to meshes/sensors, or a full package:// URI for a mesh from another
-# package. The laser scanner and the Raspberry Pi camera come from the package
-# robot_component_models (https://github.com/ros-mobile-robots/robot_component_models). Its
-# meshes are in metres and have no scale.
+# mesh: the laser scanner's and the cameras' mesh is a file name relative to meshes/sensors, or
+# a full package:// URI for a mesh from another package. The laser scanner and the Raspberry Pi
+# camera come from the package robot_component_models
+# (https://github.com/ros-mobile-robots/robot_component_models). Its meshes are in metres and
+# have no scale. The IMU's mesh is a file name relative to meshes/sensors only.
 # rgba: the part's colour in RViz and Gazebo, close to the real part (red, green, blue and
 # alpha, from 0 to 1). A COLLADA mesh (.dae) shows its own colours instead. Then rgba is the
 # colour of the simple shape that an empty mesh gives.

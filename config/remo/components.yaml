@@ -4,6 +4,10 @@
 # (https://github.com/ros-mobile-robots/robot_component_models).
 # scale: for a mesh that isn't in metres. The meshes of robot_component_models are in metres and
 # have no scale.
+# mesh_xyz, mesh_rpy: where the mesh's frame lies in the part's link (metres, and roll, pitch,
+# yaw in radians), for a mesh whose origin isn't the link's. Without them, the mesh has the
+# link's frame. They move the part's picture only: the link, its collision box and its inertia
+# stay where they are.
 # rgba: the part's colour in RViz and Gazebo, close to the real part (red, green, blue and
 # alpha, from 0 to 1). A COLLADA mesh (.dae) shows its own colours instead. Then rgba is the
 # colour of the box that an empty mesh gives.
@@ -14,6 +18,10 @@ jetson_nano:
   z_size: 0.04           # Dimension in z axis
   mesh: 'package://robot_component_models/meshes/jetson_nano_dev_kit_b01/jetson_nano_dev_kit_b01.dae'  # Mesh, or '' for a box
   #mesh: ''
+  # The mesh's origin lies on the carrier board's underside. jetson_nano_link lies 7 mm above
+  # jetson_deck_link, and the deck's four standoffs end 7.1 mm above it, measured in the deck's
+  # mesh. Raised by 0.1 mm, the carrier board lies on the four standoffs.
+  mesh_xyz: '0 0 0.0001'
   rgba: '0.08 0.08 0.08 1'  # Black carrier board and heatsink of the developer kit
 
 rpi:
@@ -23,6 +31,11 @@ rpi:
   z_size: 0.03           # Dimension in z axis
   mesh: 'package://robot_component_models/meshes/raspberry_pi_4b/raspberry_pi_4b.dae'  # Mesh, or '' for a box
   #mesh: ''
+  # The mesh's origin lies in the board's mid-plane. The pads around the board's four mounting
+  # holes end 0.84 mm below it: half of the 1.6 mm board and a 0.04 mm pad. rpi_link lies 7 mm
+  # above rpi_deck_link, where the deck's four standoffs end, measured in the deck's mesh.
+  # Raised by 0.84 mm, the board lies with its pads on the four standoffs.
+  mesh_xyz: '0 0 0.00084'
   rgba: '0.10 0.42 0.22 1'  # Green PCB
 
 breadboard:

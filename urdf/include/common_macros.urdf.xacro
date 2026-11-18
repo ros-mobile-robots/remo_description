@@ -321,8 +321,10 @@
 
 <!-- ===================== Mesh xacro ==========================================
 
-  The <mesh> element of a part's visual. A config file (config/remo/*.yaml) names a part's mesh
-  in one of two ways:
+  The <mesh> element of a part's visual, for the macros that call part_mesh: addon (the parts
+  in components.yaml and the addons in base.yaml), wheel (front_wheel.yaml), laser and
+  camera_sensor (sensors.yaml). For these parts, a config file (config/remo/*.yaml) names the
+  mesh in one of two ways:
 
   - a file name, relative to a folder of this package's meshes folder, for example
     'deck/raspberry_pi_deck.stl' relative to meshes/remo
@@ -330,6 +332,9 @@
     'package://robot_component_models/meshes/rplidar_a2/rplidar_a2.dae'. The package
     robot_component_models (https://github.com/ros-mobile-robots/robot_component_models) has the
     meshes of Remo's purchased parts, such as the laser scanner and the Raspberry Pi.
+
+  The chassis (base), the caster, the motors and the IMU don't call part_mesh. Their macros put
+  this package's meshes folder in front of the config's mesh, so their mesh is a file name only.
 
   params:
   - mesh [string]: the file name or the full URI

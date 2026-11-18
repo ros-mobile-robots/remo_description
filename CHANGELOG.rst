@@ -2,12 +2,12 @@
 Changelog for package remo_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-2.9.0 (2026-11-10)
+3.1.0 (2026-11-10)
 ------------------
 * Lidar: the xacro argument lidar_type chooses the laser scanner and its printed platform:
   'a2' (the default) for the Slamtec RPLIDAR A2 on platfom_rplidar_a2.stl, 'a1' for the
   RPLIDAR A1 on platform_rplidar_a1.stl. The A1's mesh is rplidar_a1 of the package
-  robot_component_models. With 'a2', the model is the same as in 2.8.0
+  robot_component_models. With 'a2', the model is the same as in 3.0.0
 * With 'a1', rplidar_laser_link lies 3.2 mm further to the front, 0.6 mm further to the left
   and 1 mm higher than with 'a2' (0.0052 0.0006 0.071 on lidar_platform_link), and its x axis
   points to the robot's rear as with 'a2'. The A1 sits on its platform with its motor towards
@@ -16,13 +16,12 @@ Changelog for package remo_description
   and its holder (slamtec_holder_link, slamtec_usb_to_serial_link) lie 2 mm higher, because
   the A1 platform's slots for the holder lie 2 mm higher than the A2 platform's
 * A config file gives a part's values per type under the key types (laser in sensors.yaml,
-  lidar_platform in base.yaml). A config without types, as written for 2.8.0, still expands
+  lidar_platform in base.yaml). A config without types, as written for 3.0.0, still expands
   as the A2
-* A part's config can give mesh_xyz and mesh_rpy for a mesh whose frame differs from its
-  link's. The A1 platform's mesh uses them: its origin lies 47 mm above its feet, and its x
-  axis points to the rear
+* The A1 platform's mesh uses mesh_xyz and mesh_rpy: its origin lies 47 mm above its feet, and
+  its x axis points to the rear
 
-2.8.0 (2026-11-09)
+3.0.0 (2026-11-09)
 ------------------
 * The Raspberry Pi 4 B, the Jetson Nano, the breadboard, the Teensy 4.0, the RPLIDAR A2, the
   Raspberry Pi camera and the drive wheels show the meshes of the package robot_component_models
@@ -30,16 +29,21 @@ Changelog for package remo_description
   their own colours, for example a yellow rim in a black tyre. These parts show without any
   other files. remo_description depends on the package, so a workspace needs it next to
   remo_description. Without it, RViz shows the robot without these parts, and Gazebo doesn't
-  load the robot. remo_robot.repos lists the package, and the README shows how to add it. No
-  frame, link, joint or xacro argument changes
-* A part's mesh in a config file is a file name or a full package:// URI. A COLLADA mesh shows
-  its own colours. rgba colours the other meshes and the simple shapes
+  load the robot. remo_robot.repos lists the package, and the README shows how to add it and
+  how to check that its meshes are there. No frame, link, joint or xacro argument changes
+* The model uses these meshes of the package: raspberry_pi_4b, jetson_nano_dev_kit_b01,
+  breadboard_400_point, teensy_4_0, rplidar_a2, raspberry_pi_camera_v2 and tt_motor_wheel_65mm
+* A mesh in a config file is a file name or a full package:// URI for the parts in
+  components.yaml, the addons in base.yaml, the drive wheels, the laser scanner and the cameras.
+  The chassis, the caster, the motors and the IMU take a file name. A COLLADA mesh shows its own
+  colours. rgba colours the other meshes and the simple shapes
 * The camera's scale is one value per camera type (camera: scale), because the Raspberry Pi
   camera's mesh is in metres and the OAK cameras' meshes are in millimetres. A config with one
   scale for all camera types (camera: meshes: scale), as written for 2.5.0, still expands
-* The placeholders of the replaced meshes are removed: jetson_nano_dev_kit_b01.stl,
-  raspberry_pi_4B.stl, breadboard_400_point.stl, teensy_4-0.stl and wheel.stl in
-  meshes/components, rplidar-a2.stl and raspi_cam_v2_IMX219.stl in meshes/sensors
+* A part in components.yaml and an addon in base.yaml can give mesh_xyz and mesh_rpy for a mesh
+  whose frame differs from its link's. The Raspberry Pi's and the Jetson Nano's meshes use
+  mesh_xyz: raised by 0.84 mm and by 0.1 mm, the boards lie on their decks' standoffs. Their
+  links, collision boxes and inertias stay where they are
 
 2.5.0 (2026-11-06)
 ------------------
