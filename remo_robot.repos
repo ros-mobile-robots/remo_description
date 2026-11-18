@@ -16,5 +16,7 @@ repositories:
     url: https://github.com/ros-mobile-robots/robot_component_models
     # The meshes of Remo's purchased parts, such as the laser scanner and the Raspberry Pi.
     # remo_description needs a version of this package that has the seven mesh files listed in
-    # the README's section "Purchased parts: robot_component_models".
+    # the README's section "Purchased parts: robot_component_models". The package has no
+    # release with these files yet. Until the release's tag takes its place, this entry names
+    # the package's default branch.
     version: main

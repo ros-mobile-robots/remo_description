@@ -15,11 +15,15 @@ Remo's model takes the meshes of its parts from two places:
 
 ### Purchased parts: robot_component_models
 
-[robot_component_models](https://github.com/ros-mobile-robots/robot_component_models) has display models of off-the-shelf robot components, made from public datasheets, drawings and photos. Remo uses its COLLADA files (`.dae`), which are in metres and have their own colours. With this package in the workspace and without the STL mesh files, RViz and Gazebo show the seven parts at their places on the robot. The picture shows them with the Raspberry Pi 4 B and with the Jetson Nano:
+[robot_component_models](https://github.com/ros-mobile-robots/robot_component_models) has display models of off-the-shelf robot components, made from public datasheets, drawings and photos. Remo uses its COLLADA files (`.dae`), which are in metres and have their own colours. With this package in the workspace and without the STL mesh files, RViz and Gazebo show the seven parts at their places on the robot, and the ball of the rear caster, which the model draws as a sphere without a mesh. The picture shows them with the Raspberry Pi 4 B and with the Jetson Nano:
 
-![Remo's seven purchased parts at their places, without the 3D printed parts](docs/images/public_checkout.png)
+![Remo's seven purchased parts and the caster's ball at their places, without the 3D printed parts](docs/images/public_checkout.png)
 
-`remo_description` depends on the package, so add the package before you run `rosdep install` and build the workspace. From the workspace's root, these commands clone the package next to `remo_description`, build the workspace and source it again:
+`remo_description` depends on the package, so add the package before you run `rosdep install` and build the workspace.
+
+> **Note:** the commands below need a release of robot_component_models with the seven mesh files listed further down. That release isn't out yet, and the package's `main` branch has no meshes, so ROS doesn't find the package in a clone of `main`. With the release, the clone command names the release's tag.
+
+From the workspace's root, these commands clone the package next to `remo_description`, build the workspace and source it again:
 
 ```bash
 git clone https://github.com/ros-mobile-robots/robot_component_models.git src/robot_component_models
@@ -64,10 +68,11 @@ This repository does not include the STL mesh files due to size and licensing.
 To obtain the mesh files:
 
 1. [Purchase / Register](https://fjp.gumroad.com/l/GnMpU)
-2. Download the provided `stl_download_config.yaml`
-3. Run:
+2. Download the provided `stl_download_config.yaml` and put the file into the `remo_description` folder, next to this README
+3. Run the download script in that folder. The script reads the file from the folder it runs in and writes the mesh files below that folder. From the workspace's root:
 
 ```bash
+cd src/remo_description
 pip install pyyaml requests
 python3 scripts/download_assets.py
 ```
