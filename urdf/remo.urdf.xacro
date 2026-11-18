@@ -25,6 +25,9 @@
          breadboard_x and chassis_link 6.66 cm above the floor, so the chip's center is 0.1 mm
          behind breadboard_x: -0.0401 0.0234 0.013 with the Raspberry Pi deck and
          -0.0501 0.0234 0.013 with the Jetson Nano deck. Override imu_xyz for another mounting.
+         An imu_xyz passed to xacro is a position on chassis_link, like the default. It doesn't
+         follow breadboard_x: for the same place on the breadboard, its x is 0.01 m smaller with
+         the Jetson Nano deck than with the Raspberry Pi deck.
        - Orientation (imu_rpy: roll, pitch and yaw in radians): measured on Remo by tilting the
          robot (2026-11-05). The board lies flat with its z axis up, its y axis forward and its x
          axis to the right, so imu_link is turned by -90 degrees about z. The firmware keeps the
