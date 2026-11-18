@@ -28,6 +28,8 @@ The [`remo.urdf.xacro`](urdf/remo.urdf.xacro) accepts a `camera_type`
 |:-----------------------:|:-----:|:-----:|
 | [<img src="https://raw.githubusercontent.com/ros-mobile-robots/ros-mobile-robots.github.io/main/docs/resources/remo/camera_types/raspi-cam.png" width="700">](https://raw.githubusercontent.com/ros-mobile-robots/ros-mobile-robots.github.io/main/docs/resources/remo/camera_types/raspi-cam.png) | [<img src="https://raw.githubusercontent.com/ros-mobile-robots/ros-mobile-robots.github.io/main/docs/resources/remo/camera_types/oak-1.png" width="700">](https://raw.githubusercontent.com/ros-mobile-robots/ros-mobile-robots.github.io/main/docs/resources/remo/camera_types/oak-1.png) | [<img src="https://raw.githubusercontent.com/ros-mobile-robots/ros-mobile-robots.github.io/main/docs/resources/remo/camera_types/oak-d.png" width="700">](https://raw.githubusercontent.com/ros-mobile-robots/ros-mobile-robots.github.io/main/docs/resources/remo/camera_types/oak-d.png) |
 
+With `'raspi-cam'`, the Raspberry Pi Camera Module v2 is screwed onto its printed holder. The board rests on the bosses around the holder's four screw bores, and the holder's plate tilts the board by 20°, so the camera looks 20° downwards. `camera_link` is the frame of the board and of the simulated camera.
+
 ## Single Board Computer Types
 
 Another xacro argument is the `sbc_type` wher you can select between `jetson` and `rpi`.
