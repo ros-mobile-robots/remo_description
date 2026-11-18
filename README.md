@@ -65,25 +65,85 @@ Another xacro argument is the `sbc_type` wher you can select between `jetson` an
 
 ## Lidar Types
 
-The xacro argument `lidar_type` selects the laser scanner and its printed platform. The default is `a2`.
+The xacro argument `lidar_type` selects the laser scanner and its printed platform: `'a2'` (the default) or `'a1'`.
 
 | `lidar_type` | Laser scanner | Printed platform |
 |:-------------|:--------------|:-----------------|
-| `a2` | Slamtec RPLIDAR A2 | `platfom_rplidar_a2.stl` |
-| `a1` | Slamtec RPLIDAR A1 | `platform_rplidar_a1.stl` |
+| `'a2'` | Slamtec RPLIDAR A2 | `platfom_rplidar_a2.stl` |
+| `'a1'` | Slamtec RPLIDAR A1 | `platform_rplidar_a1.stl` |
 
-The value has its own quotes, like the values of `camera_type` and `sbc_type`:
+The scan's frame is `rplidar_laser_link`. This frame lies on the scanner's rotation axis, in the scan plane. The picture shows the scan's frame and the robot's frame from above:
+
+![Remo from above: the robot's x axis points to the front, the scan's x axis to the rear](docs/images/lidar_frames.png)
+
+The scan's x axis points to the robot's rear with both types, where the A2 has its cable and the A1 its motor. [rplidar_ros](https://github.com/Slamtec/rplidar_ros), the scanners' driver, publishes the scan in such a frame, with the scan angle 0 along the x axis. So a wall in front of the robot appears at a scan angle of ±180°.
+
+The two types differ in these frames and simulation values. All other frames are the same:
+
+| | `'a2'` | `'a1'` |
+|:--|:--|:--|
+| `rplidar_laser_link` on `lidar_platform_link` | `0.002 0.0 0.07` m | `0.0052 0.0006 0.071` m: 3.2 mm further to the front, 0.6 mm further to the left, 1 mm higher |
+| `slamtec_holder_link` and `slamtec_usb_to_serial_link`, the USB adapter and its holder on the platform's left side | | 2 mm higher |
+| Shortest and longest distance of the simulated scanner | 0.1 m and 30 m | 0.15 m and 12 m |
+| Scans per second of the simulated scanner | 12 | 5.5 |
+
+Each type's values are in [`config/remo/sensors.yaml`](config/remo/sensors.yaml) (`laser`) and [`config/remo/base.yaml`](config/remo/base.yaml) (`lidar_platform`), under the key `types`. The comments there say which values come from Slamtec's datasheets and which are simulation settings.
+
+## Selecting the Types and Checking the Result
+
+The model has three xacro arguments for its types:
+
+| xacro argument | Values | Default |
+|:---------------|:-------|:--------|
+| `camera_type` | `'raspi-cam'`, `'oak-1'`, `'oak-d'` | `'raspi-cam'` |
+| `sbc_type` | `'rpi'`, `'jetson'` | `'rpi'` |
+| `lidar_type` | `'a2'`, `'a1'` | `'a2'` |
+
+Each value has its own quotes, so put each argument in double quotes on the command line. From a sourced workspace, these commands expand the model with the Jetson Nano, the Raspberry Pi camera and the RPLIDAR A1, check the URDF and show it in RViz:
 
 ```bash
-xacro urdf/remo.urdf.xacro lidar_type:="'a1'" > /tmp/remo.urdf
+xacro "$(rospack find remo_description)/urdf/remo.urdf.xacro" \
+  "sbc_type:='jetson'" "camera_type:='raspi-cam'" "lidar_type:='a1'" > /tmp/remo.urdf
+check_urdf /tmp/remo.urdf
+roslaunch remo_description view_remo.launch urdf_file:="cat /tmp/remo.urdf"
 ```
 
-The frames are the same for both types, apart from these:
+`check_urdf` comes with Ubuntu's package `liburdfdom-tools`. `view_remo.launch` expands the default model, unless `urdf_file` names another command that prints a URDF, here the saved file. For the lidar type alone, the launch file has an argument of its own, without the inner quotes:
 
-- `rplidar_laser_link`, the frame of the scan, lies on the scanner's rotation axis in the scan plane. With `a1`, this frame lies 3.2 mm further to the front, 0.6 mm further to the left and 1 mm higher than with `a2`. Its x axis points to the robot's rear with both types, where the A2 has its cable and the A1 its motor. [rplidar_ros](https://github.com/Slamtec/rplidar_ros) publishes the scan in such a frame.
-- `slamtec_holder_link` and `slamtec_usb_to_serial_link`, the USB adapter and its holder on the platform's left side, lie 2 mm higher with `a1`.
+```bash
+roslaunch remo_description view_remo.launch lidar_type:=a1
+```
 
-Each type's values are in [`config/remo/sensors.yaml`](config/remo/sensors.yaml) (`laser`) and [`config/remo/base.yaml`](config/remo/base.yaml) (`lidar_platform`), under the key `types`.
+The scanner's joint in the saved file tells which lidar type the model has. This command prints the joint:
+
+```bash
+grep -A 3 'joint name="rplidar_laser_joint"' /tmp/remo.urdf
+```
+
+With `'a1'`, the joint's origin is `xyz="0.0052 0.0006 0.071"` on `lidar_platform_link`, with a yaw of π (`rpy="0 0 3.14159…"`). With `'a2'`, the origin is `xyz="0.002 0.0 0.07"`, with the same yaw. With the public repositories alone, RViz shows the scanner. The printed platform under the scanner needs the [STL mesh files](#stl-mesh-files).
+
+### Checking the Simulated Scan
+
+In Gazebo, the model publishes the laser scan on the topic `/diffbot/scan`. The first command starts Gazebo with an empty world. The other two, in a second terminal, load the saved URDF as the parameter `/diffbot/robot_description`, where the model's Gazebo plugin for the wheels' controllers reads it, and put the robot into the world:
+
+```bash
+roslaunch gazebo_ros empty_world.launch
+```
+
+```bash
+rosparam set -t /tmp/remo.urdf /diffbot/robot_description
+rosrun gazebo_ros spawn_model -urdf -param /diffbot/robot_description -model remo
+```
+
+| What to check | Command | `'a2'` | `'a1'` |
+|:--------------|:--------|:-------|:-------|
+| The scan's frame | `rostopic echo -n 1 /diffbot/scan/header/frame_id` | `rplidar_laser_link` | `rplidar_laser_link` |
+| The shortest distance in metres | `rostopic echo -n 1 /diffbot/scan/range_min` | 0.1 | 0.15 |
+| The longest distance in metres | `rostopic echo -n 1 /diffbot/scan/range_max` | 30 | 12 |
+| The scans per second | `rostopic hz /diffbot/scan` | about 11.9 | about 5.5 |
+| The direction | Put a box 1 m in front of the robot with the box button of Gazebo's toolbar, then `rostopic echo -n 1 /diffbot/scan/ranges` | The list runs from scan angle -180° to +180°. The box's distances, about 1 m, are at the list's start and end | The same |
+
+The diffbot repository's drive test, `sim_drive_remo.test`, doesn't read the scan. The test passes with any range and scan rate, so these commands are the check of the simulated scanner.
 
 
 ## Usage

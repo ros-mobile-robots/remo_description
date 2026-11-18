@@ -13,8 +13,13 @@ Changelog for package remo_description
   points to the robot's rear as with 'a2'. The A1 sits on its platform with its motor towards
   the rear. The simulated A1 measures from 0.15 m to 12 m, and its mass is 170 g (Slamtec's
   A1M8 datasheet, rev. 3.0). lidar_platform_link is the same for both types. The USB adapter
-  and its holder (slamtec_holder_link, slamtec_usb_to_serial_link) lie 2 mm higher, because
-  the A1 platform's slots for the holder lie 2 mm higher than the A2 platform's
+  and its holder (slamtec_holder_link, slamtec_usb_to_serial_link) have the same place on
+  both platforms, 2 mm higher with 'a1', because the A1 platform's slots for the holder lie
+  2 mm higher than the A2 platform's. How the holder's pegs fit the slots isn't checked
+* The simulated A1 publishes 5.5 scans per second, the A1M8 datasheet's typical scan rate. The
+  A2 keeps 12. A lidar type's config gives the rate as scan_rate
+* view_remo.launch has the argument lidar_type (a2 or a1, without quotes, default a2) and
+  passes it to the xacro file
 * A config file gives a part's values per type under the key types (laser in sensors.yaml,
   lidar_platform in base.yaml). A config without types, as written for 3.0.0, still expands
   as the A2
