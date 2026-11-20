@@ -2,6 +2,41 @@
 Changelog for package remo_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.8.0 (2026-11-09)
+------------------
+* Upgrade: this version needs the new dependency robot_component_models, release 1.0.0
+  (https://github.com/ros-mobile-robots/robot_component_models), in the same workspace as
+  remo_description. Without it, rosdep install stops, RViz shows the robot without the seven
+  parts below, and Gazebo doesn't load the robot. The xacro file still expands
+* Upgrade steps, from the workspace's root: clone the release with git clone --branch 1.0.0
+  https://github.com/ros-mobile-robots/robot_component_models.git src/robot_component_models. On
+  Remo's Raspberry Pi, vcs import with remo_robot.repos clones the same tag. An existing clone in
+  src/robot_component_models switches to the release with git -C src/robot_component_models fetch
+  origin tag 1.0.0 and git -C src/robot_component_models checkout --detach refs/tags/1.0.0. Then
+  run rosdep install --from-paths src --ignore-src -y, build with catkin build and source
+  devel/setup.bash again. rospack find robot_component_models then prints the package's folder,
+  and the README's find command in "Purchased parts: robot_component_models" lists the seven mesh
+  files that the model needs
+* The Raspberry Pi 4 B, the Jetson Nano, the breadboard, the Teensy 4.0, the RPLIDAR A2, the
+  Raspberry Pi camera and the drive wheels show the meshes of robot_component_models: COLLADA
+  files in metres with their own colours, for example a yellow rim in a black tyre. These parts
+  show without any other files. No frame, link, joint or xacro argument changes
+* The model uses these meshes of the package: raspberry_pi_4b, jetson_nano_dev_kit_b01,
+  breadboard_400_point, teensy_4_0, rplidar_a2, raspberry_pi_camera_v2 and tt_motor_wheel_65mm
+* A mesh in a config file is a file name or a full package:// URI for the parts in
+  components.yaml, the addons in base.yaml, the drive wheels, the laser scanner and the cameras.
+  The chassis, the caster, the motors and the IMU take a file name. For the same parts that
+  take a URI, a COLLADA mesh shows its own colours, and rgba colours the other meshes and the
+  simple shapes. The chassis, the caster, the motors and the IMU get their rgba colour with any
+  mesh
+* The camera's scale is one value per camera type (camera: scale), because the Raspberry Pi
+  camera's mesh is in metres and the OAK cameras' meshes are in millimetres. A config with one
+  scale for all camera types (camera: meshes: scale), as written for 2.5.0, still expands
+* A part in components.yaml and an addon in base.yaml can give mesh_xyz and mesh_rpy for a mesh
+  whose frame differs from its link's. The Raspberry Pi's and the Jetson Nano's meshes use
+  mesh_xyz: raised by 0.84 mm and by 0.1 mm, the boards lie on their decks' standoffs. Their
+  links, collision boxes and inertias stay where they are
+
 2.5.0 (2026-11-06)
 ------------------
 * IMU: the xacro argument imu_plugin names the simulated IMU's Gazebo plugin library. The default

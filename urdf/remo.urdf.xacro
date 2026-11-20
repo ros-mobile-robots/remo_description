@@ -166,6 +166,8 @@
   </xacro:addon>
   <!-- Each camera type's colour. A sensors config without them gives default_rgba. -->
   <xacro:property name="camera_rgba" value="${sensor_props['camera'].get('rgba', dict())}"/>
+  <!-- The scale of each camera type whose mesh isn't in metres -->
+  <xacro:property name="camera_scale" value="${sensor_props['camera'].get('scale', dict())}"/>
   <!-- Choose between different cameras using the camera_type xacro argument -->
   <!-- Must be one of ['raspi-cam', 'oak-1', 'oak-d'] -->
   <xacro:if value="${$(arg camera_type) == 'raspi-cam'}">
@@ -177,6 +179,7 @@
     <xacro:camera_sensor parent_link="raspi-cam_link" visualize="false"
                          sensor_prop="${sensor_props}"
                          mesh="${sensor_props['camera']['meshes']['raspi-cam']}"
+                         scale="${camera_scale.get('raspi-cam', '')}"
                          rgba="${camera_rgba.get('raspi-cam', default_rgba)}" >
       <origin xyz="0.005 0 0.028" rpy="0 0.35 0" />
     </xacro:camera_sensor>
@@ -190,6 +193,7 @@
     <xacro:camera_sensor parent_link="oak-1_link" visualize="false"
                          sensor_prop="${sensor_props}"
                          mesh="${sensor_props['camera']['meshes']['oak-1']}"
+                         scale="${camera_scale.get('oak-1', '')}"
                          rgba="${camera_rgba.get('oak-1', default_rgba)}" >
       <origin xyz="0.0 0 0" rpy="0 0 0" />
     </xacro:camera_sensor>
@@ -203,6 +207,7 @@
     <xacro:camera_sensor parent_link="oak-d_link" visualize="false"
                          sensor_prop="${sensor_props}"
                          mesh="${sensor_props['camera']['meshes']['oak-d']}"
+                         scale="${camera_scale.get('oak-d', '')}"
                          rgba="${camera_rgba.get('oak-d', default_rgba)}" >
       <origin xyz="0 0 0" rpy="0 0 0" />
     </xacro:camera_sensor>

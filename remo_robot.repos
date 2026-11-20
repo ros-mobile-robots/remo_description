@@ -11,3 +11,10 @@ repositories:
     type: git
     url: https://github.com/UbiquityRobotics/raspicam_node
     version: kinetic
+  src/robot_component_models:
+    type: git
+    url: https://github.com/ros-mobile-robots/robot_component_models
+    # The meshes of Remo's purchased parts, such as the laser scanner and the Raspberry Pi.
+    # remo_description needs release 1.0.0 of this package, which has the seven mesh files
+    # listed in the README's section "Purchased parts: robot_component_models".
+    version: "1.0.0"

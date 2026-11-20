@@ -21,9 +21,9 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 ${pi}"/>
       <geometry>
-        <mesh filename="package://${package_name}/meshes/sensors/${mesh}" />
+        <xacro:part_mesh mesh="${mesh}" folder="sensors"/>
       </geometry>
-      <xacro:visual_material name="${prefix}_laser_link" rgba="${rgba}"/>
+      <xacro:visual_material name="${prefix}_laser_link" rgba="${rgba}" mesh="${mesh}"/>
     </visual>
   </xacro:if>
   <xacro:if value="${mesh == '' }" >
@@ -47,7 +47,7 @@
                             o_xyz="0 0 0"
                             o_rpy="0 0 0" />
   </link>
-  <xacro:gazebo_material link="${prefix}_laser_link" rgba="${rgba}"/>
+  <xacro:gazebo_material link="${prefix}_laser_link" rgba="${rgba}" mesh="${mesh}"/>
 
   <joint name="${prefix}_laser_joint" type="fixed">
     <parent link="${parent_link}"/>
@@ -98,19 +98,23 @@
 
 
 
-<!-- Camera: mesh and rgba are the camera type's entries in sensor_prop['camera']['meshes'] and
-     sensor_prop['camera']['rgba']. Without rgba, the camera gets default_rgba. -->
+<!-- Camera: mesh, scale and rgba are the camera type's entries in sensor_prop['camera']['meshes'],
+     sensor_prop['camera']['scale'] and sensor_prop['camera']['rgba']. Without rgba, the camera
+     gets default_rgba. Without scale, the mesh gets the scale that a config for an older version
+     gives all camera types in sensor_prop['camera']['meshes']['scale'], or none. -->
 <xacro:macro name="camera_sensor"
              params="*joint_origin parent_link sensor_prop visualize
-                     rgba:=${default_rgba} mesh:=''">
+                     rgba:=${default_rgba} mesh:='' scale:=''">
+  <xacro:property name="mesh_scale"
+                  value="${scale if scale != '' else sensor_prop['camera']['meshes'].get('scale', '')}"/>
   <link name="camera_link">
     <xacro:if value="${mesh != '' }" >
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="package://${package_name}/meshes/sensors/${mesh}" scale="${sensor_prop['camera']['meshes']['scale']}" />
+          <xacro:part_mesh mesh="${mesh}" folder="sensors" scale="${mesh_scale}"/>
         </geometry>
-        <xacro:visual_material name="camera_link" rgba="${rgba}"/>
+        <xacro:visual_material name="camera_link" rgba="${rgba}" mesh="${mesh}"/>
       </visual>
     </xacro:if>
     <xacro:if value="${mesh == '' }" >
@@ -135,7 +139,7 @@
                             o_rpy="0 0 0" />
   </link>
 
-  <xacro:gazebo_material link="camera_link" rgba="${rgba}"/>
+  <xacro:gazebo_material link="camera_link" rgba="${rgba}" mesh="${mesh}"/>
 
   <joint name="camera_joint" type="fixed">
     <axis xyz="0 1 0" />
