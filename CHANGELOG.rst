@@ -9,12 +9,14 @@ Changelog for package remo_description
   remo_description. Without it, rosdep install stops, RViz shows the robot without the seven
   parts below, and Gazebo doesn't load the robot. The xacro file still expands
 * Upgrade steps, from the workspace's root: clone the release with git clone --branch 1.0.0
-  https://github.com/ros-mobile-robots/robot_component_models.git src/robot_component_models.
-  On Remo's Raspberry Pi, vcs import with remo_robot.repos clones the same tag. Then run
-  rosdep install --from-paths src --ignore-src -y, build with catkin build and source
-  devel/setup.bash again. rospack find robot_component_models then prints the package's
-  folder, and the README's find command in "Purchased parts: robot_component_models" lists
-  the seven mesh files that the model needs
+  https://github.com/ros-mobile-robots/robot_component_models.git src/robot_component_models. On
+  Remo's Raspberry Pi, vcs import with remo_robot.repos clones the same tag. An existing clone in
+  src/robot_component_models switches to the release with git -C src/robot_component_models fetch
+  origin tag 1.0.0 and git -C src/robot_component_models checkout --detach refs/tags/1.0.0. Then
+  run rosdep install --from-paths src --ignore-src -y, build with catkin build and source
+  devel/setup.bash again. rospack find robot_component_models then prints the package's folder,
+  and the README's find command in "Purchased parts: robot_component_models" lists the seven mesh
+  files that the model needs
 * The Raspberry Pi 4 B, the Jetson Nano, the breadboard, the Teensy 4.0, the RPLIDAR A2, the
   Raspberry Pi camera and the drive wheels show the meshes of robot_component_models: COLLADA
   files in metres with their own colours, for example a yellow rim in a black tyre. These parts

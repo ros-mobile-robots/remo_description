@@ -29,6 +29,13 @@ catkin build
 source devel/setup.bash
 ```
 
+If `src/robot_component_models` exists already, for example from an earlier clone of the package's default branch, `git clone` stops because the folder isn't empty, and `vcs import --skip-existing` leaves the folder as it is. Switch that clone to the release instead, then build the workspace and source it again as above:
+
+```bash
+git -C src/robot_component_models fetch origin tag 1.0.0
+git -C src/robot_component_models checkout --detach refs/tags/1.0.0
+```
+
 The next two commands check the result. The first prints the folder where ROS finds the package. The second lists the package's COLLADA files that aren't empty:
 
 ```bash
