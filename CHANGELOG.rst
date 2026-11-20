@@ -2,12 +2,13 @@
 Changelog for package remo_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-3.1.0 (2026-11-10)
+2.9.0 (2026-11-10)
 ------------------
 * Lidar: the xacro argument lidar_type chooses the laser scanner and its printed platform:
   'a2' (the default) for the Slamtec RPLIDAR A2 on platfom_rplidar_a2.stl, 'a1' for the
-  RPLIDAR A1 on platform_rplidar_a1.stl. The A1's mesh is rplidar_a1 of the package
-  robot_component_models. With 'a2', the model is the same as in 3.0.0
+  RPLIDAR A1 on platform_rplidar_a1.stl. The A1's mesh is rplidar_a1 of robot_component_models
+  1.0.0, the release that 2.8.0 needs. Without the argument and with 'a2', the model is the
+  same as in 2.8.0
 * With 'a1', rplidar_laser_link lies 3.2 mm further to the front, 0.6 mm further to the left
   and 1 mm higher than with 'a2' (0.0052 0.0006 0.071 on lidar_platform_link), and its x axis
   points to the robot's rear as with 'a2'. The A1 sits on its platform with its motor towards
@@ -21,7 +22,7 @@ Changelog for package remo_description
 * view_remo.launch has the argument lidar_type (a2 or a1, without quotes, default a2) and
   passes it to the xacro file
 * A config file gives a part's values per type under the key types (laser in sensors.yaml,
-  lidar_platform in base.yaml). A config without types, as written for 3.0.0, still expands
+  lidar_platform in base.yaml). A config without types, as written for 2.8.0, still expands
   as the A2
 * The A1 platform's mesh uses mesh_xyz and mesh_rpy: its origin lies 47 mm above its feet, and
   its x axis points to the rear

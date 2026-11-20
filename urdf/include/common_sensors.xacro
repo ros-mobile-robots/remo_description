@@ -6,7 +6,7 @@
      simulated scanner's shortest and longest distance in metres. Without range, the scanner
      measures from 0.10 m to 30 m. scan_rate is the number of scans that the simulated scanner
      publishes per second. Without scan_rate, the scanner publishes 12. The two fallbacks keep
-     a config without range and scan_rate working, as written for 3.0.0. -->
+     a config without range and scan_rate working, as written for 2.8.0. -->
 <xacro:macro name="laser" params="prefix parent_link sensor_prop enable_gpu:=true">
 
   <xacro:property name="mesh"
