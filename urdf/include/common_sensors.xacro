@@ -1,11 +1,18 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-<xacro:macro name="laser" params="prefix parent_link sensor_prop enable_gpu:=true"> 
+<!-- Laser scanner: sensor_prop['laser'] has the values of one lidar type. remo.urdf.xacro
+     passes the values of the type that the xacro argument lidar_type chooses. range is the
+     simulated scanner's shortest and longest distance in metres. Without range, the scanner
+     measures from 0.10 m to 30 m. scan_rate is the number of scans that the simulated scanner
+     publishes per second. Without scan_rate, the scanner publishes 12. The two fallbacks keep
+     a config without range and scan_rate working, as written for 2.8.0. -->
+<xacro:macro name="laser" params="prefix parent_link sensor_prop enable_gpu:=true">
 
   <xacro:property name="mesh"
      value="${sensor_prop['laser']['mesh']}"/>
   <xacro:property name="rgba" value="${sensor_prop['laser'].get('rgba', default_rgba)}"/>
+  <xacro:property name="laser_range" value="${sensor_prop['laser'].get('range', dict())}"/>
 
   <xacro:if value="${enable_gpu}">
     <xacro:property name="plugin_name" value="libgazebo_ros_gpu_laser.so"/>
@@ -62,7 +69,7 @@
     <sensor type="${laser_type}" name="head_hokuyo_sensor">
       <pose>0 0 0 0 0 0</pose>
       <visualize>true</visualize>
-      <update_rate>12</update_rate>
+      <update_rate>${sensor_prop['laser'].get('scan_rate', 12)}</update_rate>
       <ray>
         <scan>
           <horizontal>
@@ -73,8 +80,8 @@
           </horizontal>
         </scan>
         <range>
-          <min>0.10</min>
-          <max>30.0</max>
+          <min>${laser_range.get('min', '0.10')}</min>
+          <max>${laser_range.get('max', '30.0')}</max>
           <resolution>0.01</resolution>
         </range>
         <noise>

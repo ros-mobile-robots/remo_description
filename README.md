@@ -10,7 +10,7 @@ Remo's model takes the meshes of its parts from two places:
 
 | Parts | Where their meshes are | What a workspace needs |
 |:------|:-----------------------|:-----------------------|
-| Seven purchased parts: the Raspberry Pi 4 B, the Jetson Nano, the breadboard, the Teensy 4.0, the RPLIDAR A2, the Raspberry Pi camera and the drive wheels | The public package [robot_component_models](https://github.com/ros-mobile-robots/robot_component_models) | [The package next to `remo_description`](#purchased-parts-robot_component_models) |
+| Seven purchased parts: the Raspberry Pi 4 B, the Jetson Nano, the breadboard, the Teensy 4.0, the RPLIDAR A2 or A1, the Raspberry Pi camera and the drive wheels | The public package [robot_component_models](https://github.com/ros-mobile-robots/robot_component_models) | [The package next to `remo_description`](#purchased-parts-robot_component_models) |
 | The 3D printed parts, such as the chassis, the decks, the lidar platform and the camera mounts, and the other purchased parts, such as the motors, the battery pack and the OAK cameras | A separate download. [`meshes/`](meshes) has an empty placeholder for each file | [The downloaded files in `meshes/`](#stl-mesh-files) |
 
 ### Purchased parts: robot_component_models
@@ -52,6 +52,8 @@ Remo's model needs these seven files in that list:
 - `rplidar_a2/rplidar_a2.dae`
 - `teensy_4_0/teensy_4_0.dae`
 - `tt_motor_wheel_65mm/tt_motor_wheel_65mm.dae`
+
+With the RPLIDAR A1 ([`lidar_type`](#lidar-types) `'a1'`), the model needs `rplidar_a1/rplidar_a1.dae` instead of `rplidar_a2/rplidar_a2.dae`.
 
 **Troubleshooting:** the xacro file expands with or without the package. A missing package shows up later, with one of these messages:
 
@@ -102,6 +104,90 @@ Another xacro argument is the `sbc_type` wher you can select between `jetson` an
 | Jetson Nano | Raspberry Pi 4 B |
 |:-----------------------:|:-----:|
 | [<img src="https://raw.githubusercontent.com/ros-mobile-robots/ros-mobile-robots.github.io/main/docs/resources/remo/sbc_types/jetson-nano.png" width="700">](https://raw.githubusercontent.com/ros-mobile-robots/ros-mobile-robots.github.io/main/docs/resources/remo/sbc_types/jetson-nano.png) | [<img src="https://raw.githubusercontent.com/ros-mobile-robots/ros-mobile-robots.github.io/main/docs/resources/remo/sbc_types/raspi.png" width="700">](https://raw.githubusercontent.com/ros-mobile-robots/ros-mobile-robots.github.io/main/docs/resources/remo/sbc_types/raspi.png) |
+
+## Lidar Types
+
+The xacro argument `lidar_type` selects the laser scanner and its printed platform: `'a2'` (the default) or `'a1'`.
+
+| `lidar_type` | Laser scanner | Printed platform |
+|:-------------|:--------------|:-----------------|
+| `'a2'` | Slamtec RPLIDAR A2 | `platfom_rplidar_a2.stl` |
+| `'a1'` | Slamtec RPLIDAR A1 | `platform_rplidar_a1.stl` |
+
+The scan's frame is `rplidar_laser_link`. This frame lies on the scanner's rotation axis, in the scan plane. The picture shows the scan's frame and the robot's frame from above:
+
+![Remo from above: the robot's x axis points to the front, the scan's x axis to the rear](docs/images/lidar_frames.png)
+
+The scan's x axis points to the robot's rear with both types, where the A2 has its cable and the A1 its motor. [rplidar_ros](https://github.com/Slamtec/rplidar_ros), the scanners' driver, publishes the scan in such a frame, with the scan angle 0 along the x axis. So a wall in front of the robot appears at a scan angle of ±180°.
+
+The two types differ in these frames and simulation values. All other frames are the same:
+
+| | `'a2'` | `'a1'` |
+|:--|:--|:--|
+| `rplidar_laser_link` on `lidar_platform_link` | `0.002 0.0 0.07` m | `0.0052 0.0006 0.071` m: 3.2 mm further to the front, 0.6 mm further to the left, 1 mm higher |
+| `slamtec_holder_link` and `slamtec_usb_to_serial_link`, the USB adapter and its holder on the platform's left side | | 2 mm higher |
+| Shortest and longest distance of the simulated scanner | 0.1 m and 30 m | 0.15 m and 12 m |
+| Scans per second of the simulated scanner | 12 | 5.5 |
+
+Each type's values are in [`config/remo/sensors.yaml`](config/remo/sensors.yaml) (`laser`) and [`config/remo/base.yaml`](config/remo/base.yaml) (`lidar_platform`), under the key `types`. The comments there say which values come from Slamtec's datasheets and which are simulation settings.
+
+## Selecting the Types and Checking the Result
+
+The model has three xacro arguments for its types:
+
+| xacro argument | Values | Default |
+|:---------------|:-------|:--------|
+| `camera_type` | `'raspi-cam'`, `'oak-1'`, `'oak-d'` | `'raspi-cam'` |
+| `sbc_type` | `'rpi'`, `'jetson'` | `'rpi'` |
+| `lidar_type` | `'a2'`, `'a1'` | `'a2'` |
+
+Each value has its own quotes, so put each argument in double quotes on the command line. From a sourced workspace, these commands expand the model with the Jetson Nano, the Raspberry Pi camera and the RPLIDAR A1, check the URDF and show it in RViz:
+
+```bash
+xacro "$(rospack find remo_description)/urdf/remo.urdf.xacro" \
+  "sbc_type:='jetson'" "camera_type:='raspi-cam'" "lidar_type:='a1'" > /tmp/remo.urdf
+check_urdf /tmp/remo.urdf
+roslaunch remo_description view_remo.launch urdf_file:="cat /tmp/remo.urdf"
+```
+
+`check_urdf` comes with Ubuntu's package `liburdfdom-tools`. `view_remo.launch` expands the default model, unless `urdf_file` names another command that prints a URDF, here the saved file. For the lidar type alone, the launch file has an argument of its own, without the inner quotes:
+
+```bash
+roslaunch remo_description view_remo.launch lidar_type:=a1
+```
+
+The scanner's joint in the saved file tells which lidar type the model has. This command prints the joint:
+
+```bash
+grep -A 3 'joint name="rplidar_laser_joint"' /tmp/remo.urdf
+```
+
+With `'a1'`, the joint's origin is `xyz="0.0052 0.0006 0.071"` on `lidar_platform_link`, with a yaw of π (`rpy="0 0 3.14159…"`). With `'a2'`, the origin is `xyz="0.002 0.0 0.07"`, with the same yaw. With the public repositories alone, RViz shows the scanner. The printed platform under the scanner needs the [STL mesh files](#stl-mesh-files).
+
+### Checking the Simulated Scan
+
+In Gazebo, the model publishes the laser scan on the topic `/diffbot/scan`. The first command starts Gazebo with an empty world. The other two, in a second terminal, load the saved URDF as the parameter `/diffbot/robot_description`, where the model's Gazebo plugin for the wheels' controllers reads it, and put the robot into the world:
+
+```bash
+roslaunch gazebo_ros empty_world.launch
+```
+
+```bash
+rosparam set -t /tmp/remo.urdf /diffbot/robot_description
+rosrun gazebo_ros spawn_model -urdf -param /diffbot/robot_description -model remo
+```
+
+| What to check | Command | `'a2'` | `'a1'` |
+|:--------------|:--------|:-------|:-------|
+| The scan's frame | `rostopic echo -n 1 /diffbot/scan/header/frame_id` | `rplidar_laser_link` | `rplidar_laser_link` |
+| The shortest distance in metres | `rostopic echo -n 1 /diffbot/scan/range_min` | 0.1, printed as `0.10000000149011612` | 0.15, printed as `0.15000000596046448` |
+| The longest distance in metres | `rostopic echo -n 1 /diffbot/scan/range_max` | `30.0` | `12.0` |
+| The scans per second, in simulated time | `rostopic hz /diffbot/scan` | `average rate: 11.905`, one scan every 84 ms | `average rate: 5.495`, one scan every 182 ms |
+| The direction | Put a box 1 m in front of the robot with the box button of Gazebo's toolbar, then `rostopic echo -n 1 /diffbot/scan/ranges` | The list runs from scan angle -180° to +180°. The box's distances, about 1 m, are at the list's start and end | The same |
+
+Gazebo simulates in steps of 1 ms, so the scanner's period is a whole number of milliseconds: 84 ms for 12 scans per second and 182 ms for 5.5. Gazebo's terminal also shows `No p gain specified for pid` for the two wheel joints. The wheels' controller gains come from the diffbot repository's launch files, which this check doesn't use, and the scan doesn't depend on them.
+
+The diffbot repository's drive test, `sim_drive_remo.test`, doesn't read the scan. The test passes with any range and scan rate, so these commands are the check of the simulated scanner.
 
 
 ## Usage

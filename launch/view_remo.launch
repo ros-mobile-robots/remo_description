@@ -3,7 +3,13 @@
     <!--arg name="model" default="$(env DIFFBOT_MODEL)" doc="model type [diffbot, remo]"/-->
     <arg name="model" default="remo" doc="model type [diffbot, remo]"/>
     <arg name="description_package" default="$(eval find(arg('model') + '_description'))" />
-    <arg name="urdf_file" default="$(find xacro)/xacro '$(arg description_package)/urdf/$(arg model).urdf.xacro'" />
+    <!-- The laser scanner that Remo's model shows: a2 for the Slamtec RPLIDAR A2 or a1 for the
+         RPLIDAR A1, without quotes. urdf_file passes the value to the xacro argument lidar_type
+         with the inner quotes that remo.urdf.xacro expects, for example lidar_type:='a1'. -->
+    <arg name="lidar_type" default="a2" doc="laser scanner type [a2, a1]"/>
+    <!-- The command whose output is the robot's URDF. For another camera or single board
+         computer, expand the xacro file into a file first and pass urdf_file:="cat /tmp/remo.urdf". -->
+    <arg name="urdf_file" default="$(find xacro)/xacro '$(arg description_package)/urdf/$(arg model).urdf.xacro' &quot;lidar_type:='$(arg lidar_type)'&quot;" />
 
     <!-- Parsing xacro and setting robot_description parameter -->
     <param name="robot_description" command="$(arg urdf_file)" />
