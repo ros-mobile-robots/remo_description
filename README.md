@@ -21,12 +21,10 @@ Remo's model takes the meshes of its parts from two places:
 
 `remo_description` depends on the package, so add the package before you run `rosdep install` and build the workspace.
 
-> **Note:** the commands below need a release of robot_component_models with the seven mesh files listed further down. That release isn't out yet, and the package's `main` branch has no meshes, so ROS doesn't find the package in a clone of `main`. With the release, the clone command names the release's tag.
-
-From the workspace's root, these commands clone the package next to `remo_description`, build the workspace and source it again:
+From the workspace's root, these commands clone the package's release 1.0.0 next to `remo_description`, build the workspace and source it again:
 
 ```bash
-git clone https://github.com/ros-mobile-robots/robot_component_models.git src/robot_component_models
+git clone --branch 1.0.0 https://github.com/ros-mobile-robots/robot_component_models.git src/robot_component_models
 catkin build
 source devel/setup.bash
 ```
