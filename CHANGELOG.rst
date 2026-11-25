@@ -2,6 +2,14 @@
 Changelog for package remo_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.7.0 (2026-11-25)
+------------------
+* Camera: the Raspberry Pi Camera Module v2 sits on its printed holder as on Remo. camera_joint
+  puts the board's four mounting holes on the holder's screw bores and its back face on the
+  bosses around them, tilted by 20 degrees like the holder's plate: xyz 0.0065 -0.0004 0.0295,
+  pitch radians(20). camera_link, also the simulated camera's frame, lies 2.2 mm from its
+  position in 2.5.0 and is turned by 0.05 degrees about y (#20)
+
 2.6.0 (2026-11-25)
 ------------------
 * Jetson Nano deck: the Teensy and the IMU move with the breadboard, so their header pins sit in
